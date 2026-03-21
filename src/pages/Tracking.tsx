@@ -14,11 +14,18 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // Fix Leaflet icon issue for Vite
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
+const defaultIcon = L.icon({
   iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
   shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const dotIcon = L.divIcon({ 
+  className: 'bg-primary w-3 h-3 rounded-full border-2 border-white shadow-sm' 
 });
 
 export default function Tracking() {
@@ -29,7 +36,7 @@ export default function Tracking() {
 
   useEffect(() => {
     if (id) {
-      fetchShipment(id);
+      fetchShipment(id.trim().toUpperCase());
     }
   }, [id]);
 
@@ -141,7 +148,7 @@ export default function Tracking() {
                     <Polyline positions={historyPoints} color="#E31E24" weight={3} opacity={0.7} dashArray="5, 10" />
                   )}
                   {historyPoints.map((pos, idx) => (
-                    <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? undefined : L.divIcon({ className: 'bg-primary w-2 h-2 rounded-full border-2 border-white' })}>
+                    <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? defaultIcon : dotIcon}>
                       <Popup>
                         <div className="text-sm font-bold">
                           {idx === 0 ? "Origin" : idx === historyPoints.length - 1 ? `Current: ${shipment.currentLocation}` : shipment.updates[idx-1]?.location}

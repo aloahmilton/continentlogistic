@@ -36,11 +36,11 @@ export default function Index() {
                 placeholder="Enter your tracking number(s)"
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && trackingNumber && (window.location.href = `/tracking/${trackingNumber}`)}
+                onKeyDown={(e) => e.key === "Enter" && trackingNumber.trim() && (window.location.href = `/tracking/${trackingNumber.trim().toUpperCase()}`)}
                 className="flex-1 px-4 py-3 text-sm bg-background rounded-l border border-r-0 border-border focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <button 
-                onClick={() => trackingNumber && (window.location.href = `/tracking/${trackingNumber}`)}
+                onClick={() => trackingNumber.trim() && (window.location.href = `/tracking/${trackingNumber.trim().toUpperCase()}`)}
                 className="px-6 py-3 brand-red-bg text-primary-foreground text-sm font-semibold rounded-r hover:opacity-90 transition-opacity active:scale-[0.98]"
               >
                 Track

@@ -7,7 +7,8 @@ const router = express.Router();
 // Get shipment by tracking number
 router.get('/:id', async (req, res) => {
   try {
-    const shipment = await Shipment.findOne({ trackingNumber: req.params.id });
+    const trackingId = req.params.id.trim().toUpperCase();
+    const shipment = await Shipment.findOne({ trackingNumber: trackingId });
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
     res.json(shipment);
   } catch (error) {
@@ -47,7 +48,8 @@ router.post('/', async (req, res) => {
 // Admin: Add update to shipment
 router.post('/:id/updates', async (req, res) => {
   try {
-    const shipment = await Shipment.findOne({ trackingNumber: req.params.id });
+    const trackingId = req.params.id.trim().toUpperCase();
+    const shipment = await Shipment.findOne({ trackingNumber: trackingId });
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
     
     shipment.updates.push(req.body);
@@ -69,7 +71,8 @@ router.post('/:id/updates', async (req, res) => {
 // Admin: Send custom email to customer
 router.post('/:id/communicate', async (req, res) => {
   try {
-    const shipment = await Shipment.findOne({ trackingNumber: req.params.id });
+    const trackingId = req.params.id.trim().toUpperCase();
+    const shipment = await Shipment.findOne({ trackingNumber: trackingId });
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
     
     const { to, subject, message } = req.body;
@@ -93,7 +96,8 @@ router.post('/:id/communicate', async (req, res) => {
 // Admin: Send invoice to customer
 router.post('/:id/invoice', async (req, res) => {
   try {
-    const shipment = await Shipment.findOne({ trackingNumber: req.params.id });
+    const trackingId = req.params.id.trim().toUpperCase();
+    const shipment = await Shipment.findOne({ trackingNumber: trackingId });
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
     
     await sendInvoiceEmail(shipment, req.body);

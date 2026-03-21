@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { ChevronDown, Search, MapPin, Globe, Menu, X } from "lucide-react";
 import logo from "@/assets/logo-continentaltrack.png";
 import CountrySelector from "./CountrySelector";
+import { Input } from "@/components/ui/input";
 
 const navItems = [
-// ... (omitted for brevity, will use full content in replacement)
   { label: "Track", href: "/" },
   {
     label: "Ship",
@@ -49,6 +49,8 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [currentCountry, setCurrentCountry] = useState("United States of America");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <header className="relative z-50">
@@ -58,14 +60,34 @@ export default function Header() {
           <Link to="/" className="flex-shrink-0">
             <img src={logo} alt="Continental Track" className="h-10 md:h-12 object-contain" />
           </Link>
+          
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-foreground">
             <Link to="/find-service-point" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
               <MapPin className="w-4 h-4" /> Find a Service Point
             </Link>
-            <div className="flex items-center gap-1">
-              <Search className="w-4 h-4" /> 
-              <CountrySelector currentCountry={currentCountry} onSelect={setCurrentCountry} triggerLabel="Shipping Guidance" />
+            
+            <div className="flex items-center">
+              {isSearchOpen ? (
+                <div className="flex items-center bg-white rounded shadow-sm border px-2 animate-in fade-in slide-in-from-right-2 duration-300">
+                  <Input 
+                    autoFocus
+                    placeholder="Search..." 
+                    className="h-8 border-none focus-visible:ring-0 w-48 text-xs bg-transparent"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button onClick={() => setIsSearchOpen(false)} className="p-1 hover:bg-muted rounded text-muted-foreground">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => setIsSearchOpen(true)} className="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                  <Search className="w-4 h-4" /> Search
+                </button>
+              )}
             </div>
+
+            <CountrySelector currentCountry={currentCountry} onSelect={setCurrentCountry} triggerLabel="Shipping Guidance" />
             <CountrySelector currentCountry={currentCountry} onSelect={setCurrentCountry} />
           </div>
           <button
@@ -194,14 +216,24 @@ export default function Header() {
             >
               Customer Portal Logins
             </Link>
-            <div className="pt-4 space-y-3">
+            <div className="pt-4 space-y-4">
               <Link to="/find-service-point" className="flex items-center gap-2 text-sm" onClick={() => setMobileOpen(false)}><MapPin className="w-4 h-4" /> Find a Service Point</Link>
-              <div className="flex items-center gap-2 text-sm">
-                <Search className="w-4 h-4" /> 
-                <CountrySelector currentCountry={currentCountry} onSelect={(c) => { setCurrentCountry(c); setMobileOpen(false); }} triggerLabel="Shipping Guidance" />
+              
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search..." 
+                  className="pl-9 h-10 border-border bg-muted/30"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
+
               <div className="flex items-center gap-2 text-sm">
                 <Globe className="w-4 h-4" /> 
+                <CountrySelector currentCountry={currentCountry} onSelect={(c) => { setCurrentCountry(c); setMobileOpen(false); }} triggerLabel="Shipping Guidance" />
+              </div>
+              <div className="flex items-center gap-2 text-sm pl-6">
                 <CountrySelector currentCountry={currentCountry} onSelect={(c) => { setCurrentCountry(c); setMobileOpen(false); }} />
               </div>
             </div>

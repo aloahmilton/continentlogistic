@@ -7,10 +7,12 @@ import Footer from "@/components/Footer";
 
 export default function PortalRegister() {
   const [loading, setLoading] = useState(false);
+  const [accountType, setAccountType] = useState<"individual" | "company">("company");
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: "",
     industry: "",
+    taxId: "",
     contactName: "",
     email: "",
     phone: "",
@@ -23,7 +25,10 @@ export default function PortalRegister() {
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-      toast.success("Business account request submitted! Our team will contact you within 24 hours with your credentials.");
+      const message = accountType === "company" 
+        ? "Business account request submitted! Our team will contact you within 24 hours."
+        : "Account created successfully! You can now log in to the portal.";
+      toast.success(message);
       navigate("/portal-login");
     }, 2000);
   };
@@ -61,49 +66,90 @@ export default function PortalRegister() {
             </div>
 
             {/* Right Side - Form */}
-            <div className="p-12">
-              <h2 className="text-2xl font-bold mb-2">Register Business Account</h2>
-              <p className="text-sm text-muted-foreground mb-8">Fill in your company details to request portal access.</p>
+            <div className="p-8 md:p-12">
+              <div className="flex gap-4 mb-8 p-1 bg-muted rounded-lg">
+                <button 
+                  onClick={() => setAccountType("company")}
+                  className={`flex-1 py-2 text-xs font-bold uppercase rounded-md transition-all ${accountType === "company" ? "bg-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  <Building2 className="w-3.5 h-3.5 inline mr-2" /> Business
+                </button>
+                <button 
+                  onClick={() => setAccountType("individual")}
+                  className={`flex-1 py-2 text-xs font-bold uppercase rounded-md transition-all ${accountType === "individual" ? "bg-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  <User className="w-3.5 h-3.5 inline mr-2" /> Personal
+                </button>
+              </div>
+
+              <h2 className="text-2xl font-bold mb-2">
+                {accountType === "company" ? "Register Business Account" : "Create Personal Account"}
+              </h2>
+              <p className="text-sm text-muted-foreground mb-8">
+                {accountType === "company" ? "Fill in your company details to request portal access." : "Join as an individual to track your personal shipments."}
+              </p>
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 gap-5">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-muted-foreground">Company Name</label>
-                    <div className="relative">
-                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <input
-                        type="text"
-                        required
-                        placeholder="Company Ltd."
-                        className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
-                        value={formData.companyName}
-                        onChange={(e) => setFormData({...formData, companyName: e.target.value})}
-                      />
-                    </div>
-                  </div>
+                  {accountType === "company" && (
+                    <>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Company Name</label>
+                        <div className="relative">
+                          <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <input
+                            type="text"
+                            required
+                            placeholder="Company Ltd."
+                            className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                            value={formData.companyName}
+                            onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-xs font-bold uppercase text-muted-foreground">Industry</label>
+                          <div className="relative">
+                            <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <select
+                              required
+                              className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none appearance-none"
+                              value={formData.industry}
+                              onChange={(e) => setFormData({...formData, industry: e.target.value})}
+                            >
+                              <option value="">Select Industry</option>
+                              <option value="ecommerce">E-commerce / Retail</option>
+                              <option value="manufacturing">Manufacturing</option>
+                              <option value="healthcare">Healthcare</option>
+                              <option value="technology">Technology</option>
+                              <option value="other">Other</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-xs font-bold uppercase text-muted-foreground">Tax ID / VAT</label>
+                          <div className="relative">
+                            <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <input
+                              type="text"
+                              required
+                              placeholder="Optional"
+                              className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                              value={formData.taxId}
+                              onChange={(e) => setFormData({...formData, taxId: e.target.value})}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-muted-foreground">Industry</label>
-                    <div className="relative">
-                      <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <select
-                        required
-                        className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none appearance-none"
-                        value={formData.industry}
-                        onChange={(e) => setFormData({...formData, industry: e.target.value})}
-                      >
-                        <option value="">Select Industry</option>
-                        <option value="ecommerce">E-commerce / Retail</option>
-                        <option value="manufacturing">Manufacturing</option>
-                        <option value="healthcare">Healthcare / Life Sciences</option>
-                        <option value="technology">Technology</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-muted-foreground">Full Name</label>
+                    <label className="text-xs font-bold uppercase text-muted-foreground">
+                      {accountType === "company" ? "Contact Full Name" : "Full Name"}
+                    </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
@@ -119,13 +165,13 @@ export default function PortalRegister() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-muted-foreground">Business Email</label>
+                      <label className="text-xs font-bold uppercase text-muted-foreground">Email</label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           type="email"
                           required
-                          placeholder="name@company.com"
+                          placeholder="name@example.com"
                           className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -155,16 +201,16 @@ export default function PortalRegister() {
                     disabled={loading}
                     className="w-full py-4 brand-red-bg text-white rounded-md font-bold text-lg hover:brightness-110 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    {loading ? "Submitting..." : (
+                    {loading ? "Processing..." : (
                       <>
-                        Request Access <ArrowRight className="w-5 h-5" />
+                        {accountType === "company" ? "Request Business Access" : "Create Account"} <ArrowRight className="w-5 h-5" />
                       </>
                     )}
                   </button>
                 </div>
                 
                 <p className="text-[10px] text-muted-foreground text-center mt-4">
-                  By clicking "Request Access", you agree to our Terms of Use and Privacy Policy. Continental Track Logistics Group.
+                  By clicking "{accountType === "company" ? "Request Business Access" : "Create Account"}", you agree to our Terms of Use and Privacy Policy. Continental Track Logistics Group.
                 </p>
               </form>
             </div>

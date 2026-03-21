@@ -36,7 +36,7 @@ export default function AdminShipments() {
   const [loading, setLoading] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newShipment, setNewShipment] = useState({
-    trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`,
+    trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`.toUpperCase(),
     sender: { name: "", email: "", phone: "" },
     receiver: { name: "", email: "", phone: "" },
     origin: "",
@@ -94,7 +94,7 @@ export default function AdminShipments() {
       setIsCreateOpen(false);
       fetchShipments();
       setNewShipment({
-        trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`,
+        trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`.toUpperCase(),
         sender: { name: "", email: "", phone: "" },
         receiver: { name: "", email: "", phone: "" },
         origin: "",
