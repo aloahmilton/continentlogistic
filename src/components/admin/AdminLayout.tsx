@@ -12,6 +12,16 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const adminSlug = import.meta.env.VITE_ADMIN_SLUG || "admin";
+  
+  const userStr = localStorage.getItem("admin_user");
+  const user = userStr ? JSON.parse(userStr) : { name: "Admin" };
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_role");
+    localStorage.removeItem("admin_user");
+    window.location.href = `/${adminSlug}`;
+  };
 
   const menuItems = [
     { label: "Dashboard", icon: LayoutDashboard, path: `/${adminSlug}` },
@@ -77,7 +87,10 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
           })}
         </nav>
         <div className="p-4 border-t">
-          <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-muted-foreground hover:text-destructive transition-colors font-bold uppercase tracking-tighter">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-muted-foreground hover:text-destructive transition-colors font-bold uppercase tracking-tighter"
+          >
             <LogOut className="w-4 h-4" />
             Sign Out
           </button>
@@ -97,7 +110,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
               <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
                 <User className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-tighter">Admin</span>
+              <span className="text-xs font-bold uppercase tracking-tighter">{user.name}</span>
             </Link>
           </div>
         </header>

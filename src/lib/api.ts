@@ -11,14 +11,18 @@ export const api = axios.create({
 
 // Add a request interceptor to inject the admin password
 api.interceptors.request.use((config) => {
-  const auth = localStorage.getItem('admin_auth');
-  if (auth) {
-    config.headers['x-admin-password'] = auth;
+  const token = localStorage.getItem("admin_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 }, (error) => {
   return Promise.reject(error);
 });
+
+export const authApi = {
+  login: (credentials: any) => api.post("/auth/login", credentials),
+};
 
 export const shipmentApi = {
   get: (id: string) => api.get(`/shipments/${id}`),

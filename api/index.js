@@ -6,6 +6,7 @@ import leadRoutes from './routes/leads.js';
 import driverRoutes from './routes/drivers.js';
 import invoiceRoutes from './routes/invoices.js';
 import messageRoutes from './routes/messages.js';
+import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -31,6 +32,7 @@ app.use('/api/leads', leadRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
