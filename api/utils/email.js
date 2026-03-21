@@ -1,9 +1,12 @@
-require('dotenv').config();
-const nodemailer = require('nodemailer');
+import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
+    user: process.env.EMAIL_USER || 'statenumberss@gmail.com',
     pass: process.env.EMAIL_PASS || 'mpsb qspx qtka tqkc'
   }
 });
@@ -80,6 +83,35 @@ export const sendAdminLeadNotification = async (lead) => {
         </table>
         <div style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-left: 4px solid #E31E24;">
           <strong>Customer Message:</strong><br>${lead.message || 'No message provided.'}
+        </div>
+      </div>
+    `
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+export const sendCustomEmail = async (to, subject, message, shipmentId = null) => {
+  const mailOptions = {
+    from: `"Continental Track Support" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to,
+    subject: subject || "Update regarding your shipment",
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+        <div style="background-color: #1a1a1a; padding: 20px; color: white;">
+          <h2 style="margin: 0;">Continental Track</h2>
+        </div>
+        <div style="padding: 30px; line-height: 1.6;">
+          <p>${message}</p>
+          ${shipmentId ? `
+            <div style="margin-top: 30px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
+              <small style="color: #666;">Reference Tracking Number:</small><br>
+              <strong>${shipmentId}</strong>
+            </div>
+          ` : ''}
+        </div>
+        <div style="padding: 20px; background: #f5f5f5; text-align: center; font-size: 12px; color: #888;">
+          Continental Track &bull; Customer Communication Portal
         </div>
       </div>
     `

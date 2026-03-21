@@ -37,6 +37,7 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminShipments from "./pages/admin/Shipments";
 import AdminLeads from "./pages/admin/Leads";
+import AdminPlaceholder from "./pages/admin/Placeholder";
 
 import AdminGuard from "@/components/admin/AdminGuard";
 
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="/tracking/:id" element={<Tracking />} />
             <Route path="/customer-service" element={<CustomerService />} />
             <Route path="/customer-portals" element={<CustomerPortals />} />
+            <Route path="/portal/:id" element={<PortalLogin />} />
             <Route path="/portal-login" element={<PortalLogin />} />
             <Route path="/get-a-quote" element={<GetAQuote />} />
             <Route path="/ship-now" element={<ShipNow />} />
@@ -95,6 +97,26 @@ const App = () => {
             <Route 
               path={`/${adminSlug}/leads`} 
               element={<AdminGuard><AdminLeads /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/tracking-map`} 
+              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/customers`} 
+              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/drivers`} 
+              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/invoices`} 
+              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/reports`} 
+              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
             />
             
             <Route path="*" element={<NotFound />} />

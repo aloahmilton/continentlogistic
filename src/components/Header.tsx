@@ -33,14 +33,14 @@ const navItems = [
 ];
 
 const portalLinks = [
-  { label: "MyCT+", href: "/customer-portals" },
-  { label: "CT Express Commerce", href: "/customer-portals" },
-  { label: "CT Vantage", href: "/customer-portals" },
-  { label: "MyCTi", href: "/customer-portals" },
-  { label: "MySupplyChain", href: "/customer-portals" },
-  { label: "MyCT GTS", href: "/customer-portals" },
-  { label: "CT SameDay", href: "/customer-portals" },
-  { label: "LifeTrack", href: "/customer-portals" },
+  { label: "MyCT+", href: "/portal/myct-plus" },
+  { label: "CT Express Commerce", href: "/portal/express-commerce" },
+  { label: "CT Vantage", href: "/portal/vantage" },
+  { label: "MyCTi", href: "/portal/mycti" },
+  { label: "MySupplyChain", href: "/portal/mysupplychain" },
+  { label: "MyCT GTS", href: "/portal/myct-gts" },
+  { label: "CT SameDay", href: "/portal/sameday" },
+  { label: "LifeTrack", href: "/portal/lifetrack" },
 ];
 
 export default function Header() {

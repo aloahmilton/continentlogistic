@@ -14,6 +14,7 @@ export const shipmentApi = {
   getAll: () => api.get('/shipments'),
   create: (data: any) => api.post('/shipments', data),
   addUpdate: (id: string, data: any) => api.post(`/shipments/${id}/updates`, data),
+  communicate: (id: string, data: any) => api.post(`/shipments/${id}/communicate`, data),
 };
 
 export const leadApi = {

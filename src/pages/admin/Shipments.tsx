@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, Filter, MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { Plus, Search, Filter, MoreHorizontal, Eye, Edit, Trash2, MessageSquare, MapPin as MapPinIcon } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,24 @@ export default function AdminShipments() {
     status: "pending",
     serviceType: "Express",
     weight: "",
-    dimensions: ""
+    dimensions: "",
+    productDetails: "",
+    coordinates: { lat: 0, lng: 0 }
+  });
+  const [isCommunicateOpen, setIsCommunicateOpen] = useState(false);
+  const [communication, setCommunication] = useState({
+    to: "",
+    subject: "Update regarding your shipment",
+    message: ""
+  });
+  const [selectedShipment, setSelectedShipment] = useState<any>(null);
+
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [newUpdate, setNewUpdate] = useState({
+    status: "in_transit",
+    location: "",
+    description: "",
+    coordinates: { lat: 0, lng: 0 }
   });
 
   useEffect(() => {
@@ -69,7 +86,6 @@ export default function AdminShipments() {
       toast.success("Shipment created and email sent to receiver!");
       setIsCreateOpen(false);
       fetchShipments();
-      // Reset form
       setNewShipment({
         trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`,
         sender: { name: "", email: "", phone: "" },
@@ -79,11 +95,36 @@ export default function AdminShipments() {
         status: "pending",
         serviceType: "Express",
         weight: "",
-        dimensions: ""
+        dimensions: "",
+        productDetails: "",
+        coordinates: { lat: 0, lng: 0 }
       });
     } catch (error) {
-      console.error("Error creating shipment:", error);
       toast.error("Failed to create shipment");
+    }
+  };
+
+  const handleSendCommunication = async () => {
+    if (!selectedShipment) return;
+    try {
+      await shipmentApi.communicate(selectedShipment.trackingNumber, communication);
+      toast.success("Message sent successfully!");
+      setIsCommunicateOpen(false);
+      setCommunication({ to: "", subject: "Update regarding your shipment", message: "" });
+    } catch (error) {
+      toast.error("Failed to send message");
+    }
+  };
+
+  const handleAddUpdate = async () => {
+    if (!selectedShipment) return;
+    try {
+      await shipmentApi.addUpdate(selectedShipment.trackingNumber, newUpdate);
+      toast.success("Shipment update added!");
+      setIsUpdateOpen(false);
+      fetchShipments();
+    } catch (error) {
+      toast.error("Failed to add update");
     }
   };
 
@@ -152,6 +193,19 @@ export default function AdminShipments() {
                     <Input placeholder="Weight (kg)" value={newShipment.weight} onChange={e => setNewShipment({...newShipment, weight: e.target.value})} />
                     <Input placeholder="Dimensions" value={newShipment.dimensions} onChange={e => setNewShipment({...newShipment, dimensions: e.target.value})} />
                   </div>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    <Input placeholder="Product Details / Description" value={newShipment.productDetails} onChange={e => setNewShipment({...newShipment, productDetails: e.target.value})} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Initial Latitude</label>
+                      <Input type="number" step="0.0001" value={newShipment.coordinates.lat} onChange={e => setNewShipment({...newShipment, coordinates: {...newShipment.coordinates, lat: parseFloat(e.target.value)}})} />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Initial Longitude</label>
+                      <Input type="number" step="0.0001" value={newShipment.coordinates.lng} onChange={e => setNewShipment({...newShipment, coordinates: {...newShipment.coordinates, lng: parseFloat(e.target.value)}})} />
+                    </div>
+                  </div>
                 </div>
               </div>
               <DialogFooter>
@@ -217,6 +271,20 @@ export default function AdminShipments() {
                         <DropdownMenuItem>
                           <Edit className="mr-2 h-4 w-4" /> Edit Details
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          setSelectedShipment(shipment);
+                          setCommunication({ ...communication, to: shipment.receiver?.email || "" });
+                          setIsCommunicateOpen(true);
+                        }}>
+                          <MessageSquare className="mr-2 h-4 w-4" /> Message Customer
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          setSelectedShipment(shipment);
+                          setNewUpdate({ ...newUpdate, location: shipment.currentLocation || "" });
+                          setIsUpdateOpen(true);
+                        }}>
+                          <MapPinIcon className="mr-2 h-4 w-4" /> Add Tracking Update
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-destructive">
                           <Trash2 className="mr-2 h-4 w-4" /> Delete
@@ -230,6 +298,92 @@ export default function AdminShipments() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Communication Modal */}
+      <Dialog open={isCommunicateOpen} onOpenChange={setIsCommunicateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Send Message to Customer</DialogTitle>
+            <DialogDescription>
+              This will send a branded email to the recipient using Continental Track SMTP.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase">To</label>
+              <Input value={communication.to} onChange={e => setCommunication({...communication, to: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase">Subject</label>
+              <Input value={communication.subject} onChange={e => setCommunication({...communication, subject: e.target.value})} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase">Message</label>
+              <textarea 
+                className="w-full min-h-[150px] p-3 rounded-md border text-sm"
+                value={communication.message} 
+                onChange={e => setCommunication({...communication, message: e.target.value})}
+                placeholder="Type your message here..."
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsCommunicateOpen(false)}>Cancel</Button>
+            <Button onClick={handleSendCommunication} className="brand-red-bg">Send Email</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Update Modal */}
+      <Dialog open={isUpdateOpen} onOpenChange={setIsUpdateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Tracking Update</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Status</label>
+                <select 
+                  className="w-full h-10 px-3 rounded-md border text-sm"
+                  value={newUpdate.status} 
+                  onChange={e => setNewUpdate({...newUpdate, status: e.target.value})}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="picked_up">Picked Up</option>
+                  <option value="in_transit">In Transit</option>
+                  <option value="arrived">Arrived at Facility</option>
+                  <option value="out_for_delivery">Out for Delivery</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="on_hold">On Hold</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Location</label>
+                <Input value={newUpdate.location} onChange={e => setNewUpdate({...newUpdate, location: e.target.value})} placeholder="City, Country" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase">Description</label>
+              <Input value={newUpdate.description} onChange={e => setNewUpdate({...newUpdate, description: e.target.value})} placeholder="e.g. Arrived at London Heathrow Hub" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Latitude</label>
+                <Input type="number" step="0.0001" value={newUpdate.coordinates.lat} onChange={e => setNewUpdate({...newUpdate, coordinates: {...newUpdate.coordinates, lat: parseFloat(e.target.value)}})} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Longitude</label>
+                <Input type="number" step="0.0001" value={newUpdate.coordinates.lng} onChange={e => setNewUpdate({...newUpdate, coordinates: {...newUpdate.coordinates, lng: parseFloat(e.target.value)}})} />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsUpdateOpen(false)}>Cancel</Button>
+            <Button onClick={handleAddUpdate} className="brand-red-bg">Add Update</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }

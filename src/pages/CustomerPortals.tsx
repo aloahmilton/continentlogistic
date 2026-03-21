@@ -15,27 +15,27 @@ const portals = [
     items: [
       {
         name: "MyCT+",
+        slug: "myct-plus",
         desc: "The MyCT+ platform allows CT Express customers or guests to import, export, schedule a pickup and track shipments more quickly. Whether you're a small business or a global corporation, MyCT+ makes it easy to navigate the complexities of international shipping.",
         img: globalNetworkImg,
-        link: "#",
       },
       {
         name: "CT Vantage",
+        slug: "vantage",
         desc: "CT Vantage allows CT eCommerce customers to manage their shipments with CT eCommerce. Key features include creating labels, tracking shipments, managing returns and access to performance reporting and analytics.",
         img: airFreightImg,
-        link: "#",
       },
       {
         name: "MyCT GTS - My Global Trade Services from CT Express",
+        slug: "myct-gts",
         desc: "Whether you're a small business or a growing e-commerce merchant, we can help you reach new markets across the world. Our CT Express Global Trade Services makes it easy to get your shipments through customs.",
         img: oceanFreightImg,
-        link: "#",
       },
       {
-        name: "CT Express Commerce Solution",
+        name: "CT Express Commerce solution",
+        slug: "express-commerce",
         desc: "CT Express Commerce is an end-to-end e-commerce solution that seamlessly integrates with leading platforms and marketplaces, providing comprehensive features that streamline workflows, enable swift order dispatch, and free up valuable time to focus on expanding your business.",
         img: warehouseImg,
-        link: "#",
       },
     ],
   },
@@ -43,10 +43,10 @@ const portals = [
     category: "Pallets, Containers and Other Cargo",
     items: [
       {
-        name: "myCTi",
+        name: "MyCTi",
+        slug: "mycti",
         desc: "The CT Global Forwarding Portal for all your logistics needs that gives you 360° visibility and full control over your shipments. Quote + Book, Track, Documents, Analytics — everything at your fingertips.",
         img: globalNetworkImg,
-        link: "#",
       },
     ],
   },
@@ -55,9 +55,9 @@ const portals = [
     items: [
       {
         name: "MySupplyChain",
+        slug: "mysupplychain",
         desc: "MySupplyChain is the CT Supply Chain one-stop-shop for integrated warehouse and transportation insights — accessible anytime, from anywhere you are online.",
         img: supplyChainImg,
-        link: "#",
       },
     ],
   },
@@ -66,9 +66,9 @@ const portals = [
     items: [
       {
         name: "CT SameDay",
+        slug: "sameday",
         desc: "Whether it's across town or overseas, whether you're shipping an urgent document or a time-critical medical shipment, CT Same Day offers a customized shipping solution designed to meet your needs.",
         img: airFreightImg,
-        link: "#",
       },
     ],
   },
@@ -77,9 +77,9 @@ const portals = [
     items: [
       {
         name: "LifeTrack",
+        slug: "lifetrack",
         desc: "LifeTrack is a validated, secure, and auditable system designed for Life Science & Healthcare's regulated supply chain, with a focus on temperature control and compliance.",
         img: oceanFreightImg,
-        link: "#",
       },
     ],
   },
@@ -130,7 +130,7 @@ export default function CustomerPortals() {
                       <h3 className="text-lg font-bold mb-2">{item.name}</h3>
                       <p className="text-sm text-muted-foreground mb-3">{item.desc}</p>
                       <Link
-                        to="/portal-login"
+                        to={`/portal/${item.slug}`}
                         className="inline-flex items-center gap-1 brand-red-text text-sm font-medium hover:underline"
                       >
                         Log in to {item.name} <ExternalLink className="w-3.5 h-3.5" />

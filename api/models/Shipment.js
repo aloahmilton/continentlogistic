@@ -28,6 +28,7 @@ const shipmentSchema = new mongoose.Schema({
     default: 'pending' 
   },
   serviceType: String,
+  productDetails: String,
   weight: Number,
   dimensions: String,
   estimatedDelivery: Date,

@@ -77,7 +77,15 @@ export default function Tracking() {
     );
   }
 
-  const mapCenter: [number, number] = shipment.coordinates?.lat ? [shipment.coordinates.lat, shipment.coordinates.lng] : [0, 0];
+  const historyPoints = shipment.updates
+    ?.filter((u: any) => u.coordinates?.lat)
+    .map((u: any) => [u.coordinates.lat, u.coordinates.lng] as [number, number]) || [];
+  
+  if (shipment.coordinates?.lat) {
+    historyPoints.unshift([shipment.coordinates.lat, shipment.coordinates.lng]);
+  }
+
+  const currentPos = historyPoints.length > 0 ? historyPoints[historyPoints.length - 1] : [0, 0] as [number, number];
 
   return (
     <>
@@ -120,19 +128,26 @@ export default function Tracking() {
             <div className="lg:col-span-2 space-y-8">
               {/* Map */}
               <div className="h-96 w-full rounded-lg overflow-hidden border border-border shadow-sm z-0">
-                <MapContainer center={mapCenter} zoom={shipment.coordinates?.lat ? 5 : 2} style={{ height: "100%", width: "100%" }}>
+                <MapContainer center={currentPos} zoom={historyPoints.length > 1 ? 4 : 2} style={{ height: "100%", width: "100%" }}>
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
-                  {shipment.coordinates?.lat && (
-                    <Marker position={mapCenter}>
+                  {historyPoints.length > 1 && (
+                    <Polyline positions={historyPoints} color="#E31E24" weight={3} opacity={0.7} dashArray="5, 10" />
+                  )}
+                  {historyPoints.map((pos, idx) => (
+                    <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? undefined : L.divIcon({ className: 'bg-primary w-2 h-2 rounded-full border-2 border-white' })}>
                       <Popup>
-                        <div className="text-sm font-bold">{shipment.currentLocation}</div>
-                        <div className="text-xs">{shipment.status}</div>
+                        <div className="text-sm font-bold">
+                          {idx === 0 ? "Origin" : idx === historyPoints.length - 1 ? `Current: ${shipment.currentLocation}` : shipment.updates[idx-1]?.location}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {idx === 0 ? "" : new Date(shipment.updates[idx-1]?.timestamp).toLocaleString()}
+                        </div>
                       </Popup>
                     </Marker>
-                  )}
+                  ))}
                 </MapContainer>
               </div>
 

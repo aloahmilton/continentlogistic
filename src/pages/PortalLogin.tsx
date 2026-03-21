@@ -1,15 +1,29 @@
 import { useState, FormEvent } from "react";
 import { Lock } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+const portalNames: Record<string, string> = {
+  "myct-plus": "MyCT+",
+  "express-commerce": "CT Express Commerce",
+  "vantage": "CT Vantage",
+  "mycti": "MyCTi",
+  "mysupplychain": "MySupplyChain",
+  "myct-gts": "MyCT GTS",
+  "sameday": "CT SameDay",
+  "lifetrack": "LifeTrack"
+};
+
 export default function PortalLogin() {
+  const { id } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const portalName = id ? (portalNames[id] || id.toUpperCase()) : "Customer Portal";
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
@@ -17,7 +31,7 @@ export default function PortalLogin() {
     // Simulate network request
     setTimeout(() => {
       setLoading(false);
-      toast.error("Invalid credentials or account suspended. Please contact your account manager.");
+      toast.error(`Invalid credentials for ${portalName}. Please contact your account manager.`);
     }, 1200);
   };
 
@@ -31,7 +45,7 @@ export default function PortalLogin() {
             <div className="w-12 h-12 rounded-full brand-red-bg flex items-center justify-center mb-4">
               <Lock className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-center">Customer Portal Login</h1>
+            <h1 className="text-2xl font-bold text-center">{portalName} Login</h1>
             <p className="text-sm text-muted-foreground text-center mt-2">Secure access for authorized logistics partners and businesses.</p>
           </div>
 
