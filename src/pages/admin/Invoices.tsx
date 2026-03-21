@@ -271,20 +271,27 @@ export default function AdminInvoices() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white p-6 rounded-xl border border-border shadow-sm">
           <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1 tracking-widest">Total Revenue</p>
-          <p className="text-3xl font-black font-serif">$42,850.00</p>
-          <p className="text-[10px] text-green-600 font-bold mt-2 uppercase tracking-tighter">↑ 12% from last month</p>
+          <p className="text-3xl font-black font-serif">
+            ${invoices.reduce((sum: number, inv: any) => sum + (inv.total || inv.amount || 0), 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </p>
+          <p className="text-[10px] text-green-600 font-bold mt-2 uppercase tracking-tighter">{invoices.filter((i: any) => i.status === 'paid').length} paid invoices</p>
         </div>
         <div className="bg-white p-6 rounded-xl border border-border shadow-sm">
           <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1 tracking-widest">Pending Collections</p>
-          <p className="text-3xl font-black font-serif">$8,400.00</p>
-          <p className="text-[10px] text-yellow-600 font-bold mt-2 uppercase tracking-tighter">15 invoices pending</p>
+          <p className="text-3xl font-black font-serif">
+            ${invoices.filter((i: any) => i.status === 'pending').reduce((sum: number, inv: any) => sum + (inv.total || inv.amount || 0), 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </p>
+          <p className="text-[10px] text-yellow-600 font-bold mt-2 uppercase tracking-tighter">{invoices.filter((i: any) => i.status === 'pending').length} invoices pending</p>
         </div>
         <div className="bg-white p-6 rounded-xl border border-border shadow-sm">
           <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1 tracking-widest">Overdue Amount</p>
-          <p className="text-3xl font-black font-serif text-destructive">$3,200.00</p>
-          <p className="text-[10px] text-destructive font-bold mt-2 uppercase tracking-tighter">Action required</p>
+          <p className="text-3xl font-black font-serif text-destructive">
+            ${invoices.filter((i: any) => i.status === 'overdue').reduce((sum: number, inv: any) => sum + (inv.total || inv.amount || 0), 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </p>
+          <p className="text-[10px] text-destructive font-bold mt-2 uppercase tracking-tighter">{invoices.filter((i: any) => i.status === 'overdue').length} overdue invoices</p>
         </div>
       </div>
+
 
       <div className="bg-white rounded-xl shadow-sm border border-border overflow-hidden">
         <Table>
