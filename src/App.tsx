@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Tracking from "./pages/Tracking";
 import CustomerService from "./pages/CustomerService";
 import CustomerPortals from "./pages/CustomerPortals";
+import PortalLogin from "./pages/PortalLogin";
 import GetAQuote from "./pages/GetAQuote";
 import ShipNow from "./pages/ShipNow";
 import BusinessAccount from "./pages/BusinessAccount";
@@ -53,9 +54,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/tracking/:id" element={<Tracking />} />
-            {/* ... other public routes ... */}
             <Route path="/customer-service" element={<CustomerService />} />
             <Route path="/customer-portals" element={<CustomerPortals />} />
+            <Route path="/portal-login" element={<PortalLogin />} />
             <Route path="/get-a-quote" element={<GetAQuote />} />
             <Route path="/ship-now" element={<ShipNow />} />
             <Route path="/business-account" element={<BusinessAccount />} />

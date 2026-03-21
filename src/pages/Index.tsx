@@ -50,13 +50,13 @@ export default function Index() {
             {/* Quick actions */}
             <div className="flex flex-wrap gap-3 mt-6 animate-fade-up-delay-2">
               {[
-                { icon: Package, label: "Ship Now", sub: "Parcel Express Service" },
-                { icon: FileText, label: "Get a Quote", sub: "For your next shipment" },
-                { icon: Building2, label: "Request a Business Account", sub: "For regular shipping needs" },
+                { icon: Package, label: "Ship Now", sub: "Parcel Express Service", to: "/ship-now" },
+                { icon: FileText, label: "Get a Quote", sub: "For your next shipment", to: "/get-a-quote" },
+                { icon: Building2, label: "Request a Business Account", sub: "For regular shipping needs", to: "/business-account" },
               ].map((action) => (
-                <a
+                <Link
                   key={action.label}
-                  href="#"
+                  to={action.to}
                   className="flex items-center gap-3 bg-background/95 rounded px-4 py-3 text-sm hover:shadow-md transition-shadow active:scale-[0.98]"
                 >
                   <action.icon className="w-5 h-5 brand-red-text flex-shrink-0" />
@@ -64,7 +64,7 @@ export default function Index() {
                     <p className="font-semibold text-foreground">{action.label}</p>
                     <p className="text-xs text-muted-foreground">{action.sub}</p>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -79,9 +79,9 @@ export default function Index() {
             <p className="text-sm text-foreground/80 mb-3 max-w-2xl">
               Global trade is constantly evolving with complex tariffs and surging cross-border trade volumes. As a trusted logistics partner, Continental Track is here to help you navigate those changes.
             </p>
-            <a href="#" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
+            <Link to="/shipping-guidance" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
               Explore Our Solutions
-            </a>
+            </Link>
           </div>
         </section>
       </ScrollReveal>
@@ -103,9 +103,9 @@ export default function Index() {
                   </div>
                 ))}
               </div>
-              <a href="#" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98] self-start">
+              <Link to="/ct-express" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98] self-start">
                 Explore CT Express
-              </a>
+              </Link>
             </div>
             <div className="md:w-1/2">
               <img src={couriersImg} alt="Couriers" className="w-full h-full object-cover" />
@@ -126,13 +126,13 @@ export default function Index() {
               </p>
               <div className="space-y-3">
                 {[
-                  { name: "CT eCommerce", desc: "Connect your e-commerce to consumers with last-mile delivery" },
-                  { name: "CT Express", desc: "Fast, day-definite, time-definite delivery" },
+                  { name: "CT eCommerce", desc: "Connect your e-commerce to consumers with last-mile delivery", to: "/ct-ecommerce" },
+                  { name: "CT Express", desc: "Fast, day-definite, time-definite delivery", to: "/ct-express" },
                 ].map((d) => (
-                  <a key={d.name} href="#" className="block p-4 border border-border rounded hover:shadow-md transition-shadow">
+                  <Link key={d.name} to={d.to} className="block p-4 border border-border rounded hover:shadow-md transition-shadow">
                     <p className="font-semibold brand-red-text text-sm">{d.name}</p>
                     <p className="text-xs text-muted-foreground">{d.desc}</p>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -166,9 +166,9 @@ export default function Index() {
                     </div>
                   ))}
                 </div>
-                <a href="#" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
+                <Link to="/ct-global-forwarding" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
                   Explore CT Global Forwarding
-                </a>
+                </Link>
               </div>
               <div className="md:w-1/2 rounded-lg overflow-hidden">
                 <img src={oceanFreightImg} alt="Ocean freight" className="w-full h-64 md:h-80 object-cover" />
@@ -195,9 +195,9 @@ export default function Index() {
                   </span>
                 ))}
               </div>
-              <a href="#" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
+              <Link to="/ct-supply-chain" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
                 Explore CT Supply Chain
-              </a>
+              </Link>
             </div>
             <div className="md:w-1/2 rounded-lg overflow-hidden">
               <img src={supplyChainImg} alt="Supply chain" className="w-full h-64 md:h-80 object-cover" />
@@ -216,9 +216,9 @@ export default function Index() {
               <p className="text-sm text-primary-foreground/80 mb-4 max-w-lg">
                 Power your brand's cross-border success with world-class shipping and logistics. Our team of experts can help you address the ever-changing needs of your customers.
               </p>
-              <a href="#" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
+              <Link to="/business-account" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
                 Explore Our Business Solutions
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -231,11 +231,11 @@ export default function Index() {
           <p className="text-sm text-muted-foreground mb-6">Service bulletins keep you up to date with news and alerts</p>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: "Sustainability", desc: "Setting sustainable benchmarks in the entire logistics industry with science-based targets to reduce emissions." },
-              { title: "Innovation", desc: "Discover the future of logistics through our partnerships, leading robotics and drone innovation." },
-              { title: "Global Connectivity", desc: "Continental Track's global connectedness report outlines growth in globalized trade." },
+              { title: "Sustainability", desc: "Setting sustainable benchmarks in the entire logistics industry with science-based targets to reduce emissions.", to: "/sustainability" },
+              { title: "Innovation", desc: "Discover the future of logistics through our partnerships, leading robotics and drone innovation.", to: "/innovation" },
+              { title: "Global Connectivity", desc: "Continental Track's global connectedness report outlines growth in globalized trade.", to: "/press" },
             ].map((item, i) => (
-              <a key={item.title} href="#" className="group block border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+              <Link key={item.title} to={item.to} className="group block border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="h-40 brand-yellow-bg flex items-center justify-center">
                   <span className="text-4xl font-bold text-foreground/20">{i + 1}</span>
                 </div>
@@ -245,7 +245,7 @@ export default function Index() {
                   </h3>
                   <p className="text-sm text-muted-foreground">{item.desc}</p>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </section>

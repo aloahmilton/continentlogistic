@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -128,12 +129,12 @@ export default function CustomerPortals() {
                     <div className="flex-1">
                       <h3 className="text-lg font-bold mb-2">{item.name}</h3>
                       <p className="text-sm text-muted-foreground mb-3">{item.desc}</p>
-                      <a
-                        href={item.link}
+                      <Link
+                        to="/portal-login"
                         className="inline-flex items-center gap-1 brand-red-text text-sm font-medium hover:underline"
                       >
                         Log in to {item.name} <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </ScrollReveal>

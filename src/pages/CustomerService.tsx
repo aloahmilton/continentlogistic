@@ -3,6 +3,8 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import { Link } from "react-router-dom";
+
 
 const faqs = [
   { q: "What Is a Tracking Number & Where Can I Find It?", a: "A tracking number is a unique identifier assigned to your shipment. You can find it in the confirmation email or receipt you received when the shipment was booked." },
@@ -48,7 +50,9 @@ export default function CustomerService() {
                   onChange={(e) => setTrackingNumber(e.target.value)}
                   className="flex-1 px-4 py-3 text-sm border border-r-0 border-border rounded-l focus:outline-none focus:ring-2 focus:ring-ring"
                 />
-                <button className="px-6 py-3 brand-red-bg text-primary-foreground text-sm font-semibold rounded-r hover:opacity-90 transition-opacity active:scale-[0.98]">
+                <button 
+                  onClick={() => trackingNumber && (window.location.href = `/tracking/${trackingNumber}`)}
+                  className="px-6 py-3 brand-red-bg text-primary-foreground text-sm font-semibold rounded-r hover:opacity-90 transition-opacity active:scale-[0.98]">
                   Find Contact
                 </button>
               </div>
@@ -79,28 +83,28 @@ export default function CustomerService() {
           {/* Sidebar */}
           <div className="md:w-1/3 space-y-4">
             <ScrollReveal delay={100}>
-              <a href="#" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
+              <Link to="/business-account" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
                 <h3 className="font-bold text-sm mb-1 flex items-center gap-1">
                   Request A Business Account <ChevronRight className="w-4 h-4" />
                 </h3>
                 <p className="text-xs text-muted-foreground">Shipping regularly? Request a business account and profit from exclusive benefits</p>
-              </a>
+              </Link>
             </ScrollReveal>
             <ScrollReveal delay={200}>
-              <a href="#" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
+              <Link to="/fraud-awareness" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
                 <h3 className="font-bold text-sm mb-1 flex items-center gap-1">
                   Do you suspect you received a fraudulent email? <ChevronRight className="w-4 h-4" />
                 </h3>
                 <p className="text-xs text-muted-foreground">Let us know.</p>
-              </a>
+              </Link>
             </ScrollReveal>
             <ScrollReveal delay={300}>
-              <a href="#" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
+              <Link to="/customer-portals" className="block border border-border rounded-lg p-5 hover:shadow-md transition-shadow">
                 <h3 className="font-bold text-sm mb-1 flex items-center gap-1">
                   No tracking number? <ChevronRight className="w-4 h-4" />
                 </h3>
                 <p className="text-xs text-muted-foreground">Find your contact here.</p>
-              </a>
+              </Link>
             </ScrollReveal>
           </div>
         </div>
