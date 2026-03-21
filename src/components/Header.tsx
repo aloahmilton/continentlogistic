@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Search, MapPin, Globe, Menu, X } from "lucide-react";
 import logo from "@/assets/logo-continentaltrack.png";
+import CountrySelector from "./CountrySelector";
 
 const navItems = [
+// ... (omitted for brevity, will use full content in replacement)
   { label: "Track", href: "/" },
   {
     label: "Ship",
@@ -46,6 +48,7 @@ const portalLinks = [
 export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentCountry, setCurrentCountry] = useState("United States of America");
 
   return (
     <header className="relative z-50">
@@ -59,12 +62,11 @@ export default function Header() {
             <Link to="/find-service-point" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
               <MapPin className="w-4 h-4" /> Find a Service Point
             </Link>
-            <Link to="/shipping-guidance" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
-              <Search className="w-4 h-4" /> Shipping Guidance
-            </Link>
-            <span className="flex items-center gap-1">
-              <Globe className="w-4 h-4" /> United States of America
-            </span>
+            <div className="flex items-center gap-1">
+              <Search className="w-4 h-4" /> 
+              <CountrySelector currentCountry={currentCountry} onSelect={setCurrentCountry} triggerLabel="Shipping Guidance" />
+            </div>
+            <CountrySelector currentCountry={currentCountry} onSelect={setCurrentCountry} />
           </div>
           <button
             className="md:hidden p-2"
@@ -194,8 +196,14 @@ export default function Header() {
             </Link>
             <div className="pt-4 space-y-3">
               <Link to="/find-service-point" className="flex items-center gap-2 text-sm" onClick={() => setMobileOpen(false)}><MapPin className="w-4 h-4" /> Find a Service Point</Link>
-              <Link to="/shipping-guidance" className="flex items-center gap-2 text-sm" onClick={() => setMobileOpen(false)}><Search className="w-4 h-4" /> Shipping Guidance</Link>
-              <span className="flex items-center gap-2 text-sm"><Globe className="w-4 h-4" /> United States of America</span>
+              <div className="flex items-center gap-2 text-sm">
+                <Search className="w-4 h-4" /> 
+                <CountrySelector currentCountry={currentCountry} onSelect={(c) => { setCurrentCountry(c); setMobileOpen(false); }} triggerLabel="Shipping Guidance" />
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Globe className="w-4 h-4" /> 
+                <CountrySelector currentCountry={currentCountry} onSelect={(c) => { setCurrentCountry(c); setMobileOpen(false); }} />
+              </div>
             </div>
           </div>
         </div>

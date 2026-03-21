@@ -1,6 +1,6 @@
 import express from 'express';
 import Shipment from '../models/Shipment.js';
-import { sendShipmentEmail, sendCustomEmail } from '../utils/email.js';
+import { sendShipmentEmail, sendCustomEmail, sendInvoiceEmail } from '../utils/email.js';
 
 const router = express.Router();
 
@@ -85,6 +85,29 @@ router.post('/:id/communicate', async (req, res) => {
     
     await shipment.save();
     res.json({ message: 'Email sent successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Admin: Send invoice to customer
+router.post('/:id/invoice', async (req, res) => {
+  try {
+    const shipment = await Shipment.findOne({ trackingNumber: req.params.id });
+    if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
+    
+    await sendInvoiceEmail(shipment, req.body);
+    
+    // Log in updates
+    shipment.updates.push({
+      status: shipment.status,
+      location: 'Billing Dept',
+      description: `Invoice for $${req.body.total || req.body.amount} sent to customer`,
+      timestamp: new Date()
+    });
+    
+    await shipment.save();
+    res.json({ message: 'Invoice sent successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

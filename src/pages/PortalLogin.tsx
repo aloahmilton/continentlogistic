@@ -31,7 +31,12 @@ export default function PortalLogin() {
     // Simulate network request
     setTimeout(() => {
       setLoading(false);
-      toast.error(`Invalid credentials for ${portalName}. Please contact your account manager.`);
+      if (email && password) {
+        toast.success(`Welcome to ${portalName}`);
+        navigate("/dashboard");
+      } else {
+        toast.error(`Invalid credentials for ${portalName}. Please contact your account manager.`);
+      }
     }, 1200);
   };
 
@@ -82,8 +87,11 @@ export default function PortalLogin() {
             </button>
           </form>
           
-          <div className="mt-6 text-center">
-            <a href="/customer-service" className="text-xs text-muted-foreground hover:brand-red-text transition-colors">
+          <div className="mt-6 text-center space-y-3">
+            <a href="/portal-register" className="block text-sm font-bold brand-red-text hover:underline">
+              Don't have an account? Register your Business Account
+            </a>
+            <a href="/customer-service" className="block text-xs text-muted-foreground hover:brand-red-text transition-colors">
               Need help accessing your account?
             </a>
           </div>

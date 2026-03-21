@@ -15,6 +15,7 @@ export const shipmentApi = {
   create: (data: any) => api.post('/shipments', data),
   addUpdate: (id: string, data: any) => api.post(`/shipments/${id}/updates`, data),
   communicate: (id: string, data: any) => api.post(`/shipments/${id}/communicate`, data),
+  sendInvoice: (id: string, data: any) => api.post(`/shipments/${id}/invoice`, data),
 };
 
 export const leadApi = {

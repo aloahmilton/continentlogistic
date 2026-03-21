@@ -12,7 +12,6 @@ const footerColumns = [
       { label: "Get a Quote", href: "/get-a-quote" },
       { label: "Request a Business Account", href: "/business-account" },
       { label: "CT for Your Business", href: "/business-account" },
-      { label: "CT for Your Business", href: "/business-account" },
       { label: "Shipping Guidance", href: "/shipping-guidance" },
     ],
   },

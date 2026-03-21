@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, Filter, MoreHorizontal, Eye, Edit, Trash2, MessageSquare, MapPin as MapPinIcon } from "lucide-react";
+import { Plus, Search, Filter, MoreHorizontal, Eye, Edit, Trash2, MessageSquare, MapPin as MapPinIcon, FileText } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +64,13 @@ export default function AdminShipments() {
     coordinates: { lat: 0, lng: 0 }
   });
 
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+  const [invoiceData, setInvoiceData] = useState({
+    amount: "",
+    tax: "0.00",
+    total: ""
+  });
+
   useEffect(() => {
     fetchShipments();
   }, []);
@@ -125,6 +132,18 @@ export default function AdminShipments() {
       fetchShipments();
     } catch (error) {
       toast.error("Failed to add update");
+    }
+  };
+
+  const handleSendInvoice = async () => {
+    if (!selectedShipment) return;
+    try {
+      await shipmentApi.sendInvoice(selectedShipment.trackingNumber, invoiceData);
+      toast.success("Invoice sent to customer email!");
+      setIsInvoiceOpen(false);
+      fetchShipments();
+    } catch (error) {
+      toast.error("Failed to send invoice");
     }
   };
 
@@ -244,7 +263,7 @@ export default function AdminShipments() {
                 </TableCell>
               </TableRow>
             ) : (
-              shipments.map((shipment) => (
+              shipments.map((shipment: any) => (
                 <TableRow key={shipment._id}>
                   <TableCell className="font-medium">{shipment.trackingNumber}</TableCell>
                   <TableCell>{shipment.sender?.name || "N/A"}</TableCell>
@@ -270,6 +289,13 @@ export default function AdminShipments() {
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <Edit className="mr-2 h-4 w-4" /> Edit Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          setSelectedShipment(shipment);
+                          setInvoiceData({ amount: "250.00", tax: "12.50", total: "262.50" });
+                          setIsInvoiceOpen(true);
+                        }}>
+                          <FileText className="mr-2 h-4 w-4" /> Send Invoice
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => {
                           setSelectedShipment(shipment);
@@ -330,6 +356,38 @@ export default function AdminShipments() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsCommunicateOpen(false)}>Cancel</Button>
             <Button onClick={handleSendCommunication} className="brand-red-bg">Send Email</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Invoice Modal */}
+      <Dialog open={isInvoiceOpen} onOpenChange={setIsInvoiceOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Generate & Send Invoice</DialogTitle>
+            <DialogDescription>
+              Draft an electronic invoice for this shipment.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Base Amount ($)</label>
+                <Input type="number" value={invoiceData.amount} onChange={e => setInvoiceData({...invoiceData, amount: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase">Tax ($)</label>
+                <Input type="number" value={invoiceData.tax} onChange={e => setInvoiceData({...invoiceData, tax: e.target.value})} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase">Total Due ($)</label>
+              <Input type="number" value={invoiceData.total || (parseFloat(invoiceData.amount || "0") + parseFloat(invoiceData.tax || "0")).toFixed(2)} onChange={e => setInvoiceData({...invoiceData, total: e.target.value})} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsInvoiceOpen(false)}>Cancel</Button>
+            <Button onClick={handleSendInvoice} className="brand-red-bg font-bold">Dispatch Electronic Invoice</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

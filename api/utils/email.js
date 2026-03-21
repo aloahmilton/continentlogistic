@@ -119,3 +119,84 @@ export const sendCustomEmail = async (to, subject, message, shipmentId = null) =
 
   return transporter.sendMail(mailOptions);
 };
+export const sendInvoiceEmail = async (shipment, invoiceData) => {
+  const mailOptions = {
+    from: `"Continental Track Billing" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to: shipment.receiver.email,
+    subject: `Business Invoice - Shipment ${shipment.trackingNumber}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #333;">
+        <div style="background-color: #E31E24; padding: 40px; color: white; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h1 style="margin: 0; font-size: 24px;">INVOICE</h1>
+            <p style="margin: 5px 0 0; opacity: 0.8; font-size: 12px;">Ref: ${shipment.trackingNumber}</p>
+          </div>
+          <div style="text-align: right;">
+            <p style="margin: 0; font-weight: bold;">Continental Track</p>
+            <p style="margin: 0; font-size: 11px;">Excellence in Motion</p>
+          </div>
+        </div>
+
+        <div style="padding: 40px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+            <div style="width: 48%;">
+              <h3 style="font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 10px;">Billed To</h3>
+              <p style="margin: 0; font-weight: bold;">${shipment.receiver.name}</p>
+              <p style="margin: 0; font-size: 13px;">${shipment.receiver.email}</p>
+              <p style="margin: 0; font-size: 13px;">${shipment.destination}</p>
+            </div>
+            <div style="width: 48%; text-align: right;">
+              <h3 style="font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 10px;">Invoice Details</h3>
+              <p style="margin: 0; font-size: 13px;">Date: ${new Date().toLocaleDateString()}</p>
+              <p style="margin: 0; font-size: 13px;">Due Date: Net 15</p>
+            </div>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+            <thead style="background-color: #f5f5f5;">
+              <tr>
+                <th style="padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid #eee;">Service Description</th>
+                <th style="padding: 12px; text-align: right; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid #eee;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 15px 12px; border-bottom: 1px solid #eee;">
+                  <p style="margin: 0; font-weight: bold;">${shipment.serviceType} Logistics Service</p>
+                  <p style="margin: 5px 0 0; font-size: 12px; color: #666;">Route: ${shipment.origin} to ${shipment.destination}</p>
+                  <p style="margin: 2px 0 0; font-size: 12px; color: #666;">Weight: ${shipment.weight} kg</p>
+                </td>
+                <td style="padding: 15px 12px; border-bottom: 1px solid #eee; text-align: right; vertical-align: top;">
+                  $${invoiceData.amount || '0.00'}
+                </td>
+              </tr>
+              ${invoiceData.tax ? `
+              <tr>
+                <td style="padding: 15px 12px; text-align: right; color: #888;">Tax (VAT)</td>
+                <td style="padding: 15px 12px; text-align: right;">$${invoiceData.tax}</td>
+              </tr>
+              ` : ''}
+              <tr>
+                <td style="padding: 15px 12px; text-align: right; font-weight: bold; font-size: 18px;">Total Due</td>
+                <td style="padding: 15px 12px; text-align: right; font-weight: bold; font-size: 18px; color: #E31E24;">$${invoiceData.total || invoiceData.amount}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background-color: #f9f9f9; padding: 25px; border-radius: 4px; text-align: center;">
+            <p style="margin: 0 0 15px; font-size: 14px;">Please complete the payment to ensure smooth processing of your clearance.</p>
+            <a href="#" style="background-color: #E31E24; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px; display: inline-block;">
+              DOWNLOAD PDF INVOICE
+            </a>
+          </div>
+
+          <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #999; line-height: 1.5;">
+            <p><strong>Note:</strong> Continental Track Logistics Group operates under standard international shipping terms. All charges are in USD unless otherwise specified.</p>
+          </div>
+        </div>
+      </div>
+    `
+  };
+
+  return transporter.sendMail(mailOptions);
+};
