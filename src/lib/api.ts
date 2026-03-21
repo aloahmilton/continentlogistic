@@ -9,6 +9,17 @@ export const api = axios.create({
   },
 });
 
+// Add a request interceptor to inject the admin password
+api.interceptors.request.use((config) => {
+  const auth = localStorage.getItem('admin_auth');
+  if (auth) {
+    config.headers['x-admin-password'] = auth;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 export const shipmentApi = {
   get: (id: string) => api.get(`/shipments/${id}`),
   getAll: () => api.get('/shipments'),

@@ -56,6 +56,7 @@ export default function AdminCustomers() {
   const [searchTerm, setSearchTerm] = useState("");
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const adminRole = localStorage.getItem("admin_role");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newCustomer, setNewCustomer] = useState({
     name: "",
@@ -283,9 +284,11 @@ export default function AdminCustomers() {
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDelete(customer._id)} className="text-destructive">
-                          <Trash2 className="w-4 h-4 mr-2" /> Delete Account
-                        </DropdownMenuItem>
+                        {adminRole === 'super' && (
+                          <DropdownMenuItem onClick={() => handleDelete(customer._id)} className="text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" /> Delete Account
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

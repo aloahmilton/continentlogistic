@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -34,8 +35,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete user
-router.delete('/:id', async (req, res) => {
+// Delete user - Super Admin Only
+router.delete('/:id', superAdminAuth, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.json({ message: 'User deleted' });

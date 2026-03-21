@@ -1,5 +1,6 @@
 import express from 'express';
 import Driver from '../models/Driver.js';
+import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -34,8 +35,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete driver
-router.delete('/:id', async (req, res) => {
+// Delete driver - Super Admin Only
+router.delete('/:id', superAdminAuth, async (req, res) => {
   try {
     await Driver.findByIdAndDelete(req.params.id);
     res.json({ message: 'Driver deleted' });

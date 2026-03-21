@@ -2,6 +2,7 @@ import express from 'express';
 import Invoice from '../models/Invoice.js';
 import Shipment from '../models/Shipment.js';
 import { sendInvoiceEmail } from '../utils/email.js';
+import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -62,8 +63,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete invoice
-router.delete('/:id', async (req, res) => {
+// Delete invoice - Super Admin Only
+router.delete('/:id', superAdminAuth, async (req, res) => {
   try {
     await Invoice.findByIdAndDelete(req.params.id);
     res.json({ message: 'Invoice deleted' });

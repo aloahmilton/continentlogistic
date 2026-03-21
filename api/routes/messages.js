@@ -1,5 +1,6 @@
 import express from 'express';
 import Message from '../models/Message.js';
+import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -49,6 +50,16 @@ router.patch('/:id/read', async (req, res) => {
     res.json(message);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// Delete message - Super Admin Only
+router.delete('/:id', superAdminAuth, async (req, res) => {
+  try {
+    await Message.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Message deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

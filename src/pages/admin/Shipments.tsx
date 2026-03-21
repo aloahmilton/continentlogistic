@@ -29,11 +29,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { shipmentApi } from "@/lib/api";
+import { generateLabelPDF } from "@/lib/pdf";
 import { toast } from "sonner";
 
 export default function AdminShipments() {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const adminRole = localStorage.getItem("admin_role");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newShipment, setNewShipment] = useState({
     trackingNumber: `CT${Math.floor(10000000 + Math.random() * 90000000)}`.toUpperCase(),
@@ -352,10 +354,15 @@ export default function AdminShipments() {
                         }}>
                           <MapPinIcon className="mr-2 h-4 w-4" /> Add Tracking Update
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteShipment(shipment.trackingNumber)}>
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete
+                        <DropdownMenuItem onClick={() => generateLabelPDF(shipment)}>
+                          <Download className="mr-2 h-4 w-4" /> Print Label (PDF)
                         </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        {adminRole === 'super' && (
+                          <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteShipment(shipment.trackingNumber)}>
+                            <Trash2 className="mr-2 h-4 w-4" /> Delete
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -55,6 +55,7 @@ export default function AdminMessages() {
   const [searchTerm, setSearchTerm] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const adminRole = localStorage.getItem("admin_role");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newMessage, setNewMessage] = useState({
     recipient: "",
@@ -261,9 +262,11 @@ export default function AdminMessages() {
                           <Reply className="w-4 h-4 mr-2" /> Reply
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDelete(msg._id)} className="text-destructive">
-                          <Trash2 className="w-4 h-4 mr-2" /> Delete
-                        </DropdownMenuItem>
+                        {adminRole === 'super' && (
+                          <DropdownMenuItem onClick={() => handleDelete(msg._id)} className="text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" /> Delete
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

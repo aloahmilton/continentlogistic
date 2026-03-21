@@ -11,18 +11,25 @@ export default function AdminGuard({ children }: AdminGuardProps) {
   const [error, setError] = useState(false);
 
   const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD || "admin_password_123";
+  const superAdminPassword = import.meta.env.VITE_SUPER_ADMIN_PASSWORD || "super_admin_secret_999";
 
   useEffect(() => {
     const auth = localStorage.getItem("admin_auth");
-    if (auth === adminPassword) {
+    if (auth === adminPassword || auth === superAdminPassword) {
       setIsAuthenticated(true);
     }
-  }, [adminPassword]);
+  }, [adminPassword, superAdminPassword]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === adminPassword) {
+    if (password === superAdminPassword) {
       localStorage.setItem("admin_auth", password);
+      localStorage.setItem("admin_role", "super");
+      setIsAuthenticated(true);
+      setError(false);
+    } else if (password === adminPassword) {
+      localStorage.setItem("admin_auth", password);
+      localStorage.setItem("admin_role", "admin");
       setIsAuthenticated(true);
       setError(false);
     } else {

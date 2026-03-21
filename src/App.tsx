@@ -47,6 +47,7 @@ import AdminReports from "./pages/admin/Reports";
 import AdminTrackingMap from "./pages/admin/TrackingMap";
 import AdminProfile from "./pages/admin/Profile";
 import AdminMessages from "./pages/admin/Messages";
+import AdminSettings from "./pages/admin/Settings";
 import AdminPlaceholder from "./pages/admin/Placeholder";
 
 import AdminGuard from "@/components/admin/AdminGuard";
@@ -134,6 +135,10 @@ const App = () => {
             <Route 
               path={`/${adminSlug}/profile`} 
               element={<AdminGuard><AdminProfile /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/settings`} 
+              element={<AdminGuard><AdminSettings /></AdminGuard>} 
             />
             <Route 
               path={`/${adminSlug}/messages`} 

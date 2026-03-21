@@ -1,6 +1,7 @@
 import express from 'express';
 import Shipment from '../models/Shipment.js';
 import { sendShipmentEmail, sendCustomEmail, sendInvoiceEmail } from '../utils/email.js';
+import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -112,6 +113,34 @@ router.post('/:id/invoice', async (req, res) => {
     
     await shipment.save();
     res.json({ message: 'Invoice sent successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Admin: Update shipment details
+router.put('/:id', async (req, res) => {
+  try {
+    const trackingId = req.params.id.trim().toUpperCase();
+    const updatedShipment = await Shipment.findOneAndUpdate(
+      { trackingNumber: trackingId },
+      req.body,
+      { new: true }
+    );
+    if (!updatedShipment) return res.status(404).json({ message: 'Shipment not found' });
+    res.json(updatedShipment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Admin: Delete shipment - Super Admin Only
+router.delete('/:id', superAdminAuth, async (req, res) => {
+  try {
+    const trackingId = req.params.id.trim().toUpperCase();
+    const deletedShipment = await Shipment.findOneAndDelete({ trackingNumber: trackingId });
+    if (!deletedShipment) return res.status(404).json({ message: 'Shipment not found' });
+    res.json({ message: 'Shipment deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

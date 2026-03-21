@@ -54,6 +54,7 @@ export default function AdminDrivers() {
   const [searchTerm, setSearchTerm] = useState("");
   const [drivers, setDrivers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const adminRole = localStorage.getItem("admin_role");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newDriver, setNewDriver] = useState({
     name: "",
@@ -295,9 +296,11 @@ export default function AdminDrivers() {
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDelete(driver._id)} className="text-destructive">
-                          <Trash2 className="w-4 h-4 mr-2" /> Remove Driver
-                        </DropdownMenuItem>
+                        {adminRole === 'super' && (
+                          <DropdownMenuItem onClick={() => handleDelete(driver._id)} className="text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" /> Remove Driver
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

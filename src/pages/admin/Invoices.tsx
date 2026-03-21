@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { invoiceApi, userApi, shipmentApi } from "@/lib/api";
+import { generateInvoicePDF } from "@/lib/pdf";
 import { 
   Select, 
   SelectContent, 
@@ -43,6 +44,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Trash2 } from "lucide-react";
 
 export default function AdminInvoices() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +53,7 @@ export default function AdminInvoices() {
   const [allShipments, setAllShipments] = useState<any[]>([]);
   const [filteredShipments, setFilteredShipments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const adminRole = localStorage.getItem("admin_role");
   
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [paymentInstructions, setPaymentInstructions] = useState("Please make payment via Bank Transfer:\nBank: International Logistics Bank\nAccount: 0099887766\nSwift: ILBGB2L\n\nAfter payment, please upload a screenshot of your receipt in the dashboard.");
@@ -340,7 +343,12 @@ export default function AdminInvoices() {
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
                       <Eye className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-muted-foreground"
+                      onClick={() => generateInvoicePDF(invoice)}
+                    >
                       <Download className="w-4 h-4" />
                     </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" title="View Proof" disabled={!invoice.proofImage} onClick={() => {
@@ -352,6 +360,11 @@ export default function AdminInvoices() {
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
                       <Mail className="w-4 h-4" />
                     </Button>
+                    {adminRole === 'super' && (
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDelete(invoice._id)}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))
