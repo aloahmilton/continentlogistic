@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +13,7 @@ import UserDashboard from "./pages/UserDashboard";
 import GetAQuote from "./pages/GetAQuote";
 import ShipNow from "./pages/ShipNow";
 import BusinessAccount from "./pages/BusinessAccount";
+import CountryGuide from "./pages/guides/CountryGuide";
 import EnterpriseLogistics from "./pages/EnterpriseLogistics";
 import CTExpress from "./pages/CTExpress";
 import CTGlobalForwarding from "./pages/CTGlobalForwarding";
@@ -39,6 +40,13 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminShipments from "./pages/admin/Shipments";
 import AdminLeads from "./pages/admin/Leads";
+import AdminCustomers from "./pages/admin/Customers";
+import AdminDrivers from "./pages/admin/Drivers";
+import AdminInvoices from "./pages/admin/Invoices";
+import AdminReports from "./pages/admin/Reports";
+import AdminTrackingMap from "./pages/admin/TrackingMap";
+import AdminProfile from "./pages/admin/Profile";
+import AdminMessages from "./pages/admin/Messages";
 import AdminPlaceholder from "./pages/admin/Placeholder";
 
 import AdminGuard from "@/components/admin/AdminGuard";
@@ -53,7 +61,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/tracking/:id" element={<Tracking />} />
@@ -66,6 +74,7 @@ const App = () => {
             <Route path="/get-a-quote" element={<GetAQuote />} />
             <Route path="/ship-now" element={<ShipNow />} />
             <Route path="/business-account" element={<BusinessAccount />} />
+            <Route path="/guides/:countryCode" element={<CountryGuide />} />
             <Route path="/enterprise-logistics" element={<EnterpriseLogistics />} />
             <Route path="/ct-express" element={<CTExpress />} />
             <Route path="/ct-global-forwarding" element={<CTGlobalForwarding />} />
@@ -104,23 +113,35 @@ const App = () => {
             />
             <Route 
               path={`/${adminSlug}/tracking-map`} 
-              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+              element={<AdminGuard><AdminTrackingMap /></AdminGuard>} 
             />
             <Route 
               path={`/${adminSlug}/customers`} 
-              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+              element={<AdminGuard><AdminCustomers /></AdminGuard>} 
             />
             <Route 
               path={`/${adminSlug}/drivers`} 
-              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+              element={<AdminGuard><AdminDrivers /></AdminGuard>} 
             />
             <Route 
               path={`/${adminSlug}/invoices`} 
-              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+              element={<AdminGuard><AdminInvoices /></AdminGuard>} 
             />
             <Route 
               path={`/${adminSlug}/reports`} 
-              element={<AdminGuard><AdminPlaceholder /></AdminGuard>} 
+              element={<AdminGuard><AdminReports /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/profile`} 
+              element={<AdminGuard><AdminProfile /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/messages`} 
+              element={<AdminGuard><AdminMessages /></AdminGuard>} 
+            />
+            <Route 
+              path={`/${adminSlug}/settings`} 
+              element={<Navigate to={`/${adminSlug}/profile`} replace />} 
             />
             
             <Route path="*" element={<NotFound />} />

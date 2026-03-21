@@ -56,6 +56,9 @@ export default function AdminShipments() {
   });
   const [selectedShipment, setSelectedShipment] = useState<any>(null);
 
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingShipment, setEditingShipment] = useState<any>(null);
+
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [newUpdate, setNewUpdate] = useState({
     status: "in_transit",
@@ -70,6 +73,7 @@ export default function AdminShipments() {
     tax: "0.00",
     total: ""
   });
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchShipments();
@@ -115,7 +119,7 @@ export default function AdminShipments() {
     if (!selectedShipment) return;
     try {
       await shipmentApi.communicate(selectedShipment.trackingNumber, communication);
-      toast.success("Message sent successfully!");
+      toast.success("System message sent to customer dashboard!");
       setIsCommunicateOpen(false);
       setCommunication({ to: "", subject: "Update regarding your shipment", message: "" });
     } catch (error) {
@@ -135,6 +139,29 @@ export default function AdminShipments() {
     }
   };
 
+  const handleUpdateDetails = async () => {
+    if (!editingShipment) return;
+    try {
+      await shipmentApi.update(editingShipment.trackingNumber, editingShipment);
+      toast.success("Shipment details updated successfully!");
+      setIsEditOpen(false);
+      fetchShipments();
+    } catch (error) {
+      toast.error("Failed to update shipment details");
+    }
+  };
+
+  const handleDeleteShipment = async (trackingNumber: string) => {
+    if (!confirm(`Are you sure you want to delete shipment ${trackingNumber}?`)) return;
+    try {
+      await shipmentApi.delete(trackingNumber);
+      toast.success("Shipment deleted successfully");
+      fetchShipments();
+    } catch (error) {
+      toast.error("Failed to delete shipment");
+    }
+  };
+
   const handleSendInvoice = async () => {
     if (!selectedShipment) return;
     try {
@@ -151,7 +178,12 @@ export default function AdminShipments() {
     <AdminLayout title="Shipments">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2 max-w-sm w-full">
-          <Input placeholder="Search tracking number, sender..." className="h-9" />
+          <Input 
+            placeholder="Search tracking number, sender..." 
+            className="h-9" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Button variant="outline" size="sm" className="h-9">
             <Search className="w-4 h-4 mr-2" /> Search
           </Button>
@@ -263,7 +295,13 @@ export default function AdminShipments() {
                 </TableCell>
               </TableRow>
             ) : (
-              shipments.map((shipment: any) => (
+              shipments
+                .filter((s: any) => 
+                  s.trackingNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  s.sender?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  s.receiver?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .map((shipment: any) => (
                 <TableRow key={shipment._id}>
                   <TableCell className="font-medium">{shipment.trackingNumber}</TableCell>
                   <TableCell>{shipment.sender?.name || "N/A"}</TableCell>
@@ -287,7 +325,10 @@ export default function AdminShipments() {
                         <DropdownMenuItem onClick={() => window.open(`/tracking/${shipment.trackingNumber}`, '_blank')}>
                           <Eye className="mr-2 h-4 w-4" /> View Track Page
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          setEditingShipment({...shipment});
+                          setIsEditOpen(true);
+                        }}>
                           <Edit className="mr-2 h-4 w-4" /> Edit Details
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => {
@@ -312,7 +353,7 @@ export default function AdminShipments() {
                           <MapPinIcon className="mr-2 h-4 w-4" /> Add Tracking Update
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteShipment(shipment.trackingNumber)}>
                           <Trash2 className="mr-2 h-4 w-4" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -329,12 +370,30 @@ export default function AdminShipments() {
       <Dialog open={isCommunicateOpen} onOpenChange={setIsCommunicateOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Send Message to Customer</DialogTitle>
+            <DialogTitle>Send System Message</DialogTitle>
             <DialogDescription>
-              This will send a branded email to the recipient using Continental Track SMTP.
+              This will send an internal notification directly to the customer's portal dashboard.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+            <div className="space-y-4 max-h-[200px] overflow-y-auto p-4 bg-muted/30 rounded-md mb-2 border border-dashed border-border">
+              <p className="text-[10px] text-muted-foreground text-center italic uppercase font-bold tracking-widest">Message History & Replies</p>
+              <div className="space-y-3">
+                <div className="bg-white p-3 rounded shadow-sm border border-border/50 max-w-[80%]">
+                  <p className="text-[10px] text-muted-foreground mb-1 uppercase font-bold">System (Internal Message)</p>
+                  <p className="text-sm">Shipment confirmed. Tracking ID {selectedShipment?.trackingNumber}</p>
+                </div>
+                <div className="bg-primary/5 p-3 rounded shadow-sm border border-primary/10 max-w-[80%] self-end ml-auto">
+                  <p className="text-[10px] text-primary mb-1 uppercase font-bold text-right">Admin (Outgoing)</p>
+                  <p className="text-sm text-right">Hello! Your shipment is currently arriving at our Heathrow facility.</p>
+                </div>
+                {/* Replies would be fetched here */}
+                <div className="text-center py-2">
+                  <p className="text-[10px] text-muted-foreground uppercase font-medium">Tracking external replies via SMTP...</p>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase">To</label>
               <Input value={communication.to} onChange={e => setCommunication({...communication, to: e.target.value})} />
@@ -355,7 +414,7 @@ export default function AdminShipments() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsCommunicateOpen(false)}>Cancel</Button>
-            <Button onClick={handleSendCommunication} className="brand-red-bg">Send Email</Button>
+            <Button onClick={handleSendCommunication} className="brand-red-bg">Dispatch Message</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -439,6 +498,75 @@ export default function AdminShipments() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsUpdateOpen(false)}>Cancel</Button>
             <Button onClick={handleAddUpdate} className="brand-red-bg">Add Update</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {/* Edit Details Modal */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Shipment Details</DialogTitle>
+            <DialogDescription>
+              Modify core logistics data for {editingShipment?.trackingNumber}.
+            </DialogDescription>
+          </DialogHeader>
+          {editingShipment && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase">Status</label>
+                  <select 
+                    className="w-full h-10 px-3 rounded-md border text-sm"
+                    value={editingShipment.status} 
+                    onChange={e => setEditingShipment({...editingShipment, status: e.target.value})}
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="picked_up">Picked Up</option>
+                    <option value="in_transit">In Transit</option>
+                    <option value="arrived">Arrived at Facility</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="on_hold">On Hold</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase">Service Type</label>
+                  <Input value={editingShipment.serviceType} onChange={e => setEditingShipment({...editingShipment, serviceType: e.target.value})} />
+                </div>
+              </div>
+              
+              <div className="border-t pt-4">
+                <h3 className="text-sm font-bold mb-3">Sender Details</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="Sender Name" value={editingShipment.sender.name} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, name: e.target.value}})} />
+                  <Input placeholder="Sender Email" value={editingShipment.sender.email} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, email: e.target.value}})} />
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <h3 className="text-sm font-bold mb-3">Receiver Details</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="Receiver Name" value={editingShipment.receiver.name} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, name: e.target.value}})} />
+                  <Input placeholder="Receiver Email" value={editingShipment.receiver.email} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, email: e.target.value}})} />
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <h3 className="text-sm font-bold mb-3">Route & Logistics</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="Origin" value={editingShipment.origin} onChange={e => setEditingShipment({...editingShipment, origin: e.target.value})} />
+                  <Input placeholder="Destination" value={editingShipment.destination} onChange={e => setEditingShipment({...editingShipment, destination: e.target.value})} />
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <Input placeholder="Weight (kg)" value={editingShipment.weight} onChange={e => setEditingShipment({...editingShipment, weight: e.target.value})} />
+                  <Input placeholder="Dimensions" value={editingShipment.dimensions} onChange={e => setEditingShipment({...editingShipment, dimensions: e.target.value})} />
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdateDetails} className="brand-red-bg">Save Updates</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

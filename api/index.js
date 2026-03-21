@@ -3,6 +3,10 @@ import cors from 'cors';
 import connectDB from './db.js';
 import shipmentRoutes from './routes/shipments.js';
 import leadRoutes from './routes/leads.js';
+import driverRoutes from './routes/drivers.js';
+import invoiceRoutes from './routes/invoices.js';
+import messageRoutes from './routes/messages.js';
+import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -15,9 +19,19 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
 // Routes
 app.use('/api/shipments', shipmentRoutes);
 app.use('/api/leads', leadRoutes);
+app.use('/api/drivers', driverRoutes);
+app.use('/api/invoices', invoiceRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Continental Track API is active' });

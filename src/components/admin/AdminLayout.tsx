@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Package, Users, LayoutDashboard, Settings, LogOut, MapPin, FileText, BarChart, Truck, Menu, X } from "lucide-react";
+import { Package, Users, LayoutDashboard, Settings, LogOut, MapPin, FileText, BarChart, Truck, Menu, X, Bell, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface AdminLayoutProps {
@@ -22,6 +22,8 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
     { label: "Drivers", icon: Truck, path: `/${adminSlug}/drivers` },
     { label: "Invoices", icon: FileText, path: `/${adminSlug}/invoices` },
     { label: "Reports", icon: BarChart, path: `/${adminSlug}/reports` },
+    { label: "Messages", icon: MessageSquare, path: `/${adminSlug}/messages` },
+    { label: "Admin Profile", icon: User, path: `/${adminSlug}/profile` },
     { label: "Settings", icon: Settings, path: `/${adminSlug}/settings` },
   ];
 
@@ -84,8 +86,20 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="hidden md:flex h-16 border-b bg-background items-center px-8 sticky top-0 z-30">
+        <header className="hidden md:flex h-16 border-b bg-background items-center justify-between px-8 sticky top-0 z-30">
           <h1 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">{title}</h1>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5 text-muted-foreground" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-background"></span>
+            </Button>
+            <Link to={`/${adminSlug}/profile`} className="flex items-center gap-2 hover:bg-muted p-1 pr-3 rounded-full transition-colors">
+              <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
+                <User className="w-4 h-4" />
+              </div>
+              <span className="text-xs font-bold uppercase tracking-tighter">Admin</span>
+            </Link>
+          </div>
         </header>
         <div className="p-4 md:p-8">
           {children}

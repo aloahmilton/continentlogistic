@@ -28,6 +28,20 @@ const dotIcon = L.divIcon({
   className: 'bg-primary w-3 h-3 rounded-full border-2 border-white shadow-sm' 
 });
 
+const latestMarkerIcon = L.divIcon({
+  className: 'relative',
+  html: `
+    <div class="relative flex items-center justify-center">
+      <div class="absolute w-8 h-8 brand-red-bg rounded-full opacity-20 animate-ping"></div>
+      <div class="absolute w-6 h-6 brand-red-bg rounded-full opacity-40 animate-pulse"></div>
+      <img src="${markerIcon}" style="width: 25px; height: 41px; margin-top: -20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
+    </div>
+  `,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+});
+
 export default function Tracking() {
   const { id } = useParams();
   const [shipment, setShipment] = useState<any>(null);
@@ -68,7 +82,6 @@ export default function Tracking() {
             <Skeleton className="h-[500px] w-full rounded-lg" />
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -83,7 +96,6 @@ export default function Tracking() {
           <p className="text-muted-foreground mb-8">We couldn't find a shipment with tracking number "{id}". Please check and try again.</p>
           <Link to="/" className="brand-red-bg text-white px-6 py-3 rounded font-semibold inline-block">Go Home</Link>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -100,9 +112,12 @@ export default function Tracking() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col">
-        <div className="no-print">
-          <Header />
+      <div className="min-h-screen flex flex-col bg-[#F9FAFB]">
+        <div className="no-print bg-white border-b border-border py-4 mb-4">
+          <div className="container mx-auto px-4 flex justify-between items-center">
+            <Link to="/" className="text-xl font-black tracking-tighter">CONTINENTAL <span className="brand-red-text">TRACK</span></Link>
+            <Link to="/" className="text-sm font-bold text-muted-foreground hover:text-foreground">Back to Home</Link>
+          </div>
         </div>
         
         <div className="container mx-auto px-4 py-8 flex-1">
@@ -144,17 +159,30 @@ export default function Tracking() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
-                  {historyPoints.length > 1 && (
-                    <Polyline positions={historyPoints} color="#E31E24" weight={3} opacity={0.7} dashArray="5, 10" />
-                  )}
+                  {historyPoints.length > 1 && historyPoints.map((pos, idx) => {
+                    if (idx === 0) return null;
+                    const prevPos = historyPoints[idx - 1];
+                    // Red to Green transition
+                    const ratio = idx / historyPoints.length;
+                    const color = ratio < 0.5 ? "#E31E24" : (ratio < 0.8 ? "#f59e0b" : "#22c55e");
+                    return (
+                      <Polyline 
+                        key={idx} 
+                        positions={[prevPos, pos]} 
+                        color={color} 
+                        weight={4} 
+                        opacity={0.8} 
+                      />
+                    );
+                  })}
                   {historyPoints.map((pos, idx) => (
-                    <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? defaultIcon : dotIcon}>
-                      <Popup>
+                    <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? latestMarkerIcon : dotIcon}>
+                      <Popup autoPan={false}>
                         <div className="text-sm font-bold">
-                          {idx === 0 ? "Origin" : idx === historyPoints.length - 1 ? `Current: ${shipment.currentLocation}` : shipment.updates[idx-1]?.location}
+                          {idx === 0 ? "Origin" : idx === historyPoints.length - 1 ? `Status: ${shipment.status.replace(/_/g, " ").toUpperCase()}` : shipment.updates[idx-1]?.location}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {idx === 0 ? "" : new Date(shipment.updates[idx-1]?.timestamp).toLocaleString()}
+                          {idx === historyPoints.length - 1 ? shipment.currentLocation : (idx === 0 ? "" : new Date(shipment.updates[idx-1]?.timestamp).toLocaleString())}
                         </div>
                       </Popup>
                     </Marker>
@@ -240,20 +268,25 @@ export default function Tracking() {
                 </div>
               </div>
 
-              <div className="brand-yellow-bg rounded-lg p-6">
-                <h3 className="font-bold mb-2">Need Help?</h3>
-                <p className="text-xs text-foreground/70 mb-4">If you have questions about your shipment, our customer service team is ready to assist you.</p>
+               <div className="brand-yellow-bg rounded-lg p-6 flex flex-col items-center text-center">
+                <h3 className="font-bold mb-4">Scan for Quick Track</h3>
+                <div className="bg-white p-2 rounded-lg shadow-sm mb-4">
+                  <img 
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.href)}`} 
+                    alt="Tracking QR Code" 
+                    className="w-24 h-24"
+                  />
+                </div>
+                <p className="text-[10px] text-foreground/70 mb-4 font-medium uppercase tracking-wider">Reference: {shipment.trackingNumber}</p>
                 <Link to="/customer-service" className="inline-flex items-center gap-1 text-xs font-bold brand-red-text hover:underline">
-                  Contact Customer Service <ChevronRight className="w-3 h-3" />
+                  Support Center <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="no-print">
-          <Footer />
-        </div>
+
       </div>
 
       {/* Printable Receipt */}
@@ -335,11 +368,16 @@ export default function Tracking() {
               This document serves as an official electronic receipt for the shipment identified above. Continental Track Logistics operates under international carriage laws and regulations.
             </p>
           </div>
-          <div className="text-right">
-            <div className="w-24 h-24 border-2 border-black inline-block flex items-center justify-center p-2 mb-2">
-              <p className="text-[8px] font-bold text-center">SECURITY SEAL<br />{shipment.trackingNumber}</p>
+          <div className="text-right flex flex-col items-end">
+            <div className="bg-white p-1 border-2 border-black mb-2">
+              <img 
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(window.location.href)}`} 
+                alt="Tracking Receipt QR" 
+                className="w-20 h-20"
+              />
             </div>
             <p className="text-[10px] font-bold">OFFICIAL LOGISTICS RECORD</p>
+            <p className="text-[8px] text-gray-400 mt-1 uppercase font-black">Digital Verification Encrypted</p>
           </div>
         </div>
       </div>

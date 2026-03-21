@@ -32,6 +32,7 @@ export default function PortalLogin() {
     setTimeout(() => {
       setLoading(false);
       if (email && password) {
+        localStorage.setItem("user_auth", JSON.stringify({ email, role: 'user', id: 'temp-' + Date.now() }));
         toast.success(`Welcome to ${portalName}`);
         navigate("/dashboard");
       } else {
