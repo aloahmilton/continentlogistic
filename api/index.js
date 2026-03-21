@@ -37,6 +37,12 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Continental Track API is active' });
 });
 
+// Catch-all 404 for debugging
+app.use((req, res) => {
+  console.log(`404 NOT FOUND: ${req.method} ${req.url}`);
+  res.status(404).json({ message: `Path ${req.url} not found on backend server` });
+});
+
 // For Vercel, we export default the app
 export default app;
 
