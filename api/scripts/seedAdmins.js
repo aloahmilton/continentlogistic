@@ -16,7 +16,7 @@ const seedAdmins = async () => {
       {
         name: 'Continental Super Admin',
         email: 'super@continental.com',
-        password: 'SuperAdmin_Continental_2024!',
+        password: 'admin123',
         role: 'super_admin',
         status: 'active',
         accountType: 'individual'
@@ -24,7 +24,7 @@ const seedAdmins = async () => {
       {
         name: 'Logistics Manager 01',
         email: 'admin1@continental.com',
-        password: 'Logistics_Admin_01!',
+        password: 'admin123',
         role: 'admin',
         status: 'active',
         accountType: 'individual'
@@ -32,7 +32,7 @@ const seedAdmins = async () => {
       {
         name: 'Continental Admin 01',
         email: 'continentaltrack01@gmail.com',
-        password: 'Admin_Continental_2024!',
+        password: 'admin123',
         role: 'admin',
         status: 'active',
         accountType: 'individual'
@@ -40,7 +40,7 @@ const seedAdmins = async () => {
       {
         name: 'Fleet Dispatcher 02',
         email: 'admin2@continental.com',
-        password: 'Fleet_Manager_Active!',
+        password: 'admin123',
         role: 'admin',
         status: 'active',
         accountType: 'individual'
