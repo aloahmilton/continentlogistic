@@ -22,7 +22,7 @@ export default function AdminSettings() {
   const [loading, setLoading] = useState(false);
   const [generalSettings, setGeneralSettings] = useState({
     siteName: "Continental Track",
-    supportEmail: "support@continentaltrack.com",
+    supportEmail: "continentaltrack01@gmail.com",
     contactPhone: "+237 659 036 005",
     address: "Global Logistics Hub, Douala, Cameroon"
   });

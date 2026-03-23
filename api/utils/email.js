@@ -69,7 +69,7 @@ export const sendShipmentEmail = async (shipment) => {
 export const sendAdminLeadNotification = async (lead) => {
   const mailOptions = {
     from: `"Continental Track Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
-    to: process.env.EMAIL_USER,
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `New Business Lead: ${lead.name}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px;">

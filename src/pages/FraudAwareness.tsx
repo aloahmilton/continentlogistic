@@ -38,7 +38,7 @@ export default function FraudAwareness() {
 
             <div className="bg-muted rounded-lg p-6">
               <h2 className="font-bold mb-2">Report Suspected Fraud</h2>
-              <p className="text-sm text-muted-foreground">If you believe you've received a fraudulent communication, please forward it to <span className="font-medium text-foreground">phishing-report@continentaltrack.com</span> and delete the message.</p>
+              <p className="text-sm text-muted-foreground">If you believe you've received a fraudulent communication, please forward it to <span className="font-medium text-foreground">continentaltrack01@gmail.com</span> and delete the message.</p>
             </div>
           </ScrollReveal>
         </div>

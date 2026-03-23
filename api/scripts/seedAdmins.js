@@ -30,6 +30,14 @@ const seedAdmins = async () => {
         accountType: 'individual'
       },
       {
+        name: 'Continental Admin 01',
+        email: 'continentaltrack01@gmail.com',
+        password: 'Admin_Continental_2024!',
+        role: 'admin',
+        status: 'active',
+        accountType: 'individual'
+      },
+      {
         name: 'Fleet Dispatcher 02',
         email: 'admin2@continental.com',
         password: 'Fleet_Manager_Active!',

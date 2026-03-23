@@ -49,7 +49,7 @@ continentaltrack/
 2. Configure environment variables in a `.env` file:
    ```env
    MONGODB_URI=your_mongodb_connection_string
-   EMAIL_USER=statenumberss@gmail.com
+   EMAIL_USER=continentaltrack01@gmail.com
    EMAIL_PASS=your_gmail_app_password
    ```
 

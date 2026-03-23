@@ -20,7 +20,7 @@ import { toast } from "sonner";
 export default function AdminProfile() {
   const [profile, setProfile] = useState({
     name: "System Administrator",
-    email: "admin@continentaltrack.com",
+    email: "continentaltrack01@gmail.com",
     role: "Super Admin",
     language: "English (US)",
     timezone: "UTC +00:00"
