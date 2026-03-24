@@ -15,7 +15,6 @@ export const sendShipmentEmail = async (shipment) => {
   const mailOptions = {
     from: `"Continental Track" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
-    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `Electronic Tracking Advice: ${shipment.trackingNumber}`,
     html: `
@@ -68,6 +67,33 @@ export const sendShipmentEmail = async (shipment) => {
   return transporter.sendMail(mailOptions);
 };
 
+export const sendAdminShipmentNotification = async (shipment, adminEmail) => {
+  const mailOptions = {
+    from: `"System Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    subject: `New Shipment Created: ${shipment.trackingNumber}`,
+    html: `
+      <div style="font-family: sans-serif; padding: 20px;">
+        <h2 style="color: #E31E24;">System Log: New Shipment Registered</h2>
+        <p>A new shipment has been created in the system.</p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Tracking ID</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.trackingNumber}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Created By (Admin)</td><td style="padding: 8px; border: 1px solid #ddd;">${adminEmail || 'Unknown System User'}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Receiver</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.receiver.name} (${shipment.receiver.email})</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Route</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.origin} to ${shipment.destination}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Service</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.serviceType || 'Standard'}</td></tr>
+          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Creation Time</td><td style="padding: 8px; border: 1px solid #ddd;">${new Date().toLocaleString()}</td></tr>
+        </table>
+        <div style="margin-top: 20px; font-size: 12px; color: #666;">
+          Continental Track Internal Notification System
+        </div>
+      </div>
+    `
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
 export const sendAdminLeadNotification = async (lead) => {
   const mailOptions = {
     from: `"Continental Track Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
@@ -97,7 +123,6 @@ export const sendCustomEmail = async (to, subject, message, shipmentId = null) =
   const mailOptions = {
     from: `"Continental Track Support" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to,
-    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: subject || "Update regarding your shipment",
     html: `
@@ -127,7 +152,6 @@ export const sendInvoiceEmail = async (shipment, invoiceData) => {
   const mailOptions = {
     from: `"Continental Track Billing" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
-    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `Business Invoice - Shipment ${shipment.trackingNumber}`,
     html: `

@@ -4,8 +4,13 @@ const shipmentUpdateSchema = new mongoose.Schema({
   status: { type: String, required: true },
   location: String,
   description: String,
+  coordinates: {
+    lat: { type: Number, default: 0 },
+    lng: { type: Number, default: 0 }
+  },
   timestamp: { type: Date, default: Date.now }
 });
+
 
 const shipmentSchema = new mongoose.Schema({
   trackingNumber: { type: String, required: true, unique: true },
