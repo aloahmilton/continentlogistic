@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Admin: Get all shipments
-router.get('/', async (req, res) => {
+router.get('/', adminAuth, async (req, res) => {
   try {
     const shipments = await Shipment.find().sort({ createdAt: -1 });
     res.json(shipments);
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 });
 
 // Admin: Create shipment
-router.post('/', async (req, res) => {
+router.post('/', adminAuth, async (req, res) => {
   const shipmentData = { ...req.body };
   
   // Add initial update if not present
@@ -59,7 +59,7 @@ router.post('/', async (req, res) => {
 });
 
 // Admin: Add update to shipment
-router.post('/:id/updates', async (req, res) => {
+router.post('/:id/updates', adminAuth, async (req, res) => {
   try {
     const trackingId = req.params.id.trim().toUpperCase();
     const shipment = await Shipment.findOne({ trackingNumber: trackingId });
@@ -82,7 +82,7 @@ router.post('/:id/updates', async (req, res) => {
 });
 
 // Admin: Send custom email to customer
-router.post('/:id/communicate', async (req, res) => {
+router.post('/:id/communicate', adminAuth, async (req, res) => {
   try {
     const trackingId = req.params.id.trim().toUpperCase();
     const shipment = await Shipment.findOne({ trackingNumber: trackingId });
@@ -107,7 +107,7 @@ router.post('/:id/communicate', async (req, res) => {
 });
 
 // Admin: Send invoice to customer
-router.post('/:id/invoice', async (req, res) => {
+router.post('/:id/invoice', adminAuth, async (req, res) => {
   try {
     const trackingId = req.params.id.trim().toUpperCase();
     const shipment = await Shipment.findOne({ trackingNumber: trackingId });
@@ -131,7 +131,7 @@ router.post('/:id/invoice', async (req, res) => {
 });
 
 // Admin: Update shipment details
-router.put('/:id', async (req, res) => {
+router.put('/:id', adminAuth, async (req, res) => {
   try {
     const trackingId = req.params.id.trim().toUpperCase();
     const updatedShipment = await Shipment.findOneAndUpdate(
