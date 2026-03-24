@@ -20,6 +20,25 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+// Add a response interceptor to handle 401 errors (invalid/expired tokens)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      const adminSlug = import.meta.env.VITE_ADMIN_SLUG || "admin";
+      // Only redirect if we are in an admin route to avoid breaking public forms
+      if (window.location.pathname.startsWith(`/${adminSlug}`)) {
+        localStorage.removeItem("admin_token");
+        localStorage.removeItem("admin_role");
+        localStorage.removeItem("admin_user");
+        window.location.href = `/${adminSlug}`; // Redirect to admin login
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+
 export const authApi = {
   login: (credentials: any) => api.post("/auth/login", credentials),
 };
