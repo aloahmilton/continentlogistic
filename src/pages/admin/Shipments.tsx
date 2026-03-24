@@ -43,11 +43,14 @@ export default function AdminShipments() {
     receiver: { name: "", email: "", phone: "" },
     origin: "",
     destination: "",
+    currentLocation: "",
     status: "pending",
     serviceType: "Express",
     weight: "",
     dimensions: "",
     productDetails: "",
+    estimatedDelivery: "",
+    initialDescription: "Shipment information received and registered in system.",
     coordinates: { lat: 0, lng: 0 }
   });
   const [isCommunicateOpen, setIsCommunicateOpen] = useState(false);
@@ -105,11 +108,14 @@ export default function AdminShipments() {
         receiver: { name: "", email: "", phone: "" },
         origin: "",
         destination: "",
+        currentLocation: "",
         status: "pending",
         serviceType: "Express",
         weight: "",
         dimensions: "",
         productDetails: "",
+        estimatedDelivery: "",
+        initialDescription: "Shipment information received and registered in system.",
         coordinates: { lat: 0, lng: 0 }
       });
     } catch (error) {
@@ -209,7 +215,7 @@ export default function AdminShipments() {
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase">Tracking Number</label>
                     <Input disabled value={newShipment.trackingNumber} />
@@ -218,36 +224,62 @@ export default function AdminShipments() {
                     <label className="text-xs font-bold uppercase">Service Type</label>
                     <Input value={newShipment.serviceType} onChange={e => setNewShipment({...newShipment, serviceType: e.target.value})} />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase">Status</label>
+                    <select 
+                      className="w-full h-10 px-3 rounded-md border text-sm"
+                      value={newShipment.status} 
+                      onChange={e => setNewShipment({...newShipment, status: e.target.value})}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="picked_up">Picked Up</option>
+                      <option value="in_transit">In Transit</option>
+                      <option value="arrived">Arrived at Facility</option>
+                      <option value="out_for_delivery">Out for Delivery</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="on_hold">On Hold</option>
+                    </select>
+                  </div>
                 </div>
                 
                 <div className="border-t pt-4">
                   <h3 className="text-sm font-bold mb-3">Sender Details</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <Input placeholder="Sender Name" value={newShipment.sender.name} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, name: e.target.value}})} />
                     <Input placeholder="Sender Email" value={newShipment.sender.email} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, email: e.target.value}})} />
+                    <Input placeholder="Sender Phone" value={newShipment.sender.phone} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, phone: e.target.value}})} />
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
                   <h3 className="text-sm font-bold mb-3">Receiver Details</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <Input placeholder="Receiver Name" value={newShipment.receiver.name} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, name: e.target.value}})} />
                     <Input placeholder="Receiver Email" value={newShipment.receiver.email} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, email: e.target.value}})} />
+                    <Input placeholder="Receiver Phone" value={newShipment.receiver.phone} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, phone: e.target.value}})} />
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
                   <h3 className="text-sm font-bold mb-3">Route & Logistics</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <Input placeholder="Origin (City, Country)" value={newShipment.origin} onChange={e => setNewShipment({...newShipment, origin: e.target.value})} />
                     <Input placeholder="Destination (City, Country)" value={newShipment.destination} onChange={e => setNewShipment({...newShipment, destination: e.target.value})} />
+                    <Input placeholder="Curr. Location (Optional)" value={newShipment.currentLocation} onChange={e => setNewShipment({...newShipment, currentLocation: e.target.value})} />
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <Input placeholder="Weight (kg)" value={newShipment.weight} onChange={e => setNewShipment({...newShipment, weight: e.target.value})} />
                     <Input placeholder="Dimensions" value={newShipment.dimensions} onChange={e => setNewShipment({...newShipment, dimensions: e.target.value})} />
                   </div>
-                  <div className="grid grid-cols-1 gap-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4 mt-4">
                     <Input placeholder="Product Details / Description" value={newShipment.productDetails} onChange={e => setNewShipment({...newShipment, productDetails: e.target.value})} />
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Estimated Delivery</label>
+                      <Input type="date" value={newShipment.estimatedDelivery} onChange={e => setNewShipment({...newShipment, estimatedDelivery: e.target.value})} />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    <Input placeholder="Initial Tracking Update Description (e.g. Registered at origin)" value={newShipment.initialDescription} onChange={e => setNewShipment({...newShipment, initialDescription: e.target.value})} />
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="space-y-1">
@@ -544,29 +576,36 @@ export default function AdminShipments() {
               
               <div className="border-t pt-4">
                 <h3 className="text-sm font-bold mb-3">Sender Details</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <Input placeholder="Sender Name" value={editingShipment.sender.name} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, name: e.target.value}})} />
                   <Input placeholder="Sender Email" value={editingShipment.sender.email} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, email: e.target.value}})} />
+                  <Input placeholder="Sender Phone" value={editingShipment.sender.phone} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, phone: e.target.value}})} />
                 </div>
               </div>
 
               <div className="border-t pt-4">
                 <h3 className="text-sm font-bold mb-3">Receiver Details</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <Input placeholder="Receiver Name" value={editingShipment.receiver.name} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, name: e.target.value}})} />
                   <Input placeholder="Receiver Email" value={editingShipment.receiver.email} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, email: e.target.value}})} />
+                  <Input placeholder="Receiver Phone" value={editingShipment.receiver.phone} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, phone: e.target.value}})} />
                 </div>
               </div>
 
               <div className="border-t pt-4">
                 <h3 className="text-sm font-bold mb-3">Route & Logistics</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <Input placeholder="Origin" value={editingShipment.origin} onChange={e => setEditingShipment({...editingShipment, origin: e.target.value})} />
                   <Input placeholder="Destination" value={editingShipment.destination} onChange={e => setEditingShipment({...editingShipment, destination: e.target.value})} />
+                  <Input placeholder="Curr. Location" value={editingShipment.currentLocation} onChange={e => setEditingShipment({...editingShipment, currentLocation: e.target.value})} />
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-3 gap-4 mt-4">
                   <Input placeholder="Weight (kg)" value={editingShipment.weight} onChange={e => setEditingShipment({...editingShipment, weight: e.target.value})} />
                   <Input placeholder="Dimensions" value={editingShipment.dimensions} onChange={e => setEditingShipment({...editingShipment, dimensions: e.target.value})} />
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-muted-foreground -mt-4 block mb-1">Estimated Delivery</label>
+                    <Input type="date" value={editingShipment.estimatedDelivery?.split('T')[0] || ""} onChange={e => setEditingShipment({...editingShipment, estimatedDelivery: e.target.value})} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -29,7 +29,19 @@ router.get('/', async (req, res) => {
 
 // Admin: Create shipment
 router.post('/', async (req, res) => {
-  const shipment = new Shipment(req.body);
+  const shipmentData = { ...req.body };
+  
+  // Add initial update if not present
+  if (!shipmentData.updates || shipmentData.updates.length === 0) {
+    shipmentData.updates = [{
+      status: shipmentData.status || 'pending',
+      location: shipmentData.currentLocation || shipmentData.origin || 'Origin Office',
+      description: req.body.initialDescription || 'Shipment information received and registered in system.',
+      timestamp: new Date()
+    }];
+  }
+
+  const shipment = new Shipment(shipmentData);
   try {
     const newShipment = await shipment.save();
     // Send email to receiver

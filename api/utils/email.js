@@ -15,6 +15,8 @@ export const sendShipmentEmail = async (shipment) => {
   const mailOptions = {
     from: `"Continental Track" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
+    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `Electronic Tracking Advice: ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 4px; background-color: #ffffff;">
@@ -95,6 +97,8 @@ export const sendCustomEmail = async (to, subject, message, shipmentId = null) =
   const mailOptions = {
     from: `"Continental Track Support" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to,
+    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: subject || "Update regarding your shipment",
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
@@ -123,6 +127,8 @@ export const sendInvoiceEmail = async (shipment, invoiceData) => {
   const mailOptions = {
     from: `"Continental Track Billing" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
+    bcc: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `Business Invoice - Shipment ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #333;">
