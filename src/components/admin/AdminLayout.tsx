@@ -115,11 +115,13 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
               <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-background"></span>
             </Button>
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-muted p-1 pr-3 rounded-full transition-colors outline-none cursor-pointer">
-                <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
-                  <User className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-bold uppercase tracking-tighter">{user.name}</span>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 hover:bg-muted p-1 pr-3 rounded-full transition-colors outline-none cursor-pointer border-none bg-transparent">
+                  <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-tighter">{user.name}</span>
+                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

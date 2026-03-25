@@ -8,7 +8,8 @@ const router = express.Router();
 router.get('/:key', async (req, res) => {
   try {
     const setting = await Setting.findOne({ key: req.params.key });
-    if (!setting) return res.status(404).json({ message: 'Setting not found' });
+    // Return null instead of 404 if not found to avoid console errors for new setups
+    if (!setting) return res.json(null);
     res.json(setting.value);
   } catch (error) {
     res.status(500).json({ message: error.message });
