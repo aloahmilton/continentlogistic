@@ -32,6 +32,13 @@ import { shipmentApi } from "@/lib/api";
 import { generateLabelPDF } from "@/lib/pdf";
 import { toast } from "sonner";
 
+const TIMEZONES = [
+  { label: "Eastern (ET)",  value: "America/New_York",    abbr: "ET" },
+  { label: "Central (CT)",  value: "America/Chicago",     abbr: "CT" },
+  { label: "Mountain (MT)", value: "America/Denver",      abbr: "MT" },
+  { label: "Pacific (PT)",  value: "America/Los_Angeles", abbr: "PT" },
+];
+
 export default function AdminShipments() {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,8 +57,8 @@ export default function AdminShipments() {
     dimensions: "",
     productDetails: "",
     estimatedDelivery: "",
-    initialDescription: "Shipment information received and registered in system.",
-    coordinates: { lat: 0, lng: 0 }
+    timezone: "America/New_York",
+    initialDescription: "Shipment information received and registered in system."
   });
   const [isCommunicateOpen, setIsCommunicateOpen] = useState(false);
   const [communication, setCommunication] = useState({
@@ -68,8 +75,7 @@ export default function AdminShipments() {
   const [newUpdate, setNewUpdate] = useState({
     status: "in_transit",
     location: "",
-    description: "",
-    coordinates: { lat: 0, lng: 0 }
+    description: ""
   });
 
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
@@ -98,7 +104,10 @@ export default function AdminShipments() {
 
   const handleCreateShipment = async () => {
     try {
-      await shipmentApi.create(newShipment);
+      const payload = { ...newShipment };
+      if (!payload.estimatedDelivery) delete payload.estimatedDelivery;
+
+      await shipmentApi.create(payload);
       toast.success("Shipment created and email sent to receiver!");
       setIsCreateOpen(false);
       fetchShipments();
@@ -115,8 +124,8 @@ export default function AdminShipments() {
         dimensions: "",
         productDetails: "",
         estimatedDelivery: "",
-        initialDescription: "Shipment information received and registered in system.",
-        coordinates: { lat: 0, lng: 0 }
+        timezone: "America/New_York",
+        initialDescription: "Shipment information received and registered in system."
       });
     } catch (error) {
       toast.error("Failed to create shipment");
@@ -150,7 +159,10 @@ export default function AdminShipments() {
   const handleUpdateDetails = async () => {
     if (!editingShipment) return;
     try {
-      await shipmentApi.update(editingShipment.trackingNumber, editingShipment);
+      const payload = { ...editingShipment };
+      if (!payload.estimatedDelivery) delete payload.estimatedDelivery;
+
+      await shipmentApi.update(editingShipment.trackingNumber, payload);
       toast.success("Shipment details updated successfully!");
       setIsEditOpen(false);
       fetchShipments();
@@ -238,6 +250,20 @@ export default function AdminShipments() {
                       <option value="out_for_delivery">Out for Delivery</option>
                       <option value="delivered">Delivered</option>
                       <option value="on_hold">On Hold</option>
+                      <option value="paused">Paused / On Hold</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase">Timezone (Receiver Local)</label>
+                    <select 
+                      className="w-full h-10 px-3 rounded-md border text-sm bg-background"
+                      value={newShipment.timezone} 
+                      onChange={e => setNewShipment({...newShipment, timezone: e.target.value})}
+                    >
+                      {TIMEZONES.map(z => <option key={z.value} value={z.value}>{z.label}</option>)}
                     </select>
                   </div>
                 </div>
@@ -280,16 +306,6 @@ export default function AdminShipments() {
                   </div>
                   <div className="grid grid-cols-1 gap-4 mt-4">
                     <Input placeholder="Initial Tracking Update Description (e.g. Registered at origin)" value={newShipment.initialDescription} onChange={e => setNewShipment({...newShipment, initialDescription: e.target.value})} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Initial Latitude</label>
-                      <Input type="number" step="0.0001" value={newShipment.coordinates.lat} onChange={e => setNewShipment({...newShipment, coordinates: {...newShipment.coordinates, lat: parseFloat(e.target.value)}})} />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Initial Longitude</label>
-                      <Input type="number" step="0.0001" value={newShipment.coordinates.lng} onChange={e => setNewShipment({...newShipment, coordinates: {...newShipment.coordinates, lng: parseFloat(e.target.value)}})} />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -512,6 +528,7 @@ export default function AdminShipments() {
                   <option value="out_for_delivery">Out for Delivery</option>
                   <option value="delivered">Delivered</option>
                   <option value="on_hold">On Hold</option>
+                  <option value="paused">Paused / On Hold</option>
                 </select>
               </div>
               <div className="space-y-2">
@@ -522,16 +539,6 @@ export default function AdminShipments() {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase">Description</label>
               <Input value={newUpdate.description} onChange={e => setNewUpdate({...newUpdate, description: e.target.value})} placeholder="e.g. Arrived at London Heathrow Hub" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase">Latitude</label>
-                <Input type="number" step="0.0001" value={newUpdate.coordinates.lat} onChange={e => setNewUpdate({...newUpdate, coordinates: {...newUpdate.coordinates, lat: parseFloat(e.target.value)}})} />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase">Longitude</label>
-                <Input type="number" step="0.0001" value={newUpdate.coordinates.lng} onChange={e => setNewUpdate({...newUpdate, coordinates: {...newUpdate.coordinates, lng: parseFloat(e.target.value)}})} />
-              </div>
             </div>
           </div>
           <DialogFooter>
@@ -566,6 +573,7 @@ export default function AdminShipments() {
                     <option value="out_for_delivery">Out for Delivery</option>
                     <option value="delivered">Delivered</option>
                     <option value="on_hold">On Hold</option>
+                    <option value="paused">Paused / On Hold</option>
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -605,6 +613,19 @@ export default function AdminShipments() {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold uppercase text-muted-foreground -mt-4 block mb-1">Estimated Delivery</label>
                     <Input type="date" value={editingShipment.estimatedDelivery?.split('T')[0] || ""} onChange={e => setEditingShipment({...editingShipment, estimatedDelivery: e.target.value})} />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase">Timezone (Receiver Local)</label>
+                    <select 
+                      className="w-full h-10 px-3 rounded-md border text-sm bg-background"
+                      value={editingShipment.timezone || "America/New_York"} 
+                      onChange={e => setEditingShipment({...editingShipment, timezone: e.target.value})}
+                    >
+                      {TIMEZONES.map(z => <option key={z.value} value={z.value}>{z.label}</option>)}
+                    </select>
                   </div>
                 </div>
               </div>

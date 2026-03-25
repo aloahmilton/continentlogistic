@@ -69,6 +69,9 @@ export default function AdminInvoices() {
     tax: "0.00"
   });
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<any>(null);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -137,6 +140,33 @@ export default function AdminInvoices() {
       setNewInvoice({ trackingNumber: "", customerName: "", customerEmail: "", amount: "", tax: "0.00" });
     } catch (error) {
       toast.error("Failed to generate invoice in database");
+    }
+  };
+
+  const handleEditInvoice = async () => {
+    if (!editingInvoice) return;
+    try {
+      const total = (parseFloat(editingInvoice.amount || "0") + parseFloat(editingInvoice.tax || "0")).toFixed(2);
+      const payload = { ...editingInvoice, amount: parseFloat(editingInvoice.amount), total: parseFloat(total) };
+      await invoiceApi.update(editingInvoice._id, payload);
+      setInvoices(prev => prev.map(inv => inv._id === editingInvoice._id ? { ...inv, ...payload } : inv));
+      toast.success("Invoice updated successfully");
+      setIsEditModalOpen(false);
+    } catch (error) {
+      toast.error("Failed to update invoice");
+    }
+  };
+
+  const handleResendInvoice = async (invoice: any) => {
+    try {
+      await shipmentApi.sendInvoice(invoice.trackingNumber, { 
+        amount: invoice.amount.toString(), 
+        tax: invoice.tax.toString(), 
+        total: invoice.total.toString() 
+      });
+      toast.success("Invoice resent to customer email!");
+    } catch (error) {
+      toast.error("Failed to resend invoice emails");
     }
   };
 
@@ -347,8 +377,16 @@ export default function AdminInvoices() {
                     {new Date(invoice.createdAt || Date.now()).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right space-x-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
-                      <Eye className="w-4 h-4" />
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-muted-foreground"
+                      onClick={() => {
+                        setEditingInvoice({...invoice});
+                        setIsEditModalOpen(true);
+                      }}
+                    >
+                      <SettingsIcon className="w-4 h-4" />
                     </Button>
                     <Button 
                       variant="ghost" 
@@ -364,7 +402,12 @@ export default function AdminInvoices() {
                     }}>
                       <ImageIcon className={`w-4 h-4 ${invoice.proofImage ? 'text-primary' : ''}`} />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-muted-foreground"
+                      onClick={() => handleResendInvoice(invoice)}
+                    >
                       <Mail className="w-4 h-4" />
                     </Button>
                     {adminRole === 'super' && (
@@ -434,6 +477,58 @@ export default function AdminInvoices() {
                 <CheckCircle className="w-4 h-4 mr-2" /> Approve Payment
               </Button>
             </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Invoice Modal */}
+      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit Invoice</DialogTitle>
+            <DialogDescription>
+              Modify invoice details for {editingInvoice?.invoiceNumber}.
+            </DialogDescription>
+          </DialogHeader>
+          {editingInvoice && (
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase text-muted-foreground">Status</label>
+                <Select 
+                  value={editingInvoice.status} 
+                  onValueChange={(val) => setEditingInvoice({...editingInvoice, status: val})}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="paid">Paid</SelectItem>
+                    <SelectItem value="overdue">Overdue</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase text-muted-foreground">Customer Name</label>
+                <Input value={editingInvoice.customerName} onChange={e => setEditingInvoice({...editingInvoice, customerName: e.target.value})} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase text-muted-foreground">Base Amount ($)</label>
+                  <Input type="number" value={editingInvoice.amount} onChange={e => setEditingInvoice({...editingInvoice, amount: e.target.value})} />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase text-muted-foreground">Tax ($)</label>
+                  <Input type="number" value={editingInvoice.tax} onChange={e => setEditingInvoice({...editingInvoice, tax: e.target.value})} />
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleEditInvoice} className="brand-red-bg font-bold">Save Changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

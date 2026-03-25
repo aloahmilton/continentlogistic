@@ -2,6 +2,14 @@ import { ReactNode, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Package, Users, LayoutDashboard, Settings, LogOut, MapPin, FileText, BarChart, Truck, Menu, X, Bell, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -106,12 +114,32 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
               <Bell className="w-5 h-5 text-muted-foreground" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-background"></span>
             </Button>
-            <Link to={`/${adminSlug}/profile`} className="flex items-center gap-2 hover:bg-muted p-1 pr-3 rounded-full transition-colors">
-              <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
-                <User className="w-4 h-4" />
-              </div>
-              <span className="text-xs font-bold uppercase tracking-tighter">{user.name}</span>
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-muted p-1 pr-3 rounded-full transition-colors outline-none cursor-pointer">
+                <div className="w-8 h-8 rounded-full brand-red-bg flex items-center justify-center text-white">
+                  <User className="w-4 h-4" />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-tighter">{user.name}</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to={`/${adminSlug}/profile`} className="cursor-pointer w-full flex items-center">
+                    <User className="w-4 h-4 mr-2" /> Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to={`/${adminSlug}/settings`} className="cursor-pointer w-full flex items-center">
+                    <Settings className="w-4 h-4 mr-2" /> Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
+                  <LogOut className="w-4 h-4 mr-2" /> Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
         <div className="p-4 md:p-8">

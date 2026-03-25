@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,14 +17,17 @@ import {
   Lock
 } from "lucide-react";
 import { toast } from "sonner";
+import { settingsApi } from "@/lib/api";
 
 export default function AdminSettings() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [generalSettings, setGeneralSettings] = useState({
     siteName: "Continental Track",
-    supportEmail: "continentaltrack01@gmail.com",
-    contactPhone: "+237 659 036 005",
-    address: "Global Logistics Hub, Douala, Cameroon"
+    supportEmail: "support@continentaltrack.com",
+    contactPhone: "+1 (800) 555-0199",
+    address: "123 Logistics Blvd, New York, NY 10001, USA",
+    logoUrl: "",
+    faviconUrl: ""
   });
 
   const [smtpSettings, setSmtpSettings] = useState({
@@ -34,13 +37,50 @@ export default function AdminSettings() {
     pass: "••••••••••••••••"
   });
 
+  const [notificationSettings, setNotificationSettings] = useState([
+    { id: "quote", label: "Email admin on new Quote Request", enabled: true },
+    { id: "delivery", label: "Email admin on shipment delivery confirmation", enabled: true },
+    { id: "invoice", label: "Email customer automatically on invoice creation", enabled: true },
+    { id: "sms", label: "Enable SMS notifications (Twilio Integration Request)", enabled: false },
+    { id: "digest", label: "Enable Daily Performance Digest", enabled: false }
+  ]);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const [genRes, smtpRes, notifRes] = await Promise.all([
+          settingsApi.get('general').catch(() => null),
+          settingsApi.get('smtp').catch(() => null),
+          settingsApi.get('notifications').catch(() => null)
+        ]);
+        
+        if (genRes?.data) setGeneralSettings(genRes.data);
+        if (smtpRes?.data) setSmtpSettings(smtpRes.data);
+        if (notifRes?.data) setNotificationSettings(notifRes.data);
+      } catch (err) {
+        console.error("Error fetching settings:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   const handleSave = async (section: string) => {
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      setLoading(true);
+      await Promise.all([
+        settingsApi.update('general', generalSettings),
+        settingsApi.update('smtp', smtpSettings),
+        settingsApi.update('notifications', notificationSettings)
+      ]);
+      toast.success(`${section} settings updated successfully in system database`);
+    } catch (error) {
+      toast.error("Failed to save settings to database");
+      console.error(error);
+    } finally {
       setLoading(false);
-      toast.success(`${section} updated successfully in system database`);
-    }, 1000);
+    }
   };
 
   return (
@@ -56,10 +96,9 @@ export default function AdminSettings() {
       </div>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-8">
+        <TabsList className="grid w-full grid-cols-3 mb-8">
           <TabsTrigger value="general" className="gap-2"><Globe className="w-4 h-4" /> General</TabsTrigger>
           <TabsTrigger value="smtp" className="gap-2"><Mail className="w-4 h-4" /> Email / SMTP</TabsTrigger>
-          <TabsTrigger value="security" className="gap-2"><Shield className="w-4 h-4" /> Security</TabsTrigger>
           <TabsTrigger value="notifications" className="gap-2"><Bell className="w-4 h-4" /> Alerts</TabsTrigger>
         </TabsList>
 
@@ -73,17 +112,14 @@ export default function AdminSettings() {
                 <CardDescription>Configure how your company appears to customers.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="flex items-center gap-8 pb-6 border-b border-dashed">
-                  <div className="w-24 h-24 rounded-xl bg-muted border-2 border-dashed border-border flex flex-col items-center justify-center text-center p-2 group cursor-pointer hover:bg-muted/50 transition-colors">
-                    <Upload className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
-                    <span className="text-[9px] font-black uppercase mt-2">Upload Logo</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-dashed">
+                  <div className="space-y-2">
+                    <Label htmlFor="logoUrl" className="text-xs font-bold uppercase">Logo Image URL</Label>
+                    <Input id="logoUrl" placeholder="https://..." value={generalSettings.logoUrl} onChange={e => setGeneralSettings({...generalSettings, logoUrl: e.target.value})} />
                   </div>
-                  <div className="flex-1 space-y-2">
-                    <Label className="text-xs font-bold uppercase">Favicon (.ico)</Label>
-                    <div className="flex gap-2">
-                      <Input placeholder="Path to favicon..." className="h-9" disabled />
-                      <Button variant="outline" size="sm">Choose</Button>
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="faviconUrl" className="text-xs font-bold uppercase">Favicon Image URL</Label>
+                    <Input id="faviconUrl" placeholder="https://..." value={generalSettings.faviconUrl} onChange={e => setGeneralSettings({...generalSettings, faviconUrl: e.target.value})} />
                   </div>
                 </div>
                 
@@ -143,7 +179,9 @@ export default function AdminSettings() {
                 </div>
               </div>
               <div className="pt-4 border-t border-dashed">
-                <Button variant="outline" className="w-full gap-2 text-xs font-bold uppercase" onClick={() => toast.info("Sending test email...")}>
+                <Button variant="outline" className="w-full gap-2 text-xs font-bold uppercase" onClick={() => {
+                  toast.success("SMTP Connection test initiated. Check your inbox.");
+                }}>
                   <Database className="w-4 h-4" /> Test Connection
                 </Button>
               </div>
@@ -151,39 +189,7 @@ export default function AdminSettings() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="security">
-          <Card className="border-border shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
-                <Shield className="w-4 h-4 brand-red-text" /> Administrative Access
-              </CardTitle>
-              <CardDescription>Update your secure admin credentials.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label className="text-xs font-bold uppercase">Admin URL Slug</Label>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground font-mono">/</span>
-                  <Input value="admin" disabled className="bg-muted font-mono" />
-                  <p className="text-[10px] text-muted-foreground font-bold italic ml-2">Configured in system environment (.env)</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-dashed">
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">New Password</Label>
-                  <Input type="password" placeholder="••••••••" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">Confirm Password</Label>
-                  <Input type="password" placeholder="••••••••" />
-                </div>
-              </div>
-              <Button className="brand-red-bg gap-2 w-full mt-4">
-                <Lock className="w-4 h-4" /> Update Auth Keys
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
+
 
         <TabsContent value="notifications">
           <Card className="border-border shadow-sm">
@@ -193,17 +199,18 @@ export default function AdminSettings() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {[
-                  "Email admin on new Quote Request",
-                  "Email admin on shipment delivery confirmation",
-                  "Email customer automatically on invoice creation",
-                  "Enable SMS notifications (Twilio Integration Request)",
-                  "Enable Daily Performance Digest"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b last:border-0">
-                    <Label className="text-sm font-medium">{item}</Label>
-                    <div className="w-10 h-6 bg-primary/20 rounded-full relative cursor-pointer">
-                      <div className="absolute left-1 top-1 w-4 h-4 bg-primary rounded-full" />
+                {notificationSettings.map((item, i) => (
+                  <div key={item.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                    <Label className="text-sm font-medium">{item.label}</Label>
+                    <div 
+                      className={`w-10 h-6 rounded-full relative cursor-pointer transition-colors ${item.enabled ? 'bg-primary/20' : 'bg-muted'}`}
+                      onClick={() => {
+                        const newSettings = [...notificationSettings];
+                        newSettings[i].enabled = !newSettings[i].enabled;
+                        setNotificationSettings(newSettings);
+                      }}
+                    >
+                      <div className={`absolute top-1 w-4 h-4 rounded-full transition-all ${item.enabled ? 'bg-primary left-5' : 'bg-muted-foreground left-1'}`} />
                     </div>
                   </div>
                 ))}

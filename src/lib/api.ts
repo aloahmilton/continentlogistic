@@ -87,3 +87,8 @@ export const userApi = {
   update: (id: string, data: any) => api.put(`/users/${id}`, data),
   delete: (id: string) => api.delete(`/users/${id}`),
 };
+
+export const settingsApi = {
+  get: (key: string) => api.get(`/settings/${key}`),
+  update: (key: string, data: any) => api.post(`/settings/${key}`, data),
+};

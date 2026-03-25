@@ -33,10 +33,18 @@ router.get('/', adminAuth, async (req, res) => {
 router.post('/', adminAuth, async (req, res) => {
   const shipmentData = { ...req.body };
   
-  // Geocode origin or current location
+  // Geocode origin/current location
   const locationToGeocode = shipmentData.currentLocation || shipmentData.origin;
   const initialCoordinates = await geocodeAddress(locationToGeocode);
   shipmentData.coordinates = initialCoordinates;
+
+  // Geocode destination
+  if (shipmentData.destination) {
+    const destCoords = await geocodeAddress(shipmentData.destination);
+    if (destCoords && (destCoords.lat !== 0 || destCoords.lng !== 0)) {
+      shipmentData.destinationCoordinates = destCoords;
+    }
+  }
   
   // Add initial update if not present
   if (!shipmentData.updates || shipmentData.updates.length === 0) {
@@ -168,6 +176,14 @@ router.put('/:id', adminAuth, async (req, res) => {
         const coords = await geocodeAddress(updates.currentLocation);
         if (coords.lat !== 0 || coords.lng !== 0) {
             updates.coordinates = coords;
+        }
+    }
+
+    // If destination changed, geocode it
+    if (updates.destination) {
+        const destCoords = await geocodeAddress(updates.destination);
+        if (destCoords && (destCoords.lat !== 0 || destCoords.lng !== 0)) {
+            updates.destinationCoordinates = destCoords;
         }
     }
 

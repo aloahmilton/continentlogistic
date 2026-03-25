@@ -11,6 +11,7 @@ import invoiceRoutes from './routes/invoices.js';
 import messageRoutes from './routes/messages.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
+import settingsRoutes from './routes/settings.js';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/invoices', invoiceRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/settings', settingsRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Continental Track API is active' });

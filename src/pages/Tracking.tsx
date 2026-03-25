@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Package, Truck, MapPin, Calendar, Clock, ChevronRight, AlertCircle } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import Header from "@/components/Header";
@@ -42,11 +42,33 @@ const latestMarkerIcon = L.divIcon({
   popupAnchor: [1, -34]
 });
 
+// Green destination flag marker
+const destinationIcon = L.divIcon({
+  html: `<div style="background:#22c55e;width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.45);"></div>`,
+  className: '',
+  iconSize: [22, 22],
+  iconAnchor: [11, 22]
+});
+
+// Component to auto-zoom map to fit all given positions
+function FitBounds({ positions }: { positions: [number, number][] }) {
+  const map = useMap();
+  useEffect(() => {
+    if (positions.length >= 2) {
+      const bounds = L.latLngBounds(positions);
+      map.fitBounds(bounds, { padding: [60, 60], maxZoom: 10 });
+    } else if (positions.length === 1) {
+      map.setView(positions[0], 6);
+    }
+  }, [JSON.stringify(positions)]);
+  return null;
+}
+
 const TIMEZONES = [
-  { label: "Eastern (ET)",  value: "America/New_York",    abbr: "ET" },
-  { label: "Central (CT)",  value: "America/Chicago",     abbr: "CT" },
-  { label: "Mountain (MT)", value: "America/Denver",      abbr: "MT" },
-  { label: "Pacific (PT)",  value: "America/Los_Angeles", abbr: "PT" },
+  { label: "Eastern (EST)",  value: "America/New_York",    abbr: "EST" },
+  { label: "Central (CST)",  value: "America/Chicago",     abbr: "CST" },
+  { label: "Mountain (MST)", value: "America/Denver",      abbr: "MST" },
+  { label: "Pacific (PST)",  value: "America/Los_Angeles", abbr: "PST" },
 ];
 
 const formatDate = (date: string | Date, tz: string, includeTime = true) => {
@@ -78,6 +100,9 @@ export default function Tracking() {
       setLoading(true);
       const response = await shipmentApi.get(trackingId);
       setShipment(response.data);
+      if (response.data.timezone) {
+        setTz(response.data.timezone);
+      }
       setError(false);
     } catch (err) {
       console.error("Error fetching shipment:", err);
@@ -128,6 +153,13 @@ export default function Tracking() {
   }
 
   const currentPos = historyPoints.length > 0 ? historyPoints[historyPoints.length - 1] : [0, 0] as [number, number];
+  
+  const destinationPos = shipment.destinationCoordinates?.lat 
+    ? [shipment.destinationCoordinates.lat, shipment.destinationCoordinates.lng] as [number, number]
+    : null;
+
+  const allPoints = [...historyPoints];
+  if (destinationPos) allPoints.push(destinationPos);
 
   return (
     <>
@@ -167,6 +199,15 @@ export default function Tracking() {
                 </button>
               </div>
             </div>
+            {(shipment.status === 'paused' || shipment.status === 'on_hold') && (
+              <div className="w-full mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3 animate-pulse">
+                <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
+                <div>
+                  <p className="text-sm font-black text-red-700 uppercase tracking-tight">Shipment Notice: {shipment.status.replace('_', ' ').toUpperCase()}</p>
+                  <p className="text-xs text-red-600 font-medium">Reason: {shipment.updates?.[shipment.updates.length - 1]?.description || "Action required from client."}</p>
+                </div>
+              </div>
+            )}
             <div className="flex gap-4 p-4 bg-muted/50 rounded-lg border border-border w-full md:w-auto">
               <div className="flex-1 border-r border-border pr-4">
                 <p className="text-[10px] text-muted-foreground uppercase font-bold">Current Status</p>
@@ -190,6 +231,7 @@ export default function Tracking() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
+                  <FitBounds positions={allPoints} />
                   {historyPoints.length > 1 && historyPoints.map((pos, idx) => {
                     if (idx === 0) return null;
                     const prevPos = historyPoints[idx - 1];
@@ -206,6 +248,26 @@ export default function Tracking() {
                       />
                     );
                   })}
+                  
+                  {/* Dashed line to destination */}
+                  {destinationPos && (
+                    <>
+                      <Polyline 
+                        positions={[currentPos, destinationPos]} 
+                        color={shipment.status === 'paused' || shipment.status === 'on_hold' ? "#ef4444" : "#22c55e"} 
+                        weight={3} 
+                        dashArray="10, 10" 
+                        opacity={0.6}
+                      />
+                      <Marker position={destinationPos} icon={destinationIcon}>
+                        <Popup>
+                          <div className="text-sm font-bold text-green-600">Final Destination</div>
+                          <div className="text-xs font-medium">{shipment.destination}</div>
+                        </Popup>
+                      </Marker>
+                    </>
+                  )}
+
                   {historyPoints.map((pos, idx) => (
                     <Marker key={idx} position={pos} icon={idx === historyPoints.length - 1 ? latestMarkerIcon : dotIcon}>
                       <Popup autoPan={false}>

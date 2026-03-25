@@ -29,7 +29,7 @@ const shipmentSchema = new mongoose.Schema({
   currentLocation: String,
   status: { 
     type: String, 
-    enum: ['pending', 'picked_up', 'in_transit', 'arrived', 'out_for_delivery', 'delivered', 'on_hold', 'returned'],
+    enum: ['pending', 'picked_up', 'in_transit', 'arrived', 'out_for_delivery', 'delivered', 'on_hold', 'returned', 'paused'],
     default: 'pending' 
   },
   serviceType: String,
@@ -37,7 +37,12 @@ const shipmentSchema = new mongoose.Schema({
   weight: Number,
   dimensions: String,
   estimatedDelivery: Date,
+  timezone: { type: String, default: "America/New_York" },
   coordinates: {
+    lat: { type: Number, default: 0 },
+    lng: { type: Number, default: 0 }
+  },
+  destinationCoordinates: {
     lat: { type: Number, default: 0 },
     lng: { type: Number, default: 0 }
   },
