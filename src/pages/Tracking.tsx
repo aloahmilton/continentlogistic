@@ -42,11 +42,30 @@ const latestMarkerIcon = L.divIcon({
   popupAnchor: [1, -34]
 });
 
+const TIMEZONES = [
+  { label: "Eastern (ET)",  value: "America/New_York",    abbr: "ET" },
+  { label: "Central (CT)",  value: "America/Chicago",     abbr: "CT" },
+  { label: "Mountain (MT)", value: "America/Denver",      abbr: "MT" },
+  { label: "Pacific (PT)",  value: "America/Los_Angeles", abbr: "PT" },
+];
+
+const formatDate = (date: string | Date, tz: string, includeTime = true) => {
+  const opts: Intl.DateTimeFormatOptions = {
+    timeZone: tz,
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    ...(includeTime ? { hour: "numeric", minute: "2-digit", hour12: true } : {})
+  };
+  return new Intl.DateTimeFormat("en-US", opts).format(new Date(date));
+};
+
 export default function Tracking() {
   const { id } = useParams();
   const [shipment, setShipment] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [tz, setTz] = useState("America/New_York");
 
   useEffect(() => {
     if (id) {
@@ -114,9 +133,21 @@ export default function Tracking() {
     <>
       <div className="min-h-screen flex flex-col bg-[#F9FAFB]">
         <div className="no-print bg-white border-b border-border py-4 mb-4">
-          <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="container mx-auto px-4 flex justify-between items-center gap-4">
             <Link to="/" className="text-xl font-black tracking-tighter">CONTINENTAL <span className="brand-red-text">TRACK</span></Link>
-            <Link to="/" className="text-sm font-bold text-muted-foreground hover:text-foreground">Back to Home</Link>
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-bold text-muted-foreground uppercase">Timezone:</label>
+              <select
+                value={tz}
+                onChange={(e) => setTz(e.target.value)}
+                className="text-xs font-semibold border border-border rounded px-2 py-1.5 bg-background focus:outline-none focus:ring-1 focus:ring-primary"
+              >
+                {TIMEZONES.map((z) => (
+                  <option key={z.value} value={z.value}>{z.label}</option>
+                ))}
+              </select>
+              <Link to="/" className="text-sm font-bold text-muted-foreground hover:text-foreground">Back to Home</Link>
+            </div>
           </div>
         </div>
         
@@ -144,7 +175,7 @@ export default function Tracking() {
               <div className="flex-1">
                 <p className="text-[10px] text-muted-foreground uppercase font-bold">Estimated Delivery</p>
                 <p className="font-bold">
-                  {shipment.estimatedDelivery ? new Date(shipment.estimatedDelivery).toLocaleDateString() : "Pending"}
+                  {shipment.estimatedDelivery ? formatDate(shipment.estimatedDelivery, tz, false) : "Pending"}
                 </p>
               </div>
             </div>
@@ -182,7 +213,7 @@ export default function Tracking() {
                           {idx === 0 ? "Origin" : idx === historyPoints.length - 1 ? `Status: ${shipment.status.replace(/_/g, " ").toUpperCase()}` : shipment.updates[idx-1]?.location}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {idx === historyPoints.length - 1 ? shipment.currentLocation : (idx === 0 ? "" : new Date(shipment.updates[idx-1]?.timestamp).toLocaleString())}
+                          {idx === historyPoints.length - 1 ? shipment.currentLocation : (idx === 0 ? "" : formatDate(shipment.updates[idx-1]?.timestamp, tz))}
                         </div>
                       </Popup>
                     </Marker>
@@ -192,9 +223,14 @@ export default function Tracking() {
 
               {/* Timeline */}
               <div className="bg-background border border-border rounded-lg p-6 shadow-sm">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <Clock className="w-5 h-5 brand-red-text" /> Shipment History
-                </h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold flex items-center gap-2">
+                    <Clock className="w-5 h-5 brand-red-text" /> Shipment History
+                  </h2>
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase bg-muted px-2 py-1 rounded">
+                    {TIMEZONES.find(z => z.value === tz)?.abbr} Time
+                  </span>
+                </div>
                 <div className="space-y-0">
                   {shipment.updates && shipment.updates.length > 0 ? (
                     shipment.updates.map((update: any, idx: number) => (
@@ -211,7 +247,7 @@ export default function Tracking() {
                               {update.status.replace(/_/g, " ")}
                             </h3>
                             <span className="text-xs text-muted-foreground font-medium">
-                              {new Date(update.timestamp).toLocaleString()}
+                              {formatDate(update.timestamp, tz)}
                             </span>
                           </div>
                           <p className="text-sm font-medium text-foreground mb-1">{update.location}</p>
@@ -298,7 +334,7 @@ export default function Tracking() {
           </div>
           <div className="text-right">
             <h2 className="text-xl font-bold">SHIPMENT RECEIPT</h2>
-            <p className="text-sm text-gray-500">Issued on {new Date().toLocaleDateString()}</p>
+            <p className="text-sm text-gray-500">Issued on {formatDate(new Date(), tz, false)}</p>
           </div>
         </div>
 
@@ -335,7 +371,7 @@ export default function Tracking() {
             </div>
             <div>
               <p className="text-[10px] font-black uppercase text-gray-500">Estimated Delivery</p>
-              <p className="font-bold">{shipment.estimatedDelivery ? new Date(shipment.estimatedDelivery).toLocaleDateString() : "Pending"}</p>
+              <p className="font-bold">{shipment.estimatedDelivery ? formatDate(shipment.estimatedDelivery, tz, false) : "Pending"}</p>
             </div>
           </div>
         </div>
@@ -353,7 +389,7 @@ export default function Tracking() {
             <tbody>
               {shipment.updates?.map((update: any, i: number) => (
                 <tr key={i} className="border-b border-gray-50">
-                  <td className="py-2 text-gray-600">{new Date(update.timestamp).toLocaleString()}</td>
+                  <td className="py-2 text-gray-600">{formatDate(update.timestamp, tz)}</td>
                   <td className="py-2 font-bold capitalize">{update.status.replace(/_/g, " ")}</td>
                   <td className="py-2">{update.location}</td>
                 </tr>
