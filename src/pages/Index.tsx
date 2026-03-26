@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, Package, FileText, Building2, Truck, Plane, Ship, ChevronRight, Check } from "lucide-react";
+import { Package, FileText, Building2, Truck, Plane, Ship, ChevronRight, Check } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import Partners from "@/components/Partners";
 import heroImg from "@/assets/hero-logistics.jpg";
 import couriersImg from "@/assets/couriers.jpg";
-import airFreightImg from "@/assets/air-freight.jpg";
 import oceanFreightImg from "@/assets/ocean-freight.jpg";
 import warehouseImg from "@/assets/warehouse.jpg";
 import supplyChainImg from "@/assets/supply-chain.jpg";
@@ -85,6 +85,9 @@ export default function Index() {
           </div>
         </section>
       </ScrollReveal>
+
+      {/* Partners */}
+      <Partners />
 
       {/* Document and Parcel Shipping */}
       <ScrollReveal>
