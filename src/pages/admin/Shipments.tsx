@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, Filter, MoreHorizontal, Eye, Edit, Trash2, MessageSquare, MapPin as MapPinIcon, FileText, Download } from "lucide-react";
+import { Plus, Search, Filter, MoreHorizontal, Eye, EyeOff, Edit, Trash2, MessageSquare, MapPin as MapPinIcon, FileText, Download, ShieldAlert } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -153,6 +153,17 @@ export default function AdminShipments() {
       fetchShipments();
     } catch (error) {
       toast.error("Failed to add update");
+    }
+  };
+
+  const handleToggleHide = async (shipment: any) => {
+    try {
+      const isHidden = !shipment.isHidden;
+      await shipmentApi.update(shipment.trackingNumber, { isHidden });
+      toast.success(`Shipment ${isHidden ? 'hidden' : 'unhide'}. Tracking page will now show security advisory.`);
+      fetchShipments();
+    } catch (error) {
+      toast.error(`Failed to update shipment visibility`);
     }
   };
 
@@ -359,9 +370,16 @@ export default function AdminShipments() {
                   <TableCell>{shipment.origin}</TableCell>
                   <TableCell>{shipment.destination}</TableCell>
                   <TableCell>
-                    <span className="px-2 py-1 rounded-full text-[10px] uppercase font-bold bg-muted text-muted-foreground">
-                      {shipment.status}
-                    </span>
+                    <div className="flex flex-col gap-1">
+                      <span className="px-2 py-1 rounded-full text-[10px] uppercase font-bold bg-muted text-muted-foreground w-fit">
+                        {shipment.status}
+                      </span>
+                      {shipment.isHidden && (
+                        <span className="px-2 py-0.5 rounded-full text-[8px] uppercase font-black bg-orange-500 text-white w-fit flex items-center gap-1 animate-pulse">
+                          <EyeOff className="w-2 h-2" /> Hidden
+                        </span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
@@ -374,6 +392,17 @@ export default function AdminShipments() {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => window.open(`/tracking/${shipment.trackingNumber}`, '_blank')}>
                           <Eye className="mr-2 h-4 w-4" /> View Track Page
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleToggleHide(shipment)}>
+                          {shipment.isHidden ? (
+                            <>
+                              <Eye className="mr-2 h-4 w-4 text-green-600" /> Unhide Shipment
+                            </>
+                          ) : (
+                            <>
+                              <EyeOff className="mr-2 h-4 w-4 text-orange-600" /> Hide Shipment
+                            </>
+                          )}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => {
                           setEditingShipment({...shipment});

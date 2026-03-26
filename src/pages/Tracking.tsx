@@ -144,6 +144,26 @@ export default function Tracking() {
     );
   }
 
+  if (shipment.isHidden) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="container mx-auto px-4 py-24 flex-1 text-center">
+          <AlertCircle className="w-16 h-16 brand-red-text mx-auto mb-4" />
+          <h1 className="text-2xl font-bold mb-2 italic">Shipment Unavailable</h1>
+          <div className="max-w-xl mx-auto bg-stone-50 border-2 border-dashed border-stone-300 p-8 rounded-xl mb-8 shadow-sm">
+             <p className="text-stone-800 font-black text-xl uppercase tracking-tighter mb-4 italic underline decoration-red-500 underline-offset-4">Security Advisory</p>
+             <p className="text-stone-600 font-bold text-lg leading-relaxed">
+              Tracking information for <span className="text-black font-black">{shipment.trackingNumber}</span> is currently <span className="text-red-600 underline">unavailable</span>. 
+              Please contact the tracking company directly to resolve any outstanding issues.
+             </p>
+          </div>
+          <Link to="/" className="brand-red-bg text-white px-6 py-3 rounded font-semibold inline-block shadow-lg hover:opacity-90 transition-opacity">Return to Home</Link>
+        </div>
+      </div>
+    );
+  }
+
   const historyPoints = shipment.updates
     ?.filter((u: any) => u.coordinates?.lat)
     .map((u: any) => [u.coordinates.lat, u.coordinates.lng] as [number, number]) || [];

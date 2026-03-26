@@ -13,6 +13,16 @@ router.get('/:id', async (req, res) => {
     const trackingId = req.params.id.trim().toUpperCase();
     const shipment = await Shipment.findOne({ trackingNumber: trackingId });
     if (!shipment) return res.status(404).json({ message: 'Shipment not found' });
+    
+    // If hidden, return minimal info to trigger the frontend "unavailable" UI
+    if (shipment.isHidden) {
+      return res.json({ 
+        trackingNumber: shipment.trackingNumber, 
+        isHidden: true,
+        status: 'unavailable'
+      });
+    }
+    
     res.json(shipment);
   } catch (error) {
     res.status(500).json({ message: error.message });

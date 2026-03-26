@@ -46,6 +46,7 @@ const shipmentSchema = new mongoose.Schema({
     lat: { type: Number, default: 0 },
     lng: { type: Number, default: 0 }
   },
+  isHidden: { type: Boolean, default: false },
   updates: [shipmentUpdateSchema]
 }, { timestamps: true });
 

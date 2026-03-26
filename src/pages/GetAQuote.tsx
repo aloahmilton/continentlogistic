@@ -69,44 +69,71 @@ export default function GetAQuote() {
             </div>
 
             {/* Form */}
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Full Name</label>
-                  <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} type="text" placeholder="Your Name" className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Email Address</label>
-                  <input required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} type="email" placeholder="email@example.com" className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Phone Number</label>
-                  <input value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} type="tel" placeholder="+1..." className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">From (City/Country)</label>
-                  <input required value={formData.fromLocation} onChange={e => setFormData({...formData, fromLocation: e.target.value})} type="text" placeholder="e.g. New York, USA" className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">To (City/Country)</label>
-                  <input required value={formData.toLocation} onChange={e => setFormData({...formData, toLocation: e.target.value})} type="text" placeholder="e.g. London, UK" className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
+            <form className="bg-white border border-border rounded-xl p-8 md:p-12 shadow-2xl space-y-10" onSubmit={handleSubmit}>
+              <div>
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2 border-b pb-2">
+                  <span className="w-8 h-8 rounded-full brand-red-bg text-white flex items-center justify-center text-xs">1</span>
+                  Contact Information
+                </h3>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Full Name</label>
+                    <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} type="text" placeholder="Your Name" className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Email Address</label>
+                    <input required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} type="email" placeholder="email@example.com" className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Phone Number</label>
+                    <input value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} type="tel" placeholder="+1..." className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Weight (kg) & Dimensions</label>
-                  <input value={formData.weight} onChange={e => setFormData({...formData, weight: e.target.value})} type="text" placeholder="e.g. 10kg, 20x20x10cm" className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Any Special Instructions?</label>
-                  <input value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} type="text" placeholder="Fragile, urgent, etc." className="w-full px-4 py-3 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring" />
+
+              <div>
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2 border-b pb-2">
+                  <span className="w-8 h-8 rounded-full brand-red-bg text-white flex items-center justify-center text-xs">2</span>
+                  Route Details
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Origin (City/Country)</label>
+                    <input required value={formData.fromLocation} onChange={e => setFormData({...formData, fromLocation: e.target.value})} type="text" placeholder="e.g. New York, USA" className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Destination (City/Country)</label>
+                    <input required value={formData.toLocation} onChange={e => setFormData({...formData, toLocation: e.target.value})} type="text" placeholder="e.g. London, UK" className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
                 </div>
               </div>
-              <button disabled={loading} type="submit" className="brand-red-bg text-primary-foreground text-sm font-semibold px-8 py-3 rounded hover:opacity-90 transition-opacity active:scale-[0.98] disabled:opacity-50">
-                {loading ? "Submitting..." : "Get Quote"}
-              </button>
+
+              <div>
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2 border-b pb-2">
+                  <span className="w-8 h-8 rounded-full brand-red-bg text-white flex items-center justify-center text-xs">3</span>
+                  Shipment Specifications
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Weight & Dimensions</label>
+                    <input value={formData.weight} onChange={e => setFormData({...formData, weight: e.target.value})} type="text" placeholder="e.g. 10kg, 20x20x10cm" className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-muted-foreground mb-2">Special Instructions</label>
+                    <input value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} type="text" placeholder="Fragile, urgent, container spec, etc." className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 font-medium" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t">
+                <button 
+                  disabled={loading} 
+                  type="submit" 
+                  className="w-full md:w-auto brand-red-bg text-primary-foreground text-sm font-black uppercase tracking-widest px-12 py-4 rounded-md hover:brightness-110 shadow-lg shadow-red-500/20 transition-all active:scale-[0.98] disabled:opacity-50"
+                >
+                  {loading ? "Calculating Estimate..." : "Get My Quote"}
+                </button>
+              </div>
             </form>
           </div>
         </ScrollReveal>

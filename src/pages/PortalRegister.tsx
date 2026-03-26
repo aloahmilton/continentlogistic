@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { Building2, Briefcase, Mail, Phone, User, ArrowRight } from "lucide-react";
+import { Building2, Briefcase, Mail, Phone, User, ArrowRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Header from "@/components/Header";
@@ -89,33 +89,33 @@ export default function PortalRegister() {
                 {accountType === "company" ? "Fill in your company details to request portal access." : "Join as an individual to track your personal shipments."}
               </p>
               
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 gap-5">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 gap-6">
                   {accountType === "company" && (
                     <>
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase text-muted-foreground">Company Name</label>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Company Name</label>
                         <div className="relative">
-                          <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                           <input
                             type="text"
                             required
-                            placeholder="Company Ltd."
-                            className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                            placeholder="Acme Global Logistics Ltd."
+                            className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                             value={formData.companyName}
                             onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                           />
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                          <label className="text-xs font-bold uppercase text-muted-foreground">Industry</label>
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Industry</label>
                           <div className="relative">
-                            <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <select
                               required
-                              className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none appearance-none"
+                              className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none appearance-none font-medium"
                               value={formData.industry}
                               onChange={(e) => setFormData({...formData, industry: e.target.value})}
                             >
@@ -128,15 +128,15 @@ export default function PortalRegister() {
                             </select>
                           </div>
                         </div>
-                        <div className="space-y-1">
-                          <label className="text-xs font-bold uppercase text-muted-foreground">Tax ID / VAT</label>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Tax ID / VAT</label>
                           <div className="relative">
-                            <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <FileText className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                             <input
                               type="text"
                               required
-                              placeholder="Optional"
-                              className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                              placeholder="Tax identifier"
+                              className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                               value={formData.taxId}
                               onChange={(e) => setFormData({...formData, taxId: e.target.value})}
                             />
@@ -146,47 +146,47 @@ export default function PortalRegister() {
                     </>
                   )}
 
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-muted-foreground">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
                       {accountType === "company" ? "Contact Full Name" : "Full Name"}
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
                         type="text"
                         required
                         placeholder="John Doe"
-                        className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                        className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                         value={formData.contactName}
                         onChange={(e) => setFormData({...formData, contactName: e.target.value})}
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-muted-foreground">Email</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Email</label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           type="email"
                           required
-                          placeholder="name@example.com"
-                          className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                          placeholder="name@company.com"
+                          className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
                         />
                       </div>
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-muted-foreground">Phone Number</label>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Phone Number</label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
                           type="tel"
                           required
                           placeholder="+237 ..."
-                          className="w-full pl-10 pr-4 py-3 bg-muted/50 border-none rounded-md focus:ring-2 focus:ring-primary transition-all outline-none"
+                          className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                           value={formData.phone}
                           onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         />
@@ -195,11 +195,11 @@ export default function PortalRegister() {
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-6">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 brand-red-bg text-white rounded-md font-bold text-lg hover:brightness-110 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-5 brand-red-bg text-white rounded-lg font-black uppercase tracking-widest text-base hover:brightness-110 transition-all shadow-xl shadow-red-500/20 flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? "Processing..." : (
                       <>
@@ -209,7 +209,7 @@ export default function PortalRegister() {
                   </button>
                 </div>
                 
-                <p className="text-[10px] text-muted-foreground text-center mt-4">
+                <p className="text-[10px] text-muted-foreground text-center mt-6 leading-relaxed opacity-70">
                   By clicking "{accountType === "company" ? "Request Business Access" : "Create Account"}", you agree to our Terms of Use and Privacy Policy. Continental Track Logistics Group.
                 </p>
               </form>

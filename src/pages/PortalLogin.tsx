@@ -55,36 +55,36 @@ export default function PortalLogin() {
             <p className="text-sm text-muted-foreground text-center mt-2">Secure access for authorized logistics partners and businesses.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Business Email</label>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Business Email</label>
               <input
                 type="email"
                 placeholder="you@company.com"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded border border-border focus:ring-2 focus:ring-primary outline-none transition-all"
+                className="w-full px-4 py-4 rounded-lg bg-muted/30 border border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all font-medium"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Password</label>
               <input
                 type="password"
                 placeholder="••••••••"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded border border-border focus:ring-2 focus:ring-primary outline-none transition-all"
+                className="w-full px-4 py-4 rounded-lg bg-muted/30 border border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all font-medium"
               />
             </div>
             
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 brand-red-bg text-white rounded font-bold hover:brightness-110 transition-all shadow-md disabled:opacity-50 mt-4"
+              className="w-full py-4 brand-red-bg text-white rounded-lg font-black uppercase tracking-widest text-base hover:brightness-110 transition-all shadow-xl shadow-red-500/20 disabled:opacity-50 mt-4"
             >
-              {loading ? "Authenticating..." : "Sign In"}
+              {loading ? "Authenticating..." : "Sign In to Portal"}
             </button>
           </form>
           

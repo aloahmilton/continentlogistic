@@ -66,34 +66,86 @@ export default function BusinessAccount() {
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <div className="md:w-1/2">
-              <form className="bg-muted rounded-lg p-6 space-y-4" onSubmit={handleSubmit}>
-                <h3 className="font-bold text-lg">Get started</h3>
-                {[
-                  { id: "company", label: "Company Name", type: "text", placeholder: "Your company" },
-                  { id: "name", label: "Contact Name", type: "text", placeholder: "Full name" },
-                  { id: "email", label: "Business Email", type: "email", placeholder: "you@company.com" },
-                  { id: "phone", label: "Phone Number", type: "tel", placeholder: "+1 (555) 000-0000" },
-                  { id: "shipments", label: "Estimated Monthly Shipments", type: "number", placeholder: "e.g. 50" },
-                ].map((f) => (
-                  <div key={f.label}>
-                    <label className="block text-sm font-medium mb-1">{f.label}</label>
+              <form className="bg-white border border-border rounded-xl p-8 md:p-10 shadow-xl space-y-8" onSubmit={handleSubmit}>
+                <div className="border-b border-border pb-4">
+                  <h3 className="font-bold text-2xl tracking-tight">Get Started</h3>
+                  <p className="text-sm text-muted-foreground mt-1">Request a tailored business account in minutes.</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Company Name</label>
                     <input 
-                      type={f.type} 
-                      placeholder={f.placeholder}
+                      type="text" 
+                      placeholder="e.g. Acme Global Logistics"
                       required
-                      value={formData[f.id as keyof typeof formData]}
-                      onChange={(e) => setFormData(prev => ({ ...prev, [f.id]: e.target.value }))}
-                      className="w-full px-4 py-2.5 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring bg-background" 
+                      value={formData.company}
+                      onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 transition-all font-medium" 
                     />
                   </div>
-                ))}
-                <button 
-                  type="submit" 
-                  disabled={loading}
-                  className="w-full brand-red-bg text-primary-foreground text-sm font-semibold py-3 rounded hover:opacity-90 transition-opacity active:scale-[0.98] disabled:opacity-50"
-                >
-                  {loading ? "Submitting..." : "Submit Request"}
-                </button>
+                  
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Contact Name</label>
+                    <input 
+                      type="text" 
+                      placeholder="Full Name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 transition-all font-medium" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Email Address</label>
+                    <input 
+                      type="email" 
+                      placeholder="you@company.com"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 transition-all font-medium" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      placeholder="+1 (555) 000-0000"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 transition-all font-medium" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Monthly Shipments</label>
+                    <input 
+                      type="number" 
+                      placeholder="Est. volume"
+                      required
+                      value={formData.shipments}
+                      onChange={(e) => setFormData(prev => ({ ...prev, shipments: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 bg-muted/20 transition-all font-medium" 
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button 
+                    type="submit" 
+                    disabled={loading}
+                    className="w-full brand-red-bg text-primary-foreground text-sm font-black uppercase tracking-widest py-4 rounded-md hover:brightness-110 shadow-lg shadow-red-500/20 transition-all active:scale-[0.98] disabled:opacity-50"
+                  >
+                    {loading ? "Processing..." : "Submit Business Request"}
+                  </button>
+                  <p className="text-[10px] text-muted-foreground text-center mt-4">
+                    By submitting, you agree to our Terms of Service. Our team will verify and contact you within 24 hours.
+                  </p>
+                </div>
               </form>
             </div>
           </ScrollReveal>
