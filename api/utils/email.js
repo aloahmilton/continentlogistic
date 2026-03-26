@@ -67,26 +67,26 @@ export const sendShipmentEmail = async (shipment) => {
   return transporter.sendMail(mailOptions);
 };
 
-export const sendAdminShipmentNotification = async (shipment, adminEmail) => {
+export const sendAdminShipmentNotification = async (shipment, adminUser) => {
   const mailOptions = {
     from: `"System Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
     subject: `New Shipment Created: ${shipment.trackingNumber}`,
     html: `
-      <div style="font-family: sans-serif; padding: 20px;">
-        <h2 style="color: #E31E24;">System Log: New Shipment Registered</h2>
-        <p>A new shipment has been created in the system.</p>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Tracking ID</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.trackingNumber}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Created By (Admin)</td><td style="padding: 8px; border: 1px solid #ddd;">${adminEmail || 'Unknown System User'}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Receiver</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.receiver.name} (${shipment.receiver.email})</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Route</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.origin} to ${shipment.destination}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Service</td><td style="padding: 8px; border: 1px solid #ddd;">${shipment.serviceType || 'Standard'}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Creation Time</td><td style="padding: 8px; border: 1px solid #ddd;">${new Date().toLocaleString()}</td></tr>
+      <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-top: 4px solid #E31E24; border-radius: 8px;">
+        <h2 style="color: #1a1a1a; margin-top: 0;">System Log: New Shipment Registered</h2>
+        <p style="font-size: 14px; color: #666;">A new shipment has been successfully created by an authorized administrator.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px;">
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; width: 30%;">Performed By</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${adminUser.name} (${adminUser.email})</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Tracking Number</td><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; color: #E31E24;">${shipment.trackingNumber}</td></tr>
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Receiver</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${shipment.receiver.name} (${shipment.receiver.email})</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Route</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${shipment.origin} to ${shipment.destination}</td></tr>
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Service Type</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${shipment.serviceType || 'Standard Express'}</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Timestamp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${new Date().toLocaleString()}</td></tr>
         </table>
-        <div style="margin-top: 20px; font-size: 12px; color: #666;">
-          Continental Track Internal Notification System
-        </div>
+        
+        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continental Track Logistics Group &bull; Internal Audit Notification</p>
       </div>
     `
   };

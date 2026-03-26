@@ -146,55 +146,67 @@ export default function AdminDrivers() {
               Register a new driver to the fleet and company staff directory.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-6 py-4 px-1">
+            <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="drv-name">Full Name</Label>
-                <Input id="drv-name" value={newDriver.name} onChange={e => setNewDriver({...newDriver, name: e.target.value})} placeholder="Thomas Miller" />
+                <Label htmlFor="drv-name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Legal Full Name</Label>
+                <Input id="drv-name" value={newDriver.name} onChange={e => setNewDriver({...newDriver, name: e.target.value})} placeholder="e.g. Thomas Miller" className="h-11" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="drv-phone">Phone Number</Label>
-                <Input id="drv-phone" value={newDriver.phone} onChange={e => setNewDriver({...newDriver, phone: e.target.value})} placeholder="+44..." />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="drv-staff">Staff ID</Label>
-                <Input id="drv-staff" value={newDriver.staffId} onChange={e => setNewDriver({...newDriver, staffId: e.target.value})} placeholder="STF-0000" />
-              </div>
-              <div className="space-y-2">
-                <Label>Department</Label>
-                <Select value={newDriver.department} onValueChange={v => setNewDriver({...newDriver, department: v})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select dept" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Logistics">Logistics</SelectItem>
-                    <SelectItem value="Heavy Haulage">Heavy Haulage</SelectItem>
-                    <SelectItem value="Last Mile">Last Mile</SelectItem>
-                    <SelectItem value="Express Delivery">Express Delivery</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="drv-phone" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Direct Contact Number</Label>
+                <Input id="drv-phone" value={newDriver.phone} onChange={e => setNewDriver({...newDriver, phone: e.target.value})} placeholder="+44..." className="h-11" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Vehicle Type</Label>
-                <Select value={newDriver.vehicleType} onValueChange={v => setNewDriver({...newDriver, vehicleType: v})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select vehicle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Van">Van</SelectItem>
-                    <SelectItem value="Heavy Truck">Heavy Truck</SelectItem>
-                    <SelectItem value="Motorcycle">Motorcycle</SelectItem>
-                    <SelectItem value="Bicycle">Bicycle</SelectItem>
-                  </SelectContent>
-                </Select>
+
+            <div className="bg-muted/30 p-4 rounded-lg border border-border/50">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Internal Authentication
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="drv-staff" className="text-[10px] font-bold uppercase">Staff Index ID</Label>
+                  <Input id="drv-staff" value={newDriver.staffId} onChange={e => setNewDriver({...newDriver, staffId: e.target.value})} placeholder="STF-0000" className="font-mono" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-bold uppercase">Operational Department</Label>
+                  <Select value={newDriver.department} onValueChange={v => setNewDriver({...newDriver, department: v})}>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select dept" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Logistics">Logistics Division</SelectItem>
+                      <SelectItem value="Heavy Haulage">Heavy Haulage</SelectItem>
+                      <SelectItem value="Last Mile">Last Mile Delivery</SelectItem>
+                      <SelectItem value="Express Delivery">Express Global</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="drv-plate">License Plate</Label>
-                <Input id="drv-plate" value={newDriver.licensePlate} onChange={e => setNewDriver({...newDriver, licensePlate: e.target.value})} placeholder="UK24 XYZ" />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> Asset & Vehicle Assignment
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-bold uppercase">Vehicle Category</Label>
+                  <Select value={newDriver.vehicleType} onValueChange={v => setNewDriver({...newDriver, vehicleType: v})}>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select vehicle" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Van">Delivery Van</SelectItem>
+                      <SelectItem value="Heavy Truck">Heavy Duty Truck</SelectItem>
+                      <SelectItem value="Motorcycle">Express Motorcycle</SelectItem>
+                      <SelectItem value="Bicycle">Eco-Friendly Bicycle</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="drv-plate" className="text-[10px] font-bold uppercase">License Plate Index</Label>
+                  <Input id="drv-plate" value={newDriver.licensePlate} onChange={e => setNewDriver({...newDriver, licensePlate: e.target.value})} placeholder="UK24 XYZ" className="font-bold tracking-widest uppercase" />
+                </div>
               </div>
             </div>
           </div>

@@ -112,36 +112,36 @@ export default function AdminSettings() {
                 <CardDescription>Configure how your company appears to customers.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-dashed">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-dashed border-border/60">
                   <div className="space-y-2">
-                    <Label htmlFor="logoUrl" className="text-xs font-bold uppercase">Logo Image URL</Label>
-                    <Input id="logoUrl" placeholder="https://..." value={generalSettings.logoUrl} onChange={e => setGeneralSettings({...generalSettings, logoUrl: e.target.value})} />
+                    <Label htmlFor="logoUrl" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Master Logo Asset URL</Label>
+                    <Input id="logoUrl" placeholder="https://..." value={generalSettings.logoUrl} onChange={e => setGeneralSettings({...generalSettings, logoUrl: e.target.value})} className="h-10 bg-muted/20" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="faviconUrl" className="text-xs font-bold uppercase">Favicon Image URL</Label>
-                    <Input id="faviconUrl" placeholder="https://..." value={generalSettings.faviconUrl} onChange={e => setGeneralSettings({...generalSettings, faviconUrl: e.target.value})} />
+                    <Label htmlFor="faviconUrl" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Browser Favicon URL</Label>
+                    <Input id="faviconUrl" placeholder="https://..." value={generalSettings.faviconUrl} onChange={e => setGeneralSettings({...generalSettings, faviconUrl: e.target.value})} className="h-10 bg-muted/20" />
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                   <div className="space-y-2">
-                    <Label htmlFor="site-name" className="text-xs font-bold uppercase">Legal Entity Name</Label>
-                    <Input id="site-name" value={generalSettings.siteName} onChange={e => setGeneralSettings({...generalSettings, siteName: e.target.value})} />
+                    <Label htmlFor="site-name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Legal Corporate Entity</Label>
+                    <Input id="site-name" value={generalSettings.siteName} onChange={e => setGeneralSettings({...generalSettings, siteName: e.target.value})} className="h-10 font-bold" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="support-email" className="text-xs font-bold uppercase">Public Support Email</Label>
-                    <Input id="support-email" value={generalSettings.supportEmail} onChange={e => setGeneralSettings({...generalSettings, supportEmail: e.target.value})} />
+                    <Label htmlFor="support-email" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Administrative Support Gateway</Label>
+                    <Input id="support-email" value={generalSettings.supportEmail} onChange={e => setGeneralSettings({...generalSettings, supportEmail: e.target.value})} className="h-10 font-medium" />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-xs font-bold uppercase">Main Contact Phone</Label>
-                    <Input id="phone" value={generalSettings.contactPhone} onChange={e => setGeneralSettings({...generalSettings, contactPhone: e.target.value})} />
+                    <Label htmlFor="phone" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Global Contact Line</Label>
+                    <Input id="phone" value={generalSettings.contactPhone} onChange={e => setGeneralSettings({...generalSettings, contactPhone: e.target.value})} className="h-10 font-mono" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="address" className="text-xs font-bold uppercase">Headquarters Address</Label>
-                    <Input id="address" value={generalSettings.address} onChange={e => setGeneralSettings({...generalSettings, address: e.target.value})} />
+                    <Label htmlFor="address" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Global Headquarters Address</Label>
+                    <Input id="address" value={generalSettings.address} onChange={e => setGeneralSettings({...generalSettings, address: e.target.value})} className="h-10" />
                   </div>
                 </div>
               </CardContent>
@@ -158,24 +158,24 @@ export default function AdminSettings() {
               <CardDescription>Configure outgoing email settings for invoices and tracking updates.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">SMTP Host</Label>
-                  <Input value={smtpSettings.host} onChange={e => setSmtpSettings({...smtpSettings, host: e.target.value})} placeholder="smtp.gmail.com" />
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">SMTP Relay Host</Label>
+                  <Input value={smtpSettings.host} onChange={e => setSmtpSettings({...smtpSettings, host: e.target.value})} placeholder="smtp.gmail.com" className="h-10 bg-muted/20" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">SMTP Port</Label>
-                  <Input value={smtpSettings.port} onChange={e => setSmtpSettings({...smtpSettings, port: e.target.value})} placeholder="587" />
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Primary Service Port</Label>
+                  <Input value={smtpSettings.port} onChange={e => setSmtpSettings({...smtpSettings, port: e.target.value})} placeholder="587" className="h-10 bg-muted/20" />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">Username / Email</Label>
-                  <Input value={smtpSettings.user} onChange={e => setSmtpSettings({...smtpSettings, user: e.target.value})} />
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Authentication Identity</Label>
+                  <Input value={smtpSettings.user} onChange={e => setSmtpSettings({...smtpSettings, user: e.target.value})} className="h-10 font-medium" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold uppercase">App Password / Secret</Label>
-                  <Input type="password" value={smtpSettings.pass} onChange={e => setSmtpSettings({...smtpSettings, pass: e.target.value})} />
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Security Access Token</Label>
+                  <Input type="password" value={smtpSettings.pass} onChange={e => setSmtpSettings({...smtpSettings, pass: e.target.value})} className="h-10" />
                 </div>
               </div>
               <div className="pt-4 border-t border-dashed">

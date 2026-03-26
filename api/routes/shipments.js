@@ -81,7 +81,7 @@ router.post('/', adminAuth, async (req, res) => {
     
     // Send separate internal notification to admin
     try {
-      await sendAdminShipmentNotification(newShipment, req.user?.email || 'Unknown Admin');
+      await sendAdminShipmentNotification(newShipment, req.user);
     } catch (adminEmailError) {
       console.error('Admin Email error:', adminEmailError.message);
     }

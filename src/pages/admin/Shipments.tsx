@@ -239,86 +239,108 @@ export default function AdminShipments() {
                   Enter shipment details. A tracking email will be sent to the receiver automatically.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase">Tracking Number</label>
-                    <Input disabled value={newShipment.trackingNumber} />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase">Service Type</label>
-                    <Input value={newShipment.serviceType} onChange={e => setNewShipment({...newShipment, serviceType: e.target.value})} />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase">Status</label>
-                    <select 
-                      className="w-full h-10 px-3 rounded-md border text-sm"
-                      value={newShipment.status} 
-                      onChange={e => setNewShipment({...newShipment, status: e.target.value})}
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="picked_up">Picked Up</option>
-                      <option value="in_transit">In Transit</option>
-                      <option value="arrived">Arrived at Facility</option>
-                      <option value="out_for_delivery">Out for Delivery</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="on_hold">On Hold</option>
-                      <option value="paused">Paused / On Hold</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase">Timezone (Receiver Local)</label>
-                    <select 
-                      className="w-full h-10 px-3 rounded-md border text-sm bg-background"
-                      value={newShipment.timezone} 
-                      onChange={e => setNewShipment({...newShipment, timezone: e.target.value})}
-                    >
-                      {TIMEZONES.map(z => <option key={z.value} value={z.value}>{z.label}</option>)}
-                    </select>
+              <div className="grid gap-6 py-4 px-1">
+                <div className="bg-muted/30 p-4 rounded-lg border border-border/50">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Core Logistics Info
+                  </h3>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Tracking ID</label>
+                      <Input disabled value={newShipment.trackingNumber} className="bg-muted font-mono font-bold" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Service Level</label>
+                      <Input value={newShipment.serviceType} onChange={e => setNewShipment({...newShipment, serviceType: e.target.value})} placeholder="e.g. Express" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Initial Status</label>
+                      <select 
+                        className="w-full h-10 px-3 rounded-md border text-sm font-medium bg-background"
+                        value={newShipment.status} 
+                        onChange={e => setNewShipment({...newShipment, status: e.target.value})}
+                      >
+                        <option value="pending">Pending Receipt</option>
+                        <option value="picked_up">Picked Up</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="arrived">Arrived at Facility</option>
+                        <option value="out_for_delivery">Out for Delivery</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="on_hold">On Hold</option>
+                        <option value="paused">Security Hold</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="border-t pt-4">
-                  <h3 className="text-sm font-bold mb-3">Sender Details</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <Input placeholder="Sender Name" value={newShipment.sender.name} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, name: e.target.value}})} />
-                    <Input placeholder="Sender Email" value={newShipment.sender.email} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, email: e.target.value}})} />
-                    <Input placeholder="Sender Phone" value={newShipment.sender.phone} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, phone: e.target.value}})} />
+                <div className="grid grid-cols-2 gap-8 mt-2">
+                  <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> Dispatcher (Sender)
+                    </h3>
+                    <div className="space-y-3">
+                      <Input placeholder="Full Name / Company" value={newShipment.sender.name} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, name: e.target.value}})} />
+                      <Input placeholder="Email Address" value={newShipment.sender.email} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, email: e.target.value}})} />
+                      <Input placeholder="Contact Phone" value={newShipment.sender.phone} onChange={e => setNewShipment({...newShipment, sender: {...newShipment.sender, phone: e.target.value}})} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Consignee (Receiver)
+                    </h3>
+                    <div className="space-y-3">
+                      <Input placeholder="Full Name / Company" value={newShipment.receiver.name} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, name: e.target.value}})} />
+                      <Input placeholder="Email Address" value={newShipment.receiver.email} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, email: e.target.value}})} />
+                      <Input placeholder="Contact Phone" value={newShipment.receiver.phone} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, phone: e.target.value}})} />
+                    </div>
                   </div>
                 </div>
 
-                <div className="border-t pt-4">
-                  <h3 className="text-sm font-bold mb-3">Receiver Details</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <Input placeholder="Receiver Name" value={newShipment.receiver.name} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, name: e.target.value}})} />
-                    <Input placeholder="Receiver Email" value={newShipment.receiver.email} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, email: e.target.value}})} />
-                    <Input placeholder="Receiver Phone" value={newShipment.receiver.phone} onChange={e => setNewShipment({...newShipment, receiver: {...newShipment.receiver, phone: e.target.value}})} />
+                <div className="border-t pt-6 space-y-6">
+                  <div>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Route & Regional Settings</h3>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-tight">Origin</label>
+                        <Input placeholder="City, Country" value={newShipment.origin} onChange={e => setNewShipment({...newShipment, origin: e.target.value})} />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-tight">Destination</label>
+                        <Input placeholder="City, Country" value={newShipment.destination} onChange={e => setNewShipment({...newShipment, destination: e.target.value})} />
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                <div className="border-t pt-4">
-                  <h3 className="text-sm font-bold mb-3">Route & Logistics</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <Input placeholder="Origin (City, Country)" value={newShipment.origin} onChange={e => setNewShipment({...newShipment, origin: e.target.value})} />
-                    <Input placeholder="Destination (City, Country)" value={newShipment.destination} onChange={e => setNewShipment({...newShipment, destination: e.target.value})} />
-                    <Input placeholder="Curr. Location (Optional)" value={newShipment.currentLocation} onChange={e => setNewShipment({...newShipment, currentLocation: e.target.value})} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <Input placeholder="Weight (kg)" value={newShipment.weight} onChange={e => setNewShipment({...newShipment, weight: e.target.value})} />
-                    <Input placeholder="Dimensions" value={newShipment.dimensions} onChange={e => setNewShipment({...newShipment, dimensions: e.target.value})} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <Input placeholder="Product Details / Description" value={newShipment.productDetails} onChange={e => setNewShipment({...newShipment, productDetails: e.target.value})} />
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-muted-foreground">Estimated Delivery</label>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Weight (kg)</label>
+                      <Input placeholder="e.g. 5.5" value={newShipment.weight} onChange={e => setNewShipment({...newShipment, weight: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Dimensions</label>
+                      <Input placeholder="L x W x H" value={newShipment.dimensions} onChange={e => setNewShipment({...newShipment, dimensions: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">EST. Delivery</label>
                       <Input type="date" value={newShipment.estimatedDelivery} onChange={e => setNewShipment({...newShipment, estimatedDelivery: e.target.value})} />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-4 mt-4">
-                    <Input placeholder="Initial Tracking Update Description (e.g. Registered at origin)" value={newShipment.initialDescription} onChange={e => setNewShipment({...newShipment, initialDescription: e.target.value})} />
+
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Contents Description</label>
+                      <textarea 
+                        className="w-full min-h-[80px] p-3 rounded-md border text-sm bg-background resize-none"
+                        placeholder="Detailed manifest description..."
+                        value={newShipment.productDetails} 
+                        onChange={e => setNewShipment({...newShipment, productDetails: e.target.value})} 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Initial Tracking Log</label>
+                      <Input placeholder="e.g. Shipment information registered" value={newShipment.initialDescription} onChange={e => setNewShipment({...newShipment, initialDescription: e.target.value})} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -601,70 +623,117 @@ export default function AdminShipments() {
             </DialogDescription>
           </DialogHeader>
           {editingShipment && (
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase">Status</label>
-                  <select 
-                    className="w-full h-10 px-3 rounded-md border text-sm"
-                    value={editingShipment.status} 
-                    onChange={e => setEditingShipment({...editingShipment, status: e.target.value})}
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="picked_up">Picked Up</option>
-                    <option value="in_transit">In Transit</option>
-                    <option value="arrived">Arrived at Facility</option>
-                    <option value="out_for_delivery">Out for Delivery</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="on_hold">On Hold</option>
-                    <option value="paused">Paused / On Hold</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase">Service Type</label>
-                  <Input value={editingShipment.serviceType} onChange={e => setEditingShipment({...editingShipment, serviceType: e.target.value})} />
+            <div className="grid gap-6 py-4 px-1">
+              <div className="bg-muted/30 p-4 rounded-lg border border-border/50 text-foreground">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Core Logistics Info
+                </h3>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-tight">Status</label>
+                    <select 
+                      className="w-full h-10 px-3 rounded-md border text-sm font-medium bg-background"
+                      value={editingShipment.status} 
+                      onChange={e => setEditingShipment({...editingShipment, status: e.target.value})}
+                    >
+                      <option value="pending">Pending Receipt</option>
+                      <option value="picked_up">Picked Up</option>
+                      <option value="in_transit">In Transit</option>
+                      <option value="arrived">Arrived at Facility</option>
+                      <option value="out_for_delivery">Out for Delivery</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="on_hold">On Hold</option>
+                      <option value="paused">Security Hold</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-tight">Service Level</label>
+                    <Input value={editingShipment.serviceType} onChange={e => setEditingShipment({...editingShipment, serviceType: e.target.value})} />
+                  </div>
                 </div>
               </div>
               
-              <div className="border-t pt-4">
-                <h3 className="text-sm font-bold mb-3">Sender Details</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  <Input placeholder="Sender Name" value={editingShipment.sender.name} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, name: e.target.value}})} />
-                  <Input placeholder="Sender Email" value={editingShipment.sender.email} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, email: e.target.value}})} />
-                  <Input placeholder="Sender Phone" value={editingShipment.sender.phone} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, phone: e.target.value}})} />
+              <div className="grid grid-cols-2 gap-8 mt-2">
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> Dispatcher (Sender)
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Full Name / Company</label>
+                      <Input value={editingShipment.sender.name} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, name: e.target.value}})} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Email Address</label>
+                      <Input value={editingShipment.sender.email} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, email: e.target.value}})} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Contact Phone</label>
+                      <Input value={editingShipment.sender.phone} onChange={e => setEditingShipment({...editingShipment, sender: {...editingShipment.sender, phone: e.target.value}})} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Consignee (Receiver)
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Full Name / Company</label>
+                      <Input value={editingShipment.receiver.name} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, name: e.target.value}})} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Email Address</label>
+                      <Input value={editingShipment.receiver.email} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, email: e.target.value}})} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-bold uppercase text-muted-foreground/70">Contact Phone</label>
+                      <Input value={editingShipment.receiver.phone} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, phone: e.target.value}})} />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="border-t pt-4">
-                <h3 className="text-sm font-bold mb-3">Receiver Details</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  <Input placeholder="Receiver Name" value={editingShipment.receiver.name} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, name: e.target.value}})} />
-                  <Input placeholder="Receiver Email" value={editingShipment.receiver.email} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, email: e.target.value}})} />
-                  <Input placeholder="Receiver Phone" value={editingShipment.receiver.phone} onChange={e => setEditingShipment({...editingShipment, receiver: {...editingShipment.receiver, phone: e.target.value}})} />
+              <div className="border-t pt-6 space-y-6">
+                <div>
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4">Route & Regional Settings</h3>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Origin</label>
+                      <Input value={editingShipment.origin} onChange={e => setEditingShipment({...editingShipment, origin: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Destination</label>
+                      <Input value={editingShipment.destination} onChange={e => setEditingShipment({...editingShipment, destination: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-tight">Current Hub</label>
+                      <Input value={editingShipment.currentLocation} onChange={e => setEditingShipment({...editingShipment, currentLocation: e.target.value})} />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="border-t pt-4">
-                <h3 className="text-sm font-bold mb-3">Route & Logistics</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  <Input placeholder="Origin" value={editingShipment.origin} onChange={e => setEditingShipment({...editingShipment, origin: e.target.value})} />
-                  <Input placeholder="Destination" value={editingShipment.destination} onChange={e => setEditingShipment({...editingShipment, destination: e.target.value})} />
-                  <Input placeholder="Curr. Location" value={editingShipment.currentLocation} onChange={e => setEditingShipment({...editingShipment, currentLocation: e.target.value})} />
-                </div>
-                <div className="grid grid-cols-3 gap-4 mt-4">
-                  <Input placeholder="Weight (kg)" value={editingShipment.weight} onChange={e => setEditingShipment({...editingShipment, weight: e.target.value})} />
-                  <Input placeholder="Dimensions" value={editingShipment.dimensions} onChange={e => setEditingShipment({...editingShipment, dimensions: e.target.value})} />
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase text-muted-foreground -mt-4 block mb-1">Estimated Delivery</label>
+                <div className="grid grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-tight">Weight (kg)</label>
+                    <Input value={editingShipment.weight} onChange={e => setEditingShipment({...editingShipment, weight: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-tight">Dimensions</label>
+                    <Input value={editingShipment.dimensions} onChange={e => setEditingShipment({...editingShipment, dimensions: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-tight">EST. Delivery</label>
                     <Input type="date" value={editingShipment.estimatedDelivery?.split('T')[0] || ""} onChange={e => setEditingShipment({...editingShipment, estimatedDelivery: e.target.value})} />
                   </div>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4 mt-4">
+
+                <div className="grid grid-cols-2 gap-6 mt-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase">Timezone (Receiver Local)</label>
+                    <label className="text-[10px] font-bold uppercase tracking-tight font-black text-primary">Timezone (Receiver Local)</label>
                     <select 
-                      className="w-full h-10 px-3 rounded-md border text-sm bg-background"
+                      className="w-full h-10 px-3 rounded-md border text-sm bg-background/50 font-bold"
                       value={editingShipment.timezone || "America/New_York"} 
                       onChange={e => setEditingShipment({...editingShipment, timezone: e.target.value})}
                     >

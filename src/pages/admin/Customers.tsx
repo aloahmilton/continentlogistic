@@ -152,47 +152,65 @@ export default function AdminCustomers() {
               Create a new client account for the tracking portal.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-6 py-4 px-1">
+            <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="cust-name">Full Name</Label>
-                <Input id="cust-name" value={newCustomer.name} onChange={e => setNewCustomer({...newCustomer, name: e.target.value})} placeholder="Alex Johnson" />
+                <Label htmlFor="cust-name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Legal Full Name</Label>
+                <Input id="cust-name" value={newCustomer.name} onChange={e => setNewCustomer({...newCustomer, name: e.target.value})} placeholder="e.g. Alex Johnson" className="h-11" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="cust-email">Email Address</Label>
-                <Input id="cust-email" type="email" value={newCustomer.email} onChange={e => setNewCustomer({...newCustomer, email: e.target.value})} placeholder="alex@example.com" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="cust-phone">Phone Number</Label>
-                <Input id="cust-phone" value={newCustomer.phone} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} placeholder="+1..." />
-              </div>
-              <div className="space-y-2">
-                <Label>Account Type</Label>
-                <Select value={newCustomer.accountType} onValueChange={v => setNewCustomer({...newCustomer, accountType: v})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="individual">Individual</SelectItem>
-                    <SelectItem value="company">Company / Business</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="cust-email" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Primary Email Address</Label>
+                <Input id="cust-email" type="email" value={newCustomer.email} onChange={e => setNewCustomer({...newCustomer, email: e.target.value})} placeholder="alex@example.com" className="h-11" />
               </div>
             </div>
-            {newCustomer.accountType === 'company' && (
-              <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2">
+
+            <div className="bg-muted/30 p-4 rounded-lg border border-border/50">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Contact & Account Tier
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="comp-name">Company Name</Label>
-                  <Input id="comp-name" value={newCustomer.companyName} onChange={e => setNewCustomer({...newCustomer, companyName: e.target.value})} />
+                  <Label htmlFor="cust-phone" className="text-[10px] font-bold uppercase">Direct Phone Line</Label>
+                  <Input id="cust-phone" value={newCustomer.phone} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} placeholder="+1..." />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="comp-ind">Industry</Label>
-                  <Input id="comp-ind" value={newCustomer.industry} onChange={e => setNewCustomer({...newCustomer, industry: e.target.value})} />
+                  <Label className="text-[10px] font-bold uppercase">Account Classification</Label>
+                  <Select value={newCustomer.accountType} onValueChange={v => setNewCustomer({...newCustomer, accountType: v})}>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="individual">Personal / Individual</SelectItem>
+                      <SelectItem value="company">Corporate / Business</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            {newCustomer.accountType === 'company' && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> Corporate Information
+                </h3>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="comp-name" className="text-[10px] font-bold uppercase">Registered Company Name</Label>
+                    <Input id="comp-name" value={newCustomer.companyName} onChange={e => setNewCustomer({...newCustomer, companyName: e.target.value})} placeholder="e.g. Acme Corp" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="comp-ind" className="text-[10px] font-bold uppercase">Business Industry</Label>
+                    <Input id="comp-ind" value={newCustomer.industry} onChange={e => setNewCustomer({...newCustomer, industry: e.target.value})} placeholder="e.g. Manufacturing" />
+                  </div>
                 </div>
               </div>
             )}
+
+            <div className="pt-2">
+              <p className="text-[10px] text-muted-foreground/60 italic font-medium">
+                * An automated activation link and temporary password will be sent to the customer's email upon creation.
+              </p>
+            </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
