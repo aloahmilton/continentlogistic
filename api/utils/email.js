@@ -230,3 +230,104 @@ export const sendInvoiceEmail = async (shipment, invoiceData) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendShipmentUpdateEmail = async (shipment, update, adminUser) => {
+  const statusLabels = {
+    'pending': 'Pending',
+    'picked_up': 'Package Picked Up',
+    'in_transit': 'In Transit',
+    'arrived': 'Arrived at Facility',
+    'out_for_delivery': 'Out for Delivery',
+    'delivered': 'Successfully Delivered',
+    'on_hold': 'On Hold / Delayed',
+    'returned': 'Returned to Sender',
+    'paused': 'Paused / Verification Required'
+  };
+
+  const statusColor = update.isCritical ? '#E31E24' : '#1a1a1a';
+  const statusLabel = statusLabels[update.status] || update.status;
+
+  // 1. Customer Email
+  const customerMailOptions = {
+    from: `"Continental Track" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to: shipment.receiver.email,
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    subject: `${update.isCritical ? 'ACTION REQUIRED: ' : ''}Shipment ${shipment.trackingNumber} - ${statusLabel}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+        <div style="background-color: ${statusColor}; padding: 25px; color: white;">
+          <h2 style="margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Shipment Update Advice</h2>
+          <p style="margin: 5px 0 0; opacity: 0.8; font-size: 12px;">Ref: ${shipment.trackingNumber}</p>
+        </div>
+        <div style="padding: 30px; line-height: 1.6; color: #333;">
+          <p>Dear ${shipment.receiver.name},</p>
+          <p>There has been a new update regarding your shipment currently in our network. Please find the latest status details below:</p>
+          
+          <div style="margin: 25px 0; padding: 20px; background-color: #f9f9f9; border-left: 4px solid ${statusColor}; border-radius: 4px;">
+            <p style="margin: 0; font-size: 11px; text-transform: uppercase; color: #666; font-weight: bold;">Current Status</p>
+            <p style="margin: 5px 0 15px; font-size: 18px; font-weight: bold; color: ${statusColor};">${statusLabel}</p>
+            
+            <p style="margin: 0; font-size: 11px; text-transform: uppercase; color: #666; font-weight: bold;">Location</p>
+            <p style="margin: 5px 0 15px; font-size: 14px; font-weight: 600;">${update.location || shipment.currentLocation || 'In Transit'}</p>
+            
+            <p style="margin: 0; font-size: 11px; text-transform: uppercase; color: #666; font-weight: bold;">Event Details</p>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #444;">${update.description || 'Movement registered in system.'}</p>
+          </div>
+
+          ${update.isCritical ? `
+          <div style="margin: 20px 0; padding: 15px; background-color: #FFF5F5; border: 1px solid #FEB2B2; border-radius: 4px;">
+            <p style="margin: 0; color: #C53030; font-weight: bold; font-size: 14px;">⚠️ Action Required</p>
+            <p style="margin: 5px 0 0; font-size: 12px; color: #742A2A;">This is a critical update. Please review the details above as they may require your prompt attention or contact with our support team.</p>
+          </div>
+          ` : ''}
+
+          <div style="text-align: center; margin-top: 35px;">
+            <a href="https://continentaltrack.vercel.app/tracking/${shipment.trackingNumber}" 
+               style="background-color: #1a1a1a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px; display: inline-block;">
+               VIEW FULL TRACKING HISTORY
+            </a>
+          </div>
+        </div>
+        <div style="padding: 20px; background-color: #f5f5f5; text-align: center; font-size: 11px; color: #888; border-top: 1px solid #eee;">
+          Continental Track Logistics Group &bull; Corporate Communications
+        </div>
+      </div>
+    `
+  };
+
+  // 2. Admin Email
+  const adminMailOptions = {
+    from: `"System Logs" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    subject: `ADMIN LOG: Shipment Update - ${shipment.trackingNumber}`,
+    html: `
+      <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2 style="color: #1a1a1a; margin-top: 0;">Update Recorded</h2>
+        <p style="font-size: 14px; color: #666;">The following shipment update was performed by an authorized user.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px;">
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; width: 30%;">Performed By</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${adminUser.name} (${adminUser.email})</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Shipment ID</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${shipment.trackingNumber}</td></tr>
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">New Status</td><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; color: ${statusColor};">${statusLabel}</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Location</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${update.location || 'N/A'}</td></tr>
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Description</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${update.description || 'No description provided'}</td></tr>
+          <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Is Critical?</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${update.isCritical ? 'Yes (Urgency Alert Sent to Client)' : 'No'}</td></tr>
+          <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Timestamp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${new Date().toLocaleString()}</td></tr>
+        </table>
+        
+        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continental Track Control Panel &bull; Internal Audit Notification</p>
+      </div>
+    `
+  };
+
+  try {
+    await Promise.all([
+      transporter.sendMail(customerMailOptions),
+      transporter.sendMail(adminMailOptions)
+    ]);
+    return true;
+  } catch (err) {
+    console.error('Mail sending error:', err);
+    return false;
+  }
+};

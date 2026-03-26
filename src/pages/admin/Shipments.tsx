@@ -75,7 +75,8 @@ export default function AdminShipments() {
   const [newUpdate, setNewUpdate] = useState({
     status: "in_transit",
     location: "",
-    description: ""
+    description: "",
+    isCritical: false
   });
 
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
@@ -151,6 +152,7 @@ export default function AdminShipments() {
       toast.success("Shipment update added!");
       setIsUpdateOpen(false);
       fetchShipments();
+      setNewUpdate({ ...newUpdate, status: "in_transit", description: "", isCritical: false });
     } catch (error) {
       toast.error("Failed to add update");
     }
@@ -568,6 +570,19 @@ export default function AdminShipments() {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase">Description</label>
               <Input value={newUpdate.description} onChange={e => setNewUpdate({...newUpdate, description: e.target.value})} placeholder="e.g. Arrived at London Heathrow Hub" />
+            </div>
+            
+            <div className="flex items-center space-x-2 pt-2">
+              <input 
+                type="checkbox" 
+                id="isCritical" 
+                checked={newUpdate.isCritical} 
+                onChange={e => setNewUpdate({...newUpdate, isCritical: e.target.checked})}
+                className="w-4 h-4 accent-red-600"
+              />
+              <label htmlFor="isCritical" className="text-sm font-bold text-red-600 cursor-pointer">
+                Mark as Critical Update (Immediate Client Alert)
+              </label>
             </div>
           </div>
           <DialogFooter>

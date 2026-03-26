@@ -25,7 +25,7 @@ export default function PortalRegister() {
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-      const message = accountType === "company" 
+      const message = accountType === "company"
         ? "Business account request submitted! Our team will contact you within 24 hours."
         : "Account created successfully! You can now log in to the portal.";
       toast.success(message);
@@ -36,7 +36,7 @@ export default function PortalRegister() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <div className="flex-1 bg-muted/30 py-12 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="grid md:grid-cols-2 gap-12 bg-background rounded-xl shadow-2xl overflow-hidden">
@@ -68,13 +68,13 @@ export default function PortalRegister() {
             {/* Right Side - Form */}
             <div className="p-8 md:p-12">
               <div className="flex gap-4 mb-8 p-1 bg-muted rounded-lg">
-                <button 
+                <button
                   onClick={() => setAccountType("company")}
                   className={`flex-1 py-2 text-xs font-bold uppercase rounded-md transition-all ${accountType === "company" ? "bg-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   <Building2 className="w-3.5 h-3.5 inline mr-2" /> Business
                 </button>
-                <button 
+                <button
                   onClick={() => setAccountType("individual")}
                   className={`flex-1 py-2 text-xs font-bold uppercase rounded-md transition-all ${accountType === "individual" ? "bg-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
@@ -88,7 +88,7 @@ export default function PortalRegister() {
               <p className="text-sm text-muted-foreground mb-8">
                 {accountType === "company" ? "Fill in your company details to request portal access." : "Join as an individual to track your personal shipments."}
               </p>
-              
+
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 gap-6">
                   {accountType === "company" && (
@@ -103,7 +103,7 @@ export default function PortalRegister() {
                             placeholder="Acme Global Logistics Ltd."
                             className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                             value={formData.companyName}
-                            onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                           />
                         </div>
                       </div>
@@ -117,7 +117,7 @@ export default function PortalRegister() {
                               required
                               className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none appearance-none font-medium"
                               value={formData.industry}
-                              onChange={(e) => setFormData({...formData, industry: e.target.value})}
+                              onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                             >
                               <option value="">Select Industry</option>
                               <option value="ecommerce">E-commerce / Retail</option>
@@ -138,7 +138,7 @@ export default function PortalRegister() {
                               placeholder="Tax identifier"
                               className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                               value={formData.taxId}
-                              onChange={(e) => setFormData({...formData, taxId: e.target.value})}
+                              onChange={(e) => setFormData({ ...formData, taxId: e.target.value })}
                             />
                           </div>
                         </div>
@@ -158,7 +158,7 @@ export default function PortalRegister() {
                         placeholder="John Doe"
                         className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                         value={formData.contactName}
-                        onChange={(e) => setFormData({...formData, contactName: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
                       />
                     </div>
                   </div>
@@ -174,7 +174,7 @@ export default function PortalRegister() {
                           placeholder="name@company.com"
                           className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                           value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
                       </div>
                     </div>
@@ -185,10 +185,10 @@ export default function PortalRegister() {
                         <input
                           type="tel"
                           required
-                          placeholder="+237 ..."
+                          placeholder="+1 ..."
                           className="w-full pl-12 pr-4 py-4 bg-muted/30 border border-transparent rounded-lg focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium"
                           value={formData.phone}
-                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         />
                       </div>
                     </div>
@@ -208,7 +208,7 @@ export default function PortalRegister() {
                     )}
                   </button>
                 </div>
-                
+
                 <p className="text-[10px] text-muted-foreground text-center mt-6 leading-relaxed opacity-70">
                   By clicking "{accountType === "company" ? "Request Business Access" : "Create Account"}", you agree to our Terms of Use and Privacy Policy. Continental Track Logistics Group.
                 </p>
@@ -217,7 +217,7 @@ export default function PortalRegister() {
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );

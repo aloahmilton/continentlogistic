@@ -1,6 +1,6 @@
 import express from 'express';
 import Shipment from '../models/Shipment.js';
-import { sendShipmentEmail, sendCustomEmail, sendInvoiceEmail, sendAdminShipmentNotification } from '../utils/email.js';
+import { sendShipmentEmail, sendCustomEmail, sendInvoiceEmail, sendAdminShipmentNotification, sendShipmentUpdateEmail } from '../utils/email.js';
 import { adminAuth, superAdminAuth } from '../middleware/auth.js';
 import { geocodeAddress } from '../utils/geocoder.js';
 
@@ -120,6 +120,14 @@ router.post('/:id/updates', adminAuth, async (req, res) => {
     }
     
     await shipment.save();
+    
+    // Send notifications to customer and admin
+    try {
+      await sendShipmentUpdateEmail(shipment, updateEntry, req.user);
+    } catch (emailError) {
+      console.error('Update email notification failed:', emailError.message);
+    }
+
     res.status(201).json(shipment);
   } catch (error) {
     res.status(400).json({ message: error.message });

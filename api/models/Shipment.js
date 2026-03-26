@@ -8,6 +8,7 @@ const shipmentUpdateSchema = new mongoose.Schema({
     lat: { type: Number, default: 0 },
     lng: { type: Number, default: 0 }
   },
+  isCritical: { type: Boolean, default: false },
   timestamp: { type: Date, default: Date.now }
 });
 
