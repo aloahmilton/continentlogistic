@@ -1,11 +1,9 @@
 import express from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
-import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { JWT_SECRET } from '../utils/config.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'continental_secret_key_2024_!@#';
 
 // Login route
 router.post('/login', async (req, res) => {

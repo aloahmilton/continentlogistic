@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import { PORT } from './utils/config.js';
 
 import express from 'express';
 import cors from 'cors';
@@ -53,7 +52,6 @@ export default app;
 
 // For local testing
 if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
   // Use a conditional listen to avoid address in use errors in some environments
   if (!process.env.VERCEL) {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

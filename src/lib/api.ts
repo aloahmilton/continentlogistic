@@ -25,6 +25,11 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
+      // Don't redirect if it's the login request itself failing
+      if (error.config.url === '/auth/login' || error.config.url === '/api/auth/login') {
+        return Promise.reject(error);
+      }
+
       const adminSlug = import.meta.env.VITE_ADMIN_SLUG || "admin";
       // Only redirect if we are in an admin route to avoid breaking public forms
       if (window.location.pathname.startsWith(`/${adminSlug}`)) {
