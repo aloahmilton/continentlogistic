@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 *.env
 .env
+created shipments/
+api/node_modules/
+
