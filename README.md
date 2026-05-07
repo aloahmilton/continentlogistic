@@ -141,16 +141,14 @@ For production, ensure MongoDB Atlas IP whitelisting and SMTP credentials.
 - **Admins**: Access `/admin5001` dashboard to manage all entities, view reports, send messages.
 - **Drivers**: (Future) Mobile app integration for real-time updates.
 
-## 🤝 Contributing
+## 🤝 Ownership & Contributing
 
-1. Fork the repo.
-2. Create a feature branch.
-3. Commit changes.
-4. Push and open a PR.
+This is a proprietary project owned by **Milton (aloahmilton)**. Public contributions, forks, or redistributions are not permitted without explicit authorization.
 
 ## 📄 License
 
-© 2026 Continent Logistic.org. All rights reserved.
+Copyright © 2026 Milton (aloahmilton). All rights reserved.
+This software is proprietary and confidential. See the `LICENSE` file for more details.
 
 ---
 
