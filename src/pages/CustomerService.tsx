@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const faqs = [
   { q: "What Is a Tracking Number & Where Can I Find It?", a: "A tracking number is a unique identifier assigned to your shipment. You can find it in the confirmation email or receipt you received when the shipment was booked." },
-  { q: "When will my tracking information appear?", a: "Tracking information typically appears within 24 hours of the shipment being picked up or dropped off at a Continental Track facility." },
+  { q: "When will my tracking information appear?", a: "Tracking information typically appears within 24 hours of the shipment being picked up or dropped off at a Continent Logistic.org facility." },
   { q: "Why is my tracking number/ID not working?", a: "Please double-check the number for any typos. If the issue persists, it may take up to 24 hours for the number to activate in our system." },
   { q: "If I do not have my tracking number, is it still possible to track my shipment?", a: "Yes, you can use a reference number provided at the time of booking, or contact our customer service team for assistance." },
 ];

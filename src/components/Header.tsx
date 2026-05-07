@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ChevronDown, Search, MapPin, Globe, Menu, X, Truck } from "lucide-react";
-import logo from "@/assets/logo-continentaltrack.png";
+import logo from "@/assets/logo-Continentlogistic.png";
 import CountrySelector from "./CountrySelector";
 import ShippingGuidanceDropdown from "./ShippingGuidanceDropdown";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,7 @@ const navItems = [
       sections: [
         { title: "Document and Package", desc: "Express document and package shipping", href: "/ct-express" },
         { title: "Pallets, Containers and Cargo", desc: "Air and ocean freight, plus customs and logistics services", href: "/ct-global-forwarding" },
-        { title: "Continental Track for Your Business", desc: "Small start-up? Medium-sized business going international? Satisfy your business shipping needs.", href: "/business-account" },
+        { title: "Continent Logistic.org for Your Business", desc: "Small start-up? Medium-sized business going international? Satisfy your business shipping needs.", href: "/business-account" },
       ],
     },
   },
@@ -69,20 +69,20 @@ export default function Header() {
       <div className="brand-yellow-bg shadow-sm">
         <div className="container mx-auto flex items-center justify-between px-4 py-2">
           <Link to="/" className="flex-shrink-0">
-            <img src={logo} alt="Continental Track" className="h-10 md:h-12 object-contain" />
+            <img src={logo} alt="Continent Logistic.org" className="h-10 md:h-12 object-contain" />
           </Link>
-          
+
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-foreground">
             <Link to="/find-service-point" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
               <MapPin className="w-4 h-4" /> Find a Service Point
             </Link>
-            
+
             <div className="flex items-center">
               {isSearchOpen ? (
                 <div className="flex items-center bg-white rounded shadow-sm border px-2 animate-in fade-in slide-in-from-right-2 duration-300">
-                  <Input 
+                  <Input
                     autoFocus
-                    placeholder="Search..." 
+                    placeholder="Search..."
                     className="h-8 border-none focus-visible:ring-0 w-48 text-xs bg-transparent"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -232,11 +232,11 @@ export default function Header() {
                 <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center"><MapPin className="w-4 h-4 brand-red-text" /></div>
                 Find a Service Point
               </Link>
-              
+
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Global Search..." 
+                <Input
+                  placeholder="Global Search..."
                   className="pl-10 h-12 border-border bg-muted/30 rounded-xl"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

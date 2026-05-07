@@ -4,16 +4,16 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function PartnerDirectory() {
-  usePageSEO({ title: "Strategic Partner Directory", description: "Continental Track strategic partners — authorized service partners, technology allies, and logistics collaborators worldwide." });
+  usePageSEO({ title: "Strategic Partner Directory", description: "Continent Logistic.org strategic partners — authorized service partners, technology allies, and logistics collaborators worldwide." });
 
   return (
-    <PageLayout title="Strategic Partner Directory" breadcrumb={[{ label: "Strategic Partner Directory" }]} heroSubtitle="Our global network of strategic partners extends Continental Track's reach and capabilities.">
+    <PageLayout title="Strategic Partner Directory" breadcrumb={[{ label: "Strategic Partner Directory" }]} heroSubtitle="Our global network of strategic partners extends Continent Logistic.org's reach and capabilities.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
             <div className="grid md:grid-cols-3 gap-6 mb-14">
               {[
-                { icon: Handshake, title: "Authorized Service Partners", count: "2,400+", desc: "Local logistics companies certified to Continental Track standards." },
+                { icon: Handshake, title: "Authorized Service Partners", count: "2,400+", desc: "Local logistics companies certified to Continent Logistic.org standards." },
                 { icon: Globe, title: "Technology Partners", count: "180+", desc: "Software and platform integrations for seamless logistics workflows." },
                 { icon: Users, title: "Industry Alliances", count: "50+", desc: "Trade associations and industry bodies advancing global commerce." },
               ].map((p) => (

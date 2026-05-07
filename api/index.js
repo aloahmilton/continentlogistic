@@ -38,7 +38,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/settings', settingsRoutes);
 
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', message: 'Continental Track API is active' });
+  res.status(200).json({ status: 'ok', message: 'Continent Logistic.org API is active' });
 });
 
 // Catch-all 404 for debugging

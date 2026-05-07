@@ -6,12 +6,12 @@ import axios from 'axios';
  */
 export const geocodeAddress = async (address) => {
   if (!address) return { lat: 0, lng: 0 };
-  
+
   try {
     // Clean up address to avoid issues with extra text that isn't map-searchable
     // E.g. "Albany, NY (Available for Rehoming)" -> "Albany, NY"
     const searchAddress = address.split('(')[0].trim();
-    
+
     const response = await axios.get('https://nominatim.openstreetmap.org/search', {
       params: {
         q: searchAddress,
@@ -20,7 +20,7 @@ export const geocodeAddress = async (address) => {
       },
       headers: {
         // Nominatim requires a valid user-agent
-        'User-Agent': 'ContinentalTrack-Logistics-Platform/1.0'
+        'User-Agent': 'Continentlogistic-Logistics-Platform/1.0'
       }
     });
 
@@ -30,7 +30,7 @@ export const geocodeAddress = async (address) => {
         lng: parseFloat(response.data[0].lon) // Nominatim API uses lon instead of lng
       };
     }
-    
+
     return { lat: 0, lng: 0 };
   } catch (error) {
     console.error(`Geocoding failed for address "${address}":`, error.message);

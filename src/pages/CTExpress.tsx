@@ -6,7 +6,7 @@ import usePageSEO from "@/hooks/usePageSEO";
 import couriersImg from "@/assets/couriers.jpg";
 
 export default function CTExpress() {
-  usePageSEO({ title: "CT Express", description: "Continental Track Express — the world's leading international express shipping service. Fast, reliable document and parcel delivery to 220+ countries." });
+  usePageSEO({ title: "CT Express", description: "Continent Logistic.org Express — the world's leading international express shipping service. Fast, reliable document and parcel delivery to 220+ countries." });
 
   return (
     <PageLayout title="CT Express" breadcrumb={[{ label: "Our Divisions", href: "/divisions" }, { label: "CT Express" }]} heroSubtitle="The world's leading international express shipping service — delivering to 220+ countries and territories.">

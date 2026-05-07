@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function ShippingGuidance() {
-  usePageSEO({ title: "Shipping Guidance", description: "Continental Track shipping guidance — packing tips, prohibited items, customs documentation, and weight/size restrictions for international shipments." });
+  usePageSEO({ title: "Shipping Guidance", description: "Continent Logistic.org shipping guidance — packing tips, prohibited items, customs documentation, and weight/size restrictions for international shipments." });
 
   return (
     <PageLayout title="Shipping Guidance" breadcrumb={[{ label: "Shipping Guidance" }]} heroSubtitle="Everything you need to know to prepare your shipment for fast, safe delivery.">

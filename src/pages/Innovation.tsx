@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function Innovation() {
-  usePageSEO({ title: "Innovation", description: "Continental Track innovation — drones, robotics, AI-powered logistics, and the future of global shipping and delivery." });
+  usePageSEO({ title: "Innovation", description: "Continent Logistic.org innovation — drones, robotics, AI-powered logistics, and the future of global shipping and delivery." });
 
   return (
     <PageLayout title="Innovation" breadcrumb={[{ label: "Company", href: "/about" }, { label: "Innovation" }]} heroSubtitle="Pioneering the future of logistics through technology, partnerships, and bold ideas.">

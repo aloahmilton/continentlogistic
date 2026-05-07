@@ -7,7 +7,7 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = "Page Not Found | Continental Track";
+    document.title = "Page Not Found | Continent Logistic.org";
   }, []);
 
   return (

@@ -16,10 +16,10 @@ const divisions = [
 ];
 
 export default function Divisions() {
-  usePageSEO({ title: "Our Divisions", description: "Explore Continental Track's global divisions — Express, Global Forwarding, Supply Chain, and eCommerce — serving every logistics need." });
+  usePageSEO({ title: "Our Divisions", description: "Explore Continent Logistic.org's global divisions — Express, Global Forwarding, Supply Chain, and eCommerce — serving every logistics need." });
 
   return (
-    <PageLayout title="Our Divisions" breadcrumb={[{ label: "Our Divisions" }]} heroSubtitle="Continental Track operates through four specialized divisions, each focused on delivering excellence in their domain.">
+    <PageLayout title="Our Divisions" breadcrumb={[{ label: "Our Divisions" }]} heroSubtitle="Continent Logistic.org operates through four specialized divisions, each focused on delivering excellence in their domain.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto space-y-10">
           {divisions.map((d, i) => (

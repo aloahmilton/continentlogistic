@@ -411,7 +411,7 @@ export default function Tracking() {
       <div className="print-only p-8 text-black bg-white min-h-screen">
         <div className="flex justify-between items-start border-b-2 border-black pb-8 mb-8">
           <div>
-            <h1 className="text-4xl font-black tracking-tighter mb-1">CONTINENTAL TRACK</h1>
+            <h1 className="text-4xl font-black tracking-tighter mb-1">Continent Logistic.org</h1>
             <p className="text-sm font-bold uppercase tracking-widest text-gray-600">Global Logistics Advisory & Tracking</p>
           </div>
           <div className="text-right">
@@ -483,7 +483,7 @@ export default function Tracking() {
         <div className="mt-auto pt-12 border-t border-gray-200 flex justify-between items-end grayscale">
           <div className="max-w-xs">
             <p className="text-[10px] leading-relaxed text-gray-500 italic">
-              This document serves as an official electronic receipt for the shipment identified above. Continental Track Logistics operates under international carriage laws and regulations.
+              This document serves as an official electronic receipt for the shipment identified above. Continent Logistic.org Logistics operates under international carriage laws and regulations.
             </p>
           </div>
           <div className="text-right flex flex-col items-end">

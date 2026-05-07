@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { 
-  User, 
-  Mail, 
-  Lock, 
-  Shield, 
-  Bell, 
-  Globe, 
+import {
+  User,
+  Mail,
+  Lock,
+  Shield,
+  Bell,
+  Globe,
   Save,
   CheckCircle2
 } from "lucide-react";
@@ -19,16 +19,16 @@ import { toast } from "sonner";
 import { userApi } from "@/lib/api";
 
 const TIMEZONES = [
-  { label: "Eastern (ET)",  value: "America/New_York" },
-  { label: "Central (CT)",  value: "America/Chicago" },
+  { label: "Eastern (ET)", value: "America/New_York" },
+  { label: "Central (CT)", value: "America/Chicago" },
   { label: "Mountain (MT)", value: "America/Denver" },
-  { label: "Pacific (PT)",  value: "America/Los_Angeles" },
-  { label: "UTC +00:00",    value: "UTC" }
+  { label: "Pacific (PT)", value: "America/Los_Angeles" },
+  { label: "UTC +00:00", value: "UTC" }
 ];
 
 const LANGUAGES = [
   { label: "English (US)", value: "English (US)" },
-  { label: "French (FR)",  value: "French (FR)" },
+  { label: "French (FR)", value: "French (FR)" },
   { label: "Spanish (ES)", value: "Spanish (ES)" }
 ];
 
@@ -36,7 +36,7 @@ export default function AdminProfile() {
   const [profile, setProfile] = useState({
     _id: "",
     name: "System Administrator",
-    email: "continentaltrack01@gmail.com",
+    email: "Continentlogistic01@gmail.com",
     role: "Super Admin",
     language: "English (US)",
     timezone: "UTC +00:00"
@@ -76,15 +76,15 @@ export default function AdminProfile() {
       toast.error("User ID not found");
       return;
     }
-    
+
     setIsSaving(true);
     try {
       const { _id, ...updatePayload } = profile;
       const res = await userApi.update(_id, updatePayload);
-      
+
       // Update local storage so the new name/email reflect in the header
       localStorage.setItem("admin_user", JSON.stringify(res.data));
-      
+
       toast.success("Profile updated successfully", {
         icon: <CheckCircle2 className="w-4 h-4 text-green-500" />
       });
@@ -105,7 +105,7 @@ export default function AdminProfile() {
       toast.error("Password must be at least 6 characters.");
       return;
     }
-    
+
     setIsSaving(true);
     try {
       // In a real system, you would verify currentPassword on the backend as well.
@@ -150,14 +150,14 @@ export default function AdminProfile() {
                     <Label htmlFor="name" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                      <Input id="name" className="pl-10" value={profile.name} onChange={e => setProfile({...profile, name: e.target.value})} />
+                      <Input id="name" className="pl-10" value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })} />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Email Address</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                      <Input id="email" className="pl-10" type="email" value={profile.email} onChange={e => setProfile({...profile, email: e.target.value})} />
+                      <Input id="email" className="pl-10" type="email" value={profile.email} onChange={e => setProfile({ ...profile, email: e.target.value })} />
                     </div>
                   </div>
                 </div>
@@ -166,11 +166,11 @@ export default function AdminProfile() {
                     <Label htmlFor="language" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Language</Label>
                     <div className="relative">
                       <Globe className="absolute left-3 top-3 text-muted-foreground w-4 h-4 pointer-events-none" />
-                      <select 
+                      <select
                         id="language"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
-                        value={profile.language} 
-                        onChange={e => setProfile({...profile, language: e.target.value})}
+                        value={profile.language}
+                        onChange={e => setProfile({ ...profile, language: e.target.value })}
                       >
                         {LANGUAGES.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
                       </select>
@@ -180,11 +180,11 @@ export default function AdminProfile() {
                     <Label htmlFor="timezone" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Timezone</Label>
                     <div className="relative">
                       <Bell className="absolute left-3 top-3 text-muted-foreground w-4 h-4 pointer-events-none" />
-                      <select 
+                      <select
                         id="timezone"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
-                        value={profile.timezone} 
-                        onChange={e => setProfile({...profile, timezone: e.target.value})}
+                        value={profile.timezone}
+                        onChange={e => setProfile({ ...profile, timezone: e.target.value })}
                       >
                         {TIMEZONES.map(z => <option key={z.value} value={z.value}>{z.label}</option>)}
                       </select>
@@ -209,16 +209,16 @@ export default function AdminProfile() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label className="text-[10px] font-bold uppercase">Current Password</Label>
-                  <Input type="password" placeholder="••••••••" value={passwordForm.currentPassword} onChange={e => setPasswordForm({...passwordForm, currentPassword: e.target.value})} />
+                  <Input type="password" placeholder="••••••••" value={passwordForm.currentPassword} onChange={e => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-[10px] font-bold uppercase">New Password</Label>
-                    <Input type="password" value={passwordForm.newPassword} onChange={e => setPasswordForm({...passwordForm, newPassword: e.target.value})} />
+                    <Input type="password" value={passwordForm.newPassword} onChange={e => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-bold uppercase">Confirm New Password</Label>
-                    <Input type="password" value={passwordForm.confirmPassword} onChange={e => setPasswordForm({...passwordForm, confirmPassword: e.target.value})} />
+                    <Input type="password" value={passwordForm.confirmPassword} onChange={e => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })} />
                   </div>
                 </div>
               </CardContent>
@@ -242,7 +242,7 @@ export default function AdminProfile() {
                       <p className="text-xs font-bold uppercase tracking-tighter">{item.label}</p>
                       <p className="text-[10px] text-muted-foreground">{item.desc}</p>
                     </div>
-                    <div 
+                    <div
                       className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors ${item.enabled ? 'brand-red-bg' : 'bg-muted'}`}
                       onClick={() => {
                         const newNotifs = [...notifications];

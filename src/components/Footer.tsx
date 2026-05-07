@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo-continentaltrack.png";
+import logo from "@/assets/logo-Continentlogistic.png";
 
 const footerColumns = [
   {
@@ -39,7 +39,7 @@ const footerColumns = [
   {
     title: "Company Information",
     links: [
-      { label: "About Continental Track", href: "/about" },
+      { label: "About Continent Logistic.org", href: "/about" },
       { label: "Delivered Magazine", href: "/careers" },
       { label: "Careers", href: "/careers" },
       { label: "Press Center", href: "/press" },
@@ -77,7 +77,7 @@ export default function Footer() {
       <div className="border-t border-border">
         <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <Link to="/">
-            <img src={logo} alt="Continental Track" className="h-10 object-contain" />
+            <img src={logo} alt="Continent Logistic.org" className="h-10 object-contain" />
           </Link>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link to="/fraud-awareness" className="hover:text-foreground transition-colors">Fraud Awareness</Link>
@@ -87,7 +87,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="text-center text-xs text-muted-foreground pb-4">
-          2026 © Continental Track — all rights reserved
+          2026 © Continent Logistic.org — all rights reserved
         </div>
       </div>
     </footer>

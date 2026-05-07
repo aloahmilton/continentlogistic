@@ -12,7 +12,7 @@ export const generateInvoicePDF = (invoice: any) => {
   // Header
   doc.setFontSize(22);
   doc.setTextColor(220, 38, 38); // Brand Red
-  doc.text('CONTINENTAL TRACK', 105, 20, { align: 'center' });
+  doc.text('Continent Logistic.org', 105, 20, { align: 'center' });
   
   doc.setFontSize(10);
   doc.setTextColor(100);
@@ -55,7 +55,7 @@ export const generateInvoicePDF = (invoice: any) => {
   doc.text('Payment Instructions:', 20, finalY + 20);
   doc.setFontSize(9);
   doc.text('Please verify payment via your dashboard.', 20, finalY + 27);
-  doc.text('Continental Track Logistics Group - All Rights Reserved.', 105, 285, { align: 'center' });
+  doc.text('Continent Logistic.org Logistics Group - All Rights Reserved.', 105, 285, { align: 'center' });
   
   doc.save(`Invoice_${invoice.invoiceNumber || invoice._id}.pdf`);
 };
@@ -69,7 +69,7 @@ export const generateLabelPDF = (shipment: any) => {
   // Brand
   doc.setFontSize(18);
   doc.setTextColor(220, 38, 38);
-  doc.text('CONTINENTAL TRACK', 105, 25, { align: 'center' });
+  doc.text('Continent Logistic.org', 105, 25, { align: 'center' });
   doc.setFontSize(10);
   doc.text('EXPRESS WORLDWIDE', 105, 30, { align: 'center' });
   

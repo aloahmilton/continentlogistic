@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function Sustainability() {
-  usePageSEO({ title: "Sustainability", description: "Continental Track's commitment to sustainable logistics — reducing emissions, green operations, and science-based environmental targets." });
+  usePageSEO({ title: "Sustainability", description: "Continent Logistic.org's commitment to sustainable logistics — reducing emissions, green operations, and science-based environmental targets." });
 
   return (
     <PageLayout title="Sustainability" breadcrumb={[{ label: "Company", href: "/about" }, { label: "Sustainability" }]} heroSubtitle="Our commitment to sustainable logistics and a zero-emissions future by 2050.">

@@ -7,7 +7,7 @@ import { leadApi } from "@/lib/api";
 import { toast } from "sonner";
 
 export default function BusinessAccount() {
-  usePageSEO({ title: "Request a Business Account", description: "Open a Continental Track business account for exclusive rates, dedicated support, and streamlined logistics solutions." });
+  usePageSEO({ title: "Request a Business Account", description: "Open a Continent Logistic.org business account for exclusive rates, dedicated support, and streamlined logistics solutions." });
 
   const [formData, setFormData] = useState({
     company: "",

@@ -74,7 +74,7 @@ export default function PortalLanding() {
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase">Customer Portal Logins</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Select your Continental Track portal to manage your shipments, view reports, and optimize your global logistics operations.
+              Select your Continent Logistic.org portal to manage your shipments, view reports, and optimize your global logistics operations.
             </p>
           </ScrollReveal>
         </div>

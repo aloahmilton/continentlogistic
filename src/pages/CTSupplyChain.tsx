@@ -6,7 +6,7 @@ import usePageSEO from "@/hooks/usePageSEO";
 import supplyChainImg from "@/assets/supply-chain.jpg";
 
 export default function CTSupplyChain() {
-  usePageSEO({ title: "CT Supply Chain", description: "Continental Track Supply Chain — end-to-end warehousing, distribution, and logistics management for global enterprises." });
+  usePageSEO({ title: "CT Supply Chain", description: "Continent Logistic.org Supply Chain — end-to-end warehousing, distribution, and logistics management for global enterprises." });
 
   return (
     <PageLayout title="CT Supply Chain" breadcrumb={[{ label: "Our Divisions", href: "/divisions" }, { label: "CT Supply Chain" }]} heroSubtitle="End-to-end supply chain management that transforms your logistics into a competitive advantage.">

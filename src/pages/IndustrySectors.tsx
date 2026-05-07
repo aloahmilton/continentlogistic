@@ -13,7 +13,7 @@ const sectors = [
 ];
 
 export default function IndustrySectors() {
-  usePageSEO({ title: "Industry Sectors", description: "Continental Track industry-specific logistics solutions for automotive, energy, healthcare, retail, technology, and manufacturing sectors." });
+  usePageSEO({ title: "Industry Sectors", description: "Continent Logistic.org industry-specific logistics solutions for automotive, energy, healthcare, retail, technology, and manufacturing sectors." });
 
   return (
     <PageLayout title="Industry Sectors" breadcrumb={[{ label: "Industry Sectors" }]} heroSubtitle="Tailored logistics solutions for the industries that drive the global economy.">

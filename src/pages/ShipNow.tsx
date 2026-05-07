@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function ShipNow() {
-  usePageSEO({ title: "Ship Now", description: "Ship your documents and parcels worldwide with Continental Track Express. Fast, reliable, door-to-door delivery." });
+  usePageSEO({ title: "Ship Now", description: "Ship your documents and parcels worldwide with Continent Logistic.org Express. Fast, reliable, door-to-door delivery." });
 
   return (
     <PageLayout title="Ship Now" breadcrumb={[{ label: "Ship", href: "/get-a-quote" }, { label: "Ship Now" }]} heroSubtitle="Send your documents and parcels globally with our express shipping service.">

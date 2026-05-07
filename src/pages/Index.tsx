@@ -77,7 +77,7 @@ export default function Index() {
           <div className="container mx-auto px-4 py-6 md:py-8">
             <h2 className="text-lg md:text-xl font-bold mb-1">Navigating Latest Tariff Developments</h2>
             <p className="text-sm text-foreground/80 mb-3 max-w-2xl">
-              Global trade is constantly evolving with complex tariffs and surging cross-border trade volumes. As a trusted logistics partner, Continental Track is here to help you navigate those changes.
+              Global trade is constantly evolving with complex tariffs and surging cross-border trade volumes. As a trusted logistics partner, Continent Logistic.org is here to help you navigate those changes.
             </p>
             <Link to="/shipping-guidance" className="inline-block brand-red-bg text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded hover:opacity-90 transition-opacity active:scale-[0.98]">
               Explore Our Solutions
@@ -215,7 +215,7 @@ export default function Index() {
           <img src={businessImg} alt="Business solutions" className="w-full h-48 md:h-64 object-cover" />
           <div className="absolute inset-0 bg-foreground/60 flex items-center">
             <div className="container mx-auto px-4">
-              <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-2">Continental Track for Your Business</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-primary-foreground mb-2">Continent Logistic.org for Your Business</h2>
               <p className="text-sm text-primary-foreground/80 mb-4 max-w-lg">
                 Power your brand's cross-border success with world-class shipping and logistics. Our team of experts can help you address the ever-changing needs of your customers.
               </p>
@@ -236,7 +236,7 @@ export default function Index() {
             {[
               { title: "Sustainability", desc: "Setting sustainable benchmarks in the entire logistics industry with science-based targets to reduce emissions.", to: "/sustainability" },
               { title: "Innovation", desc: "Discover the future of logistics through our partnerships, leading robotics and drone innovation.", to: "/innovation" },
-              { title: "Global Connectivity", desc: "Continental Track's global connectedness report outlines growth in globalized trade.", to: "/press" },
+              { title: "Global Connectivity", desc: "Continent Logistic.org's global connectedness report outlines growth in globalized trade.", to: "/press" },
             ].map((item, i) => (
               <Link key={item.title} to={item.to} className="group block border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="h-40 brand-yellow-bg flex items-center justify-center">

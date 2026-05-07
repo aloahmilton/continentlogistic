@@ -7,7 +7,7 @@ import supplyChainImg from "@/assets/supply-chain.jpg";
 import warehouseImg from "@/assets/warehouse.jpg";
 
 export default function EnterpriseLogistics() {
-  usePageSEO({ title: "Enterprise Logistics Services", description: "End-to-end supply chain management, warehousing, and transport solutions from Continental Track. Transform your logistics operations." });
+  usePageSEO({ title: "Enterprise Logistics Services", description: "End-to-end supply chain management, warehousing, and transport solutions from Continent Logistic.org. Transform your logistics operations." });
 
   const services = [
     { title: "Warehousing & Distribution", desc: "State-of-the-art facilities with automated inventory management and order fulfillment across 60+ countries.", img: warehouseImg },
@@ -15,7 +15,7 @@ export default function EnterpriseLogistics() {
   ];
 
   return (
-    <PageLayout title="Enterprise Logistics Services" breadcrumb={[{ label: "Enterprise Logistics Services" }]} heroSubtitle="Transform your business with end-to-end logistics solutions powered by Continental Track Supply Chain.">
+    <PageLayout title="Enterprise Logistics Services" breadcrumb={[{ label: "Enterprise Logistics Services" }]} heroSubtitle="Transform your business with end-to-end logistics solutions powered by Continent Logistic.org Supply Chain.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto space-y-16">
           {services.map((s, i) => (

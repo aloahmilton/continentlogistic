@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function CTEcommerce() {
-  usePageSEO({ title: "CT eCommerce", description: "Continental Track eCommerce — last-mile delivery and cross-border e-commerce solutions connecting online retailers to customers worldwide." });
+  usePageSEO({ title: "CT eCommerce", description: "Continent Logistic.org eCommerce — last-mile delivery and cross-border e-commerce solutions connecting online retailers to customers worldwide." });
 
   return (
     <PageLayout title="CT eCommerce" breadcrumb={[{ label: "Our Divisions", href: "/divisions" }, { label: "CT eCommerce" }]} heroSubtitle="Connecting e-commerce businesses to consumers with reliable last-mile delivery across 220+ countries.">

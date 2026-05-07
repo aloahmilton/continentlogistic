@@ -131,7 +131,7 @@ export default function UserDashboard() {
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
           <div>
-            <h1 className="text-2xl font-bold">Welcome back, Continental Track Client</h1>
+            <h1 className="text-2xl font-bold">Welcome back, Continent Logistic.org Client</h1>
             <p className="text-sm text-muted-foreground">Manage your global logistics operations from one place.</p>
           </div>
           <div className="flex items-center gap-4">
@@ -310,7 +310,7 @@ export default function UserDashboard() {
                   CT
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">Continental Track Client</h2>
+                  <h2 className="text-xl font-bold">Continent Logistic.org Client</h2>
                   <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest">Business Account #CT-9922</p>
                 </div>
               </div>
@@ -320,7 +320,7 @@ export default function UserDashboard() {
                   <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
                   <div className="relative">
                     <UserIcon className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                    <input className="w-full pl-10 pr-4 py-2 bg-muted/20 border border-border rounded-md text-sm outline-none focus:border-primary transition-colors" defaultValue="Continental Track Client" />
+                    <input className="w-full pl-10 pr-4 py-2 bg-muted/20 border border-border rounded-md text-sm outline-none focus:border-primary transition-colors" defaultValue="Continent Logistic.org Client" />
                   </div>
                 </div>
                 <div className="space-y-2">

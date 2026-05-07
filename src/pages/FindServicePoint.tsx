@@ -5,11 +5,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function FindServicePoint() {
-  usePageSEO({ title: "Find a Service Point", description: "Find your nearest Continental Track service point, drop-off location, or locker. Search by city, ZIP code, or address." });
+  usePageSEO({ title: "Find a Service Point", description: "Find your nearest Continent Logistic.org service point, drop-off location, or locker. Search by city, ZIP code, or address." });
   const [query, setQuery] = useState("");
 
   return (
-    <PageLayout title="Find a Service Point" breadcrumb={[{ label: "Find a Service Point" }]} heroSubtitle="Locate your nearest Continental Track service point, drop-off location, or parcel locker.">
+    <PageLayout title="Find a Service Point" breadcrumb={[{ label: "Find a Service Point" }]} heroSubtitle="Locate your nearest Continent Logistic.org service point, drop-off location, or parcel locker.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">
           <ScrollReveal>

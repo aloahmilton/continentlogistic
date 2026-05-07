@@ -4,10 +4,10 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function DeveloperPortal() {
-  usePageSEO({ title: "Developer Portal", description: "Continental Track APIs and developer resources. Integrate tracking, shipping, and logistics into your applications." });
+  usePageSEO({ title: "Developer Portal", description: "Continent Logistic.org APIs and developer resources. Integrate tracking, shipping, and logistics into your applications." });
 
   return (
-    <PageLayout title="Developer Portal" breadcrumb={[{ label: "Developer Portal" }]} heroSubtitle="Integrate Continental Track shipping, tracking, and logistics into your applications with our REST APIs.">
+    <PageLayout title="Developer Portal" breadcrumb={[{ label: "Developer Portal" }]} heroSubtitle="Integrate Continent Logistic.org shipping, tracking, and logistics into your applications with our REST APIs.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>

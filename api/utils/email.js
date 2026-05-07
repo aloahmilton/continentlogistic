@@ -13,15 +13,15 @@ const transporter = nodemailer.createTransport({
 
 export const sendShipmentEmail = async (shipment) => {
   const mailOptions = {
-    from: `"Continental Track" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    from: `"Continent Logistic.org" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
-    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `Electronic Tracking Advice: ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 4px; background-color: #ffffff;">
         <!-- Header -->
         <div style="background-color: #E31E24; padding: 30px; text-align: left;">
-          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">CONTINENTAL TRACK</h1>
+          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Continent Logistic.org</h1>
           <p style="color: #ffffff; margin: 5px 0 0; font-size: 12px; font-weight: 600; text-transform: uppercase;">Global Logistics & Supply Chain</p>
         </div>
 
@@ -43,21 +43,21 @@ export const sendShipmentEmail = async (shipment) => {
           </div>
 
           <div style="text-align: center; margin: 40px 0;">
-            <a href="https://continentaltrack.vercel.app/tracking/${shipment.trackingNumber}" 
+            <a href="https://Continentlogistic.vercel.app/tracking/${shipment.trackingNumber}" 
                style="background-color: #1a1a1a; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 4px; font-weight: 700; font-size: 14px; display: inline-block;">
                TRACK SHIPMENT STATUS
             </a>
           </div>
 
           <p style="font-size: 13px; color: #666; margin-top: 30px;">
-            This is an automated advisory. Please do not reply directly to this email. For assistance, visit our <a href="https://continentaltrack.vercel.app/customer-service" style="color: #E31E24; text-decoration: underline;">customer portal</a>.
+            This is an automated advisory. Please do not reply directly to this email. For assistance, visit our <a href="https://Continentlogistic.vercel.app/customer-service" style="color: #E31E24; text-decoration: underline;">customer portal</a>.
           </p>
         </div>
 
         <!-- Footer -->
         <div style="background-color: #f5f5f5; padding: 25px 30px; text-align: center; border-top: 1px solid #eeeeee;">
           <p style="margin: 0; font-size: 11px; color: #888888; font-weight: 600;">
-            &copy; 2026 Continental Track Logistics AG. Global Headquarters &bull; Excellence in Motion.
+            &copy; 2026 Continent Logistic.org Logistics AG. Global Headquarters &bull; Excellence in Motion.
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export const sendShipmentEmail = async (shipment) => {
 export const sendAdminShipmentNotification = async (shipment, adminUser) => {
   const mailOptions = {
     from: `"System Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
-    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `New Shipment Created: ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-top: 4px solid #E31E24; border-radius: 8px;">
@@ -86,7 +86,7 @@ export const sendAdminShipmentNotification = async (shipment, adminUser) => {
           <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Timestamp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${new Date().toLocaleString()}</td></tr>
         </table>
         
-        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continental Track Logistics Group &bull; Internal Audit Notification</p>
+        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continent Logistic.org Logistics Group &bull; Internal Audit Notification</p>
       </div>
     `
   };
@@ -96,8 +96,8 @@ export const sendAdminShipmentNotification = async (shipment, adminUser) => {
 
 export const sendAdminLeadNotification = async (lead) => {
   const mailOptions = {
-    from: `"Continental Track Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
-    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    from: `"Continent Logistic.org Alerts" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `New Business Lead: ${lead.name}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px;">
@@ -121,14 +121,14 @@ export const sendAdminLeadNotification = async (lead) => {
 
 export const sendCustomEmail = async (to, subject, message, shipmentId = null) => {
   const mailOptions = {
-    from: `"Continental Track Support" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    from: `"Continent Logistic.org Support" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to,
-    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: subject || "Update regarding your shipment",
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #1a1a1a; padding: 20px; color: white;">
-          <h2 style="margin: 0;">Continental Track</h2>
+          <h2 style="margin: 0;">Continent Logistic.org</h2>
         </div>
         <div style="padding: 30px; line-height: 1.6;">
           <p>${message}</p>
@@ -140,7 +140,7 @@ export const sendCustomEmail = async (to, subject, message, shipmentId = null) =
           ` : ''}
         </div>
         <div style="padding: 20px; background: #f5f5f5; text-align: center; font-size: 12px; color: #888;">
-          Continental Track &bull; Customer Communication Portal
+          Continent Logistic.org &bull; Customer Communication Portal
         </div>
       </div>
     `
@@ -150,9 +150,9 @@ export const sendCustomEmail = async (to, subject, message, shipmentId = null) =
 };
 export const sendInvoiceEmail = async (shipment, invoiceData) => {
   const mailOptions = {
-    from: `"Continental Track Billing" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    from: `"Continent Logistic.org Billing" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
-    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `Business Invoice - Shipment ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #333;">
@@ -162,7 +162,7 @@ export const sendInvoiceEmail = async (shipment, invoiceData) => {
             <p style="margin: 5px 0 0; opacity: 0.8; font-size: 12px;">Ref: ${shipment.trackingNumber}</p>
           </div>
           <div style="text-align: right;">
-            <p style="margin: 0; font-weight: bold;">Continental Track</p>
+            <p style="margin: 0; font-weight: bold;">Continent Logistic.org</p>
             <p style="margin: 0; font-size: 11px;">Excellence in Motion</p>
           </div>
         </div>
@@ -221,7 +221,7 @@ export const sendInvoiceEmail = async (shipment, invoiceData) => {
           </div>
 
           <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #999; line-height: 1.5;">
-            <p><strong>Note:</strong> Continental Track Logistics Group operates under standard international shipping terms. All charges are in USD unless otherwise specified.</p>
+            <p><strong>Note:</strong> Continent Logistic.org Logistics Group operates under standard international shipping terms. All charges are in USD unless otherwise specified.</p>
           </div>
         </div>
       </div>
@@ -249,9 +249,9 @@ export const sendShipmentUpdateEmail = async (shipment, update, adminUser) => {
 
   // 1. Customer Email
   const customerMailOptions = {
-    from: `"Continental Track" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
+    from: `"Continent Logistic.org" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
     to: shipment.receiver.email,
-    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    replyTo: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `${update.isCritical ? 'ACTION REQUIRED: ' : ''}Shipment ${shipment.trackingNumber} - ${statusLabel}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
@@ -282,14 +282,14 @@ export const sendShipmentUpdateEmail = async (shipment, update, adminUser) => {
           ` : ''}
 
           <div style="text-align: center; margin-top: 35px;">
-            <a href="https://continentaltrack.vercel.app/tracking/${shipment.trackingNumber}" 
+            <a href="https://Continentlogistic.vercel.app/tracking/${shipment.trackingNumber}" 
                style="background-color: #1a1a1a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px; display: inline-block;">
                VIEW FULL TRACKING HISTORY
             </a>
           </div>
         </div>
         <div style="padding: 20px; background-color: #f5f5f5; text-align: center; font-size: 11px; color: #888; border-top: 1px solid #eee;">
-          Continental Track Logistics Group &bull; Corporate Communications
+          Continent Logistic.org Logistics Group &bull; Corporate Communications
         </div>
       </div>
     `
@@ -298,7 +298,7 @@ export const sendShipmentUpdateEmail = async (shipment, update, adminUser) => {
   // 2. Admin Email
   const adminMailOptions = {
     from: `"System Logs" <${process.env.EMAIL_USER || 'statenumberss@gmail.com'}>`,
-    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'continentaltrack01@gmail.com',
+    to: process.env.ADMIN_NOTIFICATION_EMAIL || 'Continentlogistic01@gmail.com',
     subject: `ADMIN LOG: Shipment Update - ${shipment.trackingNumber}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
@@ -315,7 +315,7 @@ export const sendShipmentUpdateEmail = async (shipment, update, adminUser) => {
           <tr style="background: #f5f5f5;"><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Timestamp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${new Date().toLocaleString()}</td></tr>
         </table>
         
-        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continental Track Control Panel &bull; Internal Audit Notification</p>
+        <p style="margin-top: 25px; font-size: 11px; color: #999;">Continent Logistic.org Control Panel &bull; Internal Audit Notification</p>
       </div>
     `
   };

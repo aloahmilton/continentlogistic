@@ -44,7 +44,7 @@ export default function PortalRegister() {
             <div className="brand-red-bg p-12 text-white flex flex-col justify-center">
               <h1 className="text-3xl font-black mb-6 leading-tight">Grow Your Business Internationally</h1>
               <p className="text-lg opacity-90 mb-8">
-                Join thousands of businesses using Continental Track to streamline their global logistics, track shipments in real-time, and manage invoices seamlessly.
+                Join thousands of businesses using Continent Logistic.org to streamline their global logistics, track shipments in real-time, and manage invoices seamlessly.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3">
@@ -210,7 +210,7 @@ export default function PortalRegister() {
                 </div>
 
                 <p className="text-[10px] text-muted-foreground text-center mt-6 leading-relaxed opacity-70">
-                  By clicking "{accountType === "company" ? "Request Business Access" : "Create Account"}", you agree to our Terms of Use and Privacy Policy. Continental Track Logistics Group.
+                  By clicking "{accountType === "company" ? "Request Business Access" : "Create Account"}", you agree to our Terms of Use and Privacy Policy. Continent Logistic.org Logistics Group.
                 </p>
               </form>
             </div>

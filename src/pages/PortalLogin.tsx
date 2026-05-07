@@ -98,7 +98,7 @@ export default function PortalLogin() {
           </div>
           
           <div className="mt-8 pt-6 border-t text-center">
-            <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Continental Track Logistics Group</p>
+            <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Continent Logistic.org Logistics Group</p>
           </div>
         </div>
       </div>

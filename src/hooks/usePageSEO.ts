@@ -7,7 +7,7 @@ interface SEOProps {
 
 export default function usePageSEO({ title, description }: SEOProps) {
   useEffect(() => {
-    document.title = `${title} | Continental Track`;
+    document.title = `${title} | Continent Logistic.org`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", description);
 

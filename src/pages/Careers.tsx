@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function Careers() {
-  usePageSEO({ title: "Careers", description: "Join the Continental Track team. Explore career opportunities in logistics, technology, operations, and more across 220+ countries." });
+  usePageSEO({ title: "Careers", description: "Join the Continent Logistic.org team. Explore career opportunities in logistics, technology, operations, and more across 220+ countries." });
 
   return (
     <PageLayout title="Careers" breadcrumb={[{ label: "Company", href: "/about" }, { label: "Careers" }]} heroSubtitle="Join 380,000+ colleagues making global trade possible. Explore opportunities across the world.">

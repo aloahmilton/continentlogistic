@@ -7,7 +7,7 @@ import oceanFreightImg from "@/assets/ocean-freight.jpg";
 import airFreightImg from "@/assets/air-freight.jpg";
 
 export default function CTGlobalForwarding() {
-  usePageSEO({ title: "CT Global Forwarding", description: "Continental Track Global Forwarding — air, ocean, road, and rail freight solutions for businesses shipping cargo worldwide." });
+  usePageSEO({ title: "CT Global Forwarding", description: "Continent Logistic.org Global Forwarding — air, ocean, road, and rail freight solutions for businesses shipping cargo worldwide." });
 
   return (
     <PageLayout title="CT Global Forwarding" breadcrumb={[{ label: "Our Divisions", href: "/divisions" }, { label: "CT Global Forwarding" }]} heroSubtitle="Multimodal freight solutions — air, ocean, road, and rail — for businesses of every size.">

@@ -4,10 +4,10 @@ import usePageSEO from "@/hooks/usePageSEO";
 import globalNetworkImg from "@/assets/global-network.jpg";
 
 export default function About() {
-  usePageSEO({ title: "About Continental Track", description: "Learn about Continental Track — a global logistics leader delivering excellence in express shipping, freight forwarding, and supply chain management." });
+  usePageSEO({ title: "About Continent Logistic.org", description: "Learn about Continent Logistic.org — a global logistics leader delivering excellence in express shipping, freight forwarding, and supply chain management." });
 
   return (
-    <PageLayout title="About Continental Track" breadcrumb={[{ label: "Company", href: "/about" }, { label: "About" }]} heroSubtitle="A global logistics leader committed to connecting people and businesses across 220+ countries.">
+    <PageLayout title="About Continent Logistic.org" breadcrumb={[{ label: "Company", href: "/about" }, { label: "About" }]} heroSubtitle="A global logistics leader committed to connecting people and businesses across 220+ countries.">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <ScrollReveal>
@@ -18,7 +18,7 @@ export default function About() {
               <div className="md:w-1/2">
                 <h2 className="text-2xl font-bold mb-3">Our Mission</h2>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Continental Track is dedicated to being the logistics company for the world. We connect people and improve lives by providing excellent delivery and supply chain services that are sustainable and efficient.
+                  Continent Logistic.org is dedicated to being the logistics company for the world. We connect people and improve lives by providing excellent delivery and supply chain services that are sustainable and efficient.
                 </p>
                 <p className="text-sm text-muted-foreground">
                   With operations in over 220 countries, a workforce of more than 380,000 employees, and a commitment to digital innovation, we are the backbone of global trade.

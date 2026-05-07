@@ -45,7 +45,7 @@ export default function CountrySelector({ currentCountry, onSelect, triggerLabel
             Choose Your Location
           </DialogTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Continental Track operates in over 220 countries and territories. Select your location for local shipping guidance.
+            Continent Logistic.org operates in over 220 countries and territories. Select your location for local shipping guidance.
           </p>
         </DialogHeader>
         

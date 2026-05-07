@@ -7,7 +7,7 @@ import { leadApi } from "@/lib/api";
 import { toast } from "sonner";
 
 export default function GetAQuote() {
-  usePageSEO({ title: "Get a Quote", description: "Request a shipping quote from Continental Track. Get competitive rates for express, air, ocean, and road freight services worldwide." });
+  usePageSEO({ title: "Get a Quote", description: "Request a shipping quote from Continent Logistic.org. Get competitive rates for express, air, ocean, and road freight services worldwide." });
   const [shipType, setShipType] = useState("express");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

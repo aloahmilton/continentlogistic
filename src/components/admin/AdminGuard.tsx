@@ -98,7 +98,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
           
           <div className="mt-8 pt-6 border-t text-center">
             <p className="text-[9px] text-muted-foreground uppercase font-black tracking-widest leading-loose">
-              Continental Track Logistics Group<br/>
+              Continent Logistic.org Logistics Group<br/>
               SECURE MANAGEMENT SESSION
             </p>
           </div>

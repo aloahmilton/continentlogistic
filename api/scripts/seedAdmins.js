@@ -8,14 +8,14 @@ dotenv.config();
 const seedAdmins = async () => {
   try {
     await connectDB();
-    
+
     // Clear existing admins to avoid duplicates if re-running
     await User.deleteMany({ role: { $in: ['admin', 'super_admin'] } });
-    
+
     const admins = [
       {
         name: 'Continental Super Admin',
-        email: 'super@continental.com',
+        email: 'super@continentlogistic.com',
         password: 'admin123',
         role: 'super_admin',
         status: 'active',
@@ -23,7 +23,7 @@ const seedAdmins = async () => {
       },
       {
         name: 'Logistics Manager 01',
-        email: 'admin1@continental.com',
+        email: 'admin@continentlogistic.com',
         password: 'admin123',
         role: 'admin',
         status: 'active',
@@ -31,7 +31,7 @@ const seedAdmins = async () => {
       },
       {
         name: 'Continental Admin 01',
-        email: 'continentaltrack01@gmail.com',
+        email: 'Continentlogistic01@gmail.com',
         password: 'admin123',
         role: 'admin',
         status: 'active',
@@ -39,7 +39,7 @@ const seedAdmins = async () => {
       },
       {
         name: 'Fleet Dispatcher 02',
-        email: 'admin2@continental.com',
+        email: 'admin@continentlogistic.com',
         password: 'admin123',
         role: 'admin',
         status: 'active',

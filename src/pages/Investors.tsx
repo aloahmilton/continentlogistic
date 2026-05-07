@@ -4,7 +4,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import usePageSEO from "@/hooks/usePageSEO";
 
 export default function Investors() {
-  usePageSEO({ title: "Investor Relations", description: "Continental Track investor relations — financial reports, stock information, and corporate governance for shareholders and analysts." });
+  usePageSEO({ title: "Investor Relations", description: "Continent Logistic.org investor relations — financial reports, stock information, and corporate governance for shareholders and analysts." });
 
   return (
     <PageLayout title="Investor Relations" breadcrumb={[{ label: "Company", href: "/about" }, { label: "Investors" }]} heroSubtitle="Financial performance, governance, and shareholder resources.">

@@ -51,7 +51,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
     <div className="flex min-h-screen bg-muted/30 flex-col md:flex-row">
       {/* Mobile Header */}
       <header className="md:hidden h-16 border-b bg-background flex items-center justify-between px-4 sticky top-0 z-40">
-        <Link to="/" className="text-lg font-bold brand-red-text">Continental Track</Link>
+        <Link to="/" className="text-lg font-bold brand-red-text">Continent Logistic.org</Link>
         <Button variant="ghost" size="icon" onClick={toggleSidebar}>
           {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </Button>
@@ -71,7 +71,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
       `}>
         <div className="p-6 border-b hidden md:block">
-          <Link to="/" className="text-xl font-bold brand-red-text font-serif">CONTINENTAL TRACK</Link>
+          <Link to="/" className="text-xl font-bold brand-red-text font-serif">Continent Logistic.org</Link>
           <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-1">Admin Operations</p>
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">

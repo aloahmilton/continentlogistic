@@ -5,14 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Settings as SettingsIcon, 
-  Globe, 
-  Mail, 
-  Shield, 
-  Save, 
-  Upload, 
-  Bell, 
+import {
+  Settings as SettingsIcon,
+  Globe,
+  Mail,
+  Shield,
+  Save,
+  Upload,
+  Bell,
   Database,
   Lock
 } from "lucide-react";
@@ -22,8 +22,8 @@ import { settingsApi } from "@/lib/api";
 export default function AdminSettings() {
   const [loading, setLoading] = useState(true);
   const [generalSettings, setGeneralSettings] = useState({
-    siteName: "Continental Track",
-    supportEmail: "support@continentaltrack.com",
+    siteName: "Continent Logistic.org",
+    supportEmail: "support@Continentlogistic.com",
     contactPhone: "+1 (800) 555-0199",
     address: "123 Logistics Blvd, New York, NY 10001, USA",
     logoUrl: "",
@@ -53,7 +53,7 @@ export default function AdminSettings() {
           settingsApi.get('smtp').catch(() => null),
           settingsApi.get('notifications').catch(() => null)
         ]);
-        
+
         if (genRes?.data) setGeneralSettings(genRes.data);
         if (smtpRes?.data) setSmtpSettings(smtpRes.data);
         if (notifRes?.data) setNotificationSettings(notifRes.data);
@@ -115,33 +115,33 @@ export default function AdminSettings() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-dashed border-border/60">
                   <div className="space-y-2">
                     <Label htmlFor="logoUrl" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Master Logo Asset URL</Label>
-                    <Input id="logoUrl" placeholder="https://..." value={generalSettings.logoUrl} onChange={e => setGeneralSettings({...generalSettings, logoUrl: e.target.value})} className="h-10 bg-muted/20" />
+                    <Input id="logoUrl" placeholder="https://..." value={generalSettings.logoUrl} onChange={e => setGeneralSettings({ ...generalSettings, logoUrl: e.target.value })} className="h-10 bg-muted/20" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="faviconUrl" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Browser Favicon URL</Label>
-                    <Input id="faviconUrl" placeholder="https://..." value={generalSettings.faviconUrl} onChange={e => setGeneralSettings({...generalSettings, faviconUrl: e.target.value})} className="h-10 bg-muted/20" />
+                    <Input id="faviconUrl" placeholder="https://..." value={generalSettings.faviconUrl} onChange={e => setGeneralSettings({ ...generalSettings, faviconUrl: e.target.value })} className="h-10 bg-muted/20" />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                   <div className="space-y-2">
                     <Label htmlFor="site-name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Legal Corporate Entity</Label>
-                    <Input id="site-name" value={generalSettings.siteName} onChange={e => setGeneralSettings({...generalSettings, siteName: e.target.value})} className="h-10 font-bold" />
+                    <Input id="site-name" value={generalSettings.siteName} onChange={e => setGeneralSettings({ ...generalSettings, siteName: e.target.value })} className="h-10 font-bold" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="support-email" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Administrative Support Gateway</Label>
-                    <Input id="support-email" value={generalSettings.supportEmail} onChange={e => setGeneralSettings({...generalSettings, supportEmail: e.target.value})} className="h-10 font-medium" />
+                    <Input id="support-email" value={generalSettings.supportEmail} onChange={e => setGeneralSettings({ ...generalSettings, supportEmail: e.target.value })} className="h-10 font-medium" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="phone" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Global Contact Line</Label>
-                    <Input id="phone" value={generalSettings.contactPhone} onChange={e => setGeneralSettings({...generalSettings, contactPhone: e.target.value})} className="h-10 font-mono" />
+                    <Input id="phone" value={generalSettings.contactPhone} onChange={e => setGeneralSettings({ ...generalSettings, contactPhone: e.target.value })} className="h-10 font-mono" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="address" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Global Headquarters Address</Label>
-                    <Input id="address" value={generalSettings.address} onChange={e => setGeneralSettings({...generalSettings, address: e.target.value})} className="h-10" />
+                    <Input id="address" value={generalSettings.address} onChange={e => setGeneralSettings({ ...generalSettings, address: e.target.value })} className="h-10" />
                   </div>
                 </div>
               </CardContent>
@@ -161,21 +161,21 @@ export default function AdminSettings() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">SMTP Relay Host</Label>
-                  <Input value={smtpSettings.host} onChange={e => setSmtpSettings({...smtpSettings, host: e.target.value})} placeholder="smtp.gmail.com" className="h-10 bg-muted/20" />
+                  <Input value={smtpSettings.host} onChange={e => setSmtpSettings({ ...smtpSettings, host: e.target.value })} placeholder="smtp.gmail.com" className="h-10 bg-muted/20" />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Primary Service Port</Label>
-                  <Input value={smtpSettings.port} onChange={e => setSmtpSettings({...smtpSettings, port: e.target.value})} placeholder="587" className="h-10 bg-muted/20" />
+                  <Input value={smtpSettings.port} onChange={e => setSmtpSettings({ ...smtpSettings, port: e.target.value })} placeholder="587" className="h-10 bg-muted/20" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Authentication Identity</Label>
-                  <Input value={smtpSettings.user} onChange={e => setSmtpSettings({...smtpSettings, user: e.target.value})} className="h-10 font-medium" />
+                  <Input value={smtpSettings.user} onChange={e => setSmtpSettings({ ...smtpSettings, user: e.target.value })} className="h-10 font-medium" />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">Security Access Token</Label>
-                  <Input type="password" value={smtpSettings.pass} onChange={e => setSmtpSettings({...smtpSettings, pass: e.target.value})} className="h-10" />
+                  <Input type="password" value={smtpSettings.pass} onChange={e => setSmtpSettings({ ...smtpSettings, pass: e.target.value })} className="h-10" />
                 </div>
               </div>
               <div className="pt-4 border-t border-dashed">
@@ -202,7 +202,7 @@ export default function AdminSettings() {
                 {notificationSettings.map((item, i) => (
                   <div key={item.id} className="flex items-center justify-between py-2 border-b last:border-0">
                     <Label className="text-sm font-medium">{item.label}</Label>
-                    <div 
+                    <div
                       className={`w-10 h-6 rounded-full relative cursor-pointer transition-colors ${item.enabled ? 'bg-primary/20' : 'bg-muted'}`}
                       onClick={() => {
                         const newSettings = [...notificationSettings];
